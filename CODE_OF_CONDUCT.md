@@ -37,7 +37,7 @@ Examples of unacceptable behavior by team members include, but are not limited t
 <br/> <br/>
 
 ## 2.3 Consequences of Unacceptable Behavior
-When a group member notices behavior that goes against our code of conduct, they are expected to approach the group member in question in a respectful and non-confrontational manner. Members who are asked to stop inappropriate behavior are expected to comply immediately. This applies to all group meetings and communication. If the group member fails to change/remedy their behavior, the group members and/or DSCI 532 teaching team may investigate this Code of Conduct violation. 
+When a group member notices behavior that goes against our code of conduct, they are expected to approach the group member in question in a respectful and non-confrontational manner. Members who are asked to stop inappropriate behavior are expected to comply immediately. This applies to all group meetings and communication. If the group member fails to change/remedy their behavior, the group members and/or DSCI 522 teaching team may investigate this Code of Conduct violation. 
 
 ## Incident Reporting Guidelines
 **Contact points**

@@ -1,0 +1,54 @@
+---
+title: "EDA"
+author: "DSCI_522_Group304"
+date: "1/16/2020"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(dplyr)
+library(readr)
+library(janitor)
+```
+
+```{r load data}
+rawdata_2007_2016 <- read.csv("https://catalogue.data.gov.bc.ca/dataset/5554165d-e365-422f-bf85-4f6e4c9167dc/resource/97c6cbf7-f529-464a-b771-9719855b86f6/download/fsa.csv")
+
+rawdata_2017_2018 <- read.csv("https://catalogue.data.gov.bc.ca/dataset/5554165d-e365-422f-bf85-4f6e4c9167dc/resource/bcb547f0-8ba7-451f-9e11-10524f4d57a0/download/foundation-skills-assessment-2017-18_to_2018-19.csv")
+```
+
+```{r clean data for 2007-2016}
+df_07_16 <- rawdata_2007_2016 %>%
+  clean_names() %>%
+  select(-data_level, -district_name, -district_number, -school_name, -school_number) %>%
+  mutate(score = as.numeric(score),
+         number_expected_writers = as.numeric(number_expected_writers),
+         number_writers = as.numeric(number_writers),
+         number_unknown = as.numeric(number_unknown),
+         number_below = as.numeric(number_below),
+         number_meeting = as.numeric(number_meeting))
+head(df_07_16)
+```
+
+```{r clean data for 2017-2018}
+df_17_18 <- rawdata_2017_2018 %>%
+  clean_names() %>%
+  select(-data_level, -district_name, -district_number, -school_name, -school_number) %>%
+  mutate(score = as.numeric(score),
+         number_expected_writers = as.numeric(number_expected_writers),
+         number_writers = as.numeric(number_writers),
+         number_unknown = as.numeric(number_unknown),
+         number_emerging = as.numeric(number_emerging),
+         number_ontrack = as.numeric(number_ontrack),
+         number_extending = as.numeric(number_extending))
+
+head(df_17_18)
+```
+
+```{r public vs independent mean score 2006-2017}
+df_07_16 %>%
+  group_by(public_or_independent) %>%
+  summarise(avg = mean(score))
+```

@@ -1,0 +1,411 @@
+---
+title: "EDA"
+author: "DSCI_522_Group304"
+date: "1/16/2020"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(dplyr)
+library(readr)
+library(janitor)
+library(infer)
+library(repr)
+library(gridExtra)
+```
+
+### 1. Dataset Description
+
+**Dataset: BC Schools - Foundational Skills Assessment(FSA)**
+
+**License:** Open Government License - BC
+
+**Source:** Published by the [Ministry of Education - Education Analytics](https://catalogue.data.gov.bc.ca/dataset/bc-schools-foundation-skills-assessment-fsa-)
+
+**Content:** The results of the Grades 4 and 7 BC Foundation Skills Assessments in Numeracy, Reading and Writing from 2007/2008 to 2018/2019.
+
+**Dataset Last Modified:** 2019-02-08
+
+
+### 2. Load the dataset
+
+```{r load data}
+rawdata_2007_2016 <- read.csv("https://catalogue.data.gov.bc.ca/dataset/5554165d-e365-422f-bf85-4f6e4c9167dc/resource/97c6cbf7-f529-464a-b771-9719855b86f6/download/fsa.csv")
+
+rawdata_2017_2018 <- read.csv("https://catalogue.data.gov.bc.ca/dataset/5554165d-e365-422f-bf85-4f6e4c9167dc/resource/bcb547f0-8ba7-451f-9e11-10524f4d57a0/download/foundation-skills-assessment-2017-18_to_2018-19.csv")
+```
+
+
+### 3. Explore the dataset
+
+```{r 3.1.1 structure of 2007-2016}
+str(rawdata_2007_2016)
+```
+```{r 3.1.2 Columns of 2007-2016 }
+cat("The dataframe columns in dataframe for 2007-2016 are", colnames(rawdata_2007_2016), "\n\n")
+
+cat("The SCHOOL_YEAR contains", levels(rawdata_2007_2016$SCHOOL_YEAR), "\n\n")
+
+cat("The DATA_LEVEL contains", levels(rawdata_2007_2016$DATA_LEVEL), "\n\n")
+
+cat("The PUBLIC_OR_INDEPENDENT contains", levels(rawdata_2007_2016$PUBLIC_OR_INDEPENDENT), "\n\n")
+
+cat("The SUB_POPULATION contains", nlevels(rawdata_2007_2016$SUB_POPULATION), "subgroups, and they are", levels(rawdata_2007_2016$SUB_POPULATION), "\n\n")
+
+cat("The FSA_SKILL_CODE contains", levels(rawdata_2007_2016$FSA_SKILL_CODE), "\n\n")
+
+cat("The GRADE contains", unique(rawdata_2007_2016$GRADE), "\n\n")
+
+cat("The SCORE ranges from", min(as.numeric(rawdata_2007_2016$SCORE)), "to", max(as.numeric(rawdata_2007_2016$SCORE)), "and the average is", mean(as.numeric(rawdata_2007_2016$SCORE)), "\n\n")
+```
+```{r 3.2.1 structure of 2017-2018}
+str(rawdata_2017_2018)
+```
+
+```{r 3.2.2 Columns of 2017-2018 }
+cat("The dataframe columns in dataframe for 2007-2016 are",   colnames(rawdata_2017_2018), "\n\n")
+
+cat("The SCHOOL_YEAR contains", levels(rawdata_2017_2018$SCHOOL_YEAR), "\n\n")
+
+cat("The DATA_LEVEL contains", levels(rawdata_2017_2018$DATA_LEVEL), "\n\n")
+
+cat("The PUBLIC_OR_INDEPENDENT contains", levels(rawdata_2017_2018$PUBLIC_OR_INDEPENDENT), "\n\n")
+
+cat("The SUB_POPULATION contains", nlevels(rawdata_2017_2018$SUB_POPULATION), "subgroups, and they are", levels(rawdata_2017_2018$SUB_POPULATION), "\n\n")
+
+cat("The FSA_SKILL_CODE contains", levels(rawdata_2017_2018$FSA_SKILL_CODE), "\n\n")
+
+cat("The GRADE contains", unique(rawdata_2017_2018$GRADE), "\n\n")
+
+cat("The SCORE ranges from", min(as.numeric(rawdata_2017_2018$SCORE)), "to", max(as.numeric(rawdata_2017_2018$SCORE)), "and the average is", mean(as.numeric(rawdata_2017_2018$SCORE)), "\n\n")
+```
+
+### 4. Initial thoughts
+
+- There are heaps of data that we can compare by population type (ex. Male / Female / Aboriginal / Non-aboriginal / Special Needs etc), Grade (for the 2007-2017 data), skill type(numeracy/ reading/ writing), or school types(Public school/ Independent school)
+
+- **Potential Research Questions:**
+1. Inferential: How do the scores for certain exams compare between different sub populations (ex. male / female, aboriginal / non-aboriginal, public / private school)? Ex. Do students in private school perform better than students in publicly funded schools on numeracy exams?
+    - Null Hypothesis: there's no difference in scores for the different groups
+    - Alternative Hypothesis: there is a difference in scores for the different groups
+    
+2. Predictive: What score on a specific exam type (ex. numeracy) will a child in a specific sub population (ex. aboriginal) get within a BC publicly funded school based on their:
+    - school district, 
+    - gender, 
+    - how many special needs / non-English language learner are in the school (assuming here that this may influence scores because more funding may be used towards these other groups than to programs that support the aboriginal population specifically), 
+    - scores on other exams, and 
+    - number of exam writers from the sub population (i.e. number of students within the class that fall within this sub population group)?
+
+3. Predictive: Will the score from Grade 4 influence how they'll perform in Grade 7?
+
+
+### 5. Wrangling
+
+```{r 5.0 clean data}
+df_07_16 <- rawdata_2007_2016 %>%
+  clean_names() %>%
+  filter(score != 'Msk') %>%
+  select(school_year, public_or_independent, sub_population, fsa_skill_code, grade, number_expected_writers, number_writers, score) %>%
+  mutate(score = as.numeric(score),
+         number_expected_writers = as.numeric(number_expected_writers),
+         number_writers = as.numeric(number_writers),
+         public_or_independent = as.character(public_or_independent),
+         school_year = as.character(school_year))
+
+df_17_18 <- rawdata_2017_2018 %>%
+  clean_names() %>%
+  filter(score != 'Msk') %>%
+  select(school_year, public_or_independent, sub_population, fsa_skill_code, grade, number_expected_writers, number_writers, score) %>%
+  mutate(score = as.numeric(score),
+         number_expected_writers = as.numeric(number_expected_writers),
+         number_writers = as.numeric(number_writers),
+         public_or_independent = as.character(public_or_independent),
+         school_year = as.character(school_year),
+         public_or_independent = case_when(public_or_independent == "BC PUBLIC SCHOOL" ~ "BC Public School",
+                                           public_or_independent == "BC INDEPENDENT SCHOOL" ~ "BC Independent School",
+                                           public_or_independent == "PROVINCE-TOTAL" ~ "PROVINCE - TOTAL",
+                                           TRUE ~ public_or_independent))
+         
+df <- bind_rows(df_07_16, df_17_18)
+```
+
+
+```{r 5.1 subgroups}
+
+subgroup <- function(group){
+  sub_group <- df %>%
+    filter(sub_population == group)
+}
+
+all_students <- subgroup('ALL STUDENTS') 
+
+female <- subgroup('FEMALE') 
+
+male <- subgroup('MALE')
+
+aboriginal <- subgroup('ABORIGINAL')
+
+non_aboriginal <- subgroup('NON ABORIGINAL') 
+
+eng_lang_learner <- subgroup('ENGLISH LANGUAGE LEARNER') 
+
+non_eng_lang_learner<- subgroup('NON ENGLISH LANGUAGE LEARNER') 
+
+special <- subgroup('SPECIAL NEEDS NO GIFTED') 
+```
+
+
+### 6. Research Questions
+
+- **Selected Research Questions**
+
+**Question 1**
+
+(Inferential) Is there a difference in how well Public school students vs Independent school students perform on the FSA?
+
+- 2 Group Hypothesis Test (mean scores for all tests together, and tests separately): 
+    - Null Hypothesis: No difference
+    - Alternative Hypothesis: Difference
+    
+- Estimate + Confidence intervals of the mean scores for the different groups
+
+**Question 2**
+
+(Inferential) Is there a difference in how well Aboriginal vs Non aboriginal students perform on the FSA?
+
+- 2 Group Hypothesis Test (mean scores for all tests together, and tests separately): 
+    - Null Hypothesis: No difference
+    - Alternative Hypothesis: Difference
+    
+- Estimate + Confidence intervals of the mean scores for the different groups
+
+SELECTED SUBQUESTIONS:
+
+- Comparing means
+
+### 7. Data Analysis & Visualizations
+```{r 7.0 ci function, echo = FALSE}
+ci <- function(df, skill){
+  one_sample <- df %>%
+    filter(fsa_skill_code == skill) %>%
+    rep_sample_n(size = 40) %>%
+    ungroup() %>%
+    select(score)
+  one_sample %>%
+    rep_sample_n(size = 40, reps = 1000, replace = TRUE) %>%
+    summarize(stat = mean(score)) %>%
+    get_ci()
+}
+
+ci_ind <- function(df, skill, ind){
+  one_sample <- df %>%
+    filter(fsa_skill_code == skill & public_or_independent == ind) %>%
+    rep_sample_n(size = 40) %>%
+    ungroup() %>%
+    select(score)
+  one_sample %>%
+    rep_sample_n(size = 40, reps = 1000, replace = TRUE) %>%
+    summarize(stat = mean(score)) %>%
+    get_ci()
+}
+```
+
+```{r 7.1.1 public vs independent in different subgroups in numeracy, echo=FALSE}
+pub_ind_numeracy <- df %>%
+  filter(fsa_skill_code == "Numeracy" & public_or_independent != 'PROVINCE - TOTAL') %>%
+  group_by(sub_population, public_or_independent) %>%
+  summarise(avg = mean(score))
+
+low <- c(ci_ind(aboriginal, "Numeracy", "BC Independent School")[[1]], 
+  ci_ind(aboriginal, "Numeracy", "BC Public School")[[1]],
+  ci_ind(all_students, "Numeracy", "BC Independent School")[[1]], 
+  ci_ind(all_students, "Numeracy", "BC Public School")[[1]],
+  ci_ind(eng_lang_learner, "Numeracy", "BC Independent School")[[1]], 
+  ci_ind(eng_lang_learner, "Numeracy", "BC Public School")[[1]],
+  ci_ind(female, "Numeracy", "BC Independent School")[[1]], 
+  ci_ind(female, "Numeracy", "BC Public School")[[1]],
+  ci_ind(male, "Numeracy", "BC Independent School")[[1]], 
+  ci_ind(male, "Numeracy", "BC Public School")[[1]],
+  ci_ind(non_aboriginal, "Numeracy", "BC Independent School")[[1]], 
+  ci_ind(non_aboriginal, "Numeracy", "BC Public School")[[1]],
+  ci_ind(non_eng_lang_learner, "Numeracy", "BC Independent School")[[1]], 
+  ci_ind(non_eng_lang_learner, "Numeracy", "BC Public School")[[1]],
+  ci_ind(special, "Numeracy", "BC Independent School")[[1]], 
+  ci_ind(special, "Numeracy", "BC Public School")[[1]])
+
+high <- c(ci_ind(aboriginal, "Numeracy", "BC Independent School")[[2]], 
+  ci_ind(aboriginal, "Numeracy", "BC Public School")[[2]],
+  ci_ind(all_students, "Numeracy", "BC Independent School")[[2]], 
+  ci_ind(all_students, "Numeracy", "BC Public School")[[2]],
+  ci_ind(eng_lang_learner, "Numeracy", "BC Independent School")[[2]], 
+  ci_ind(eng_lang_learner, "Numeracy", "BC Public School")[[2]],
+  ci_ind(female, "Numeracy", "BC Independent School")[[2]], 
+  ci_ind(female, "Numeracy", "BC Public School")[[2]],
+  ci_ind(male, "Numeracy", "BC Independent School")[[2]], 
+  ci_ind(male, "Numeracy", "BC Public School")[[2]],
+  ci_ind(non_aboriginal, "Numeracy", "BC Independent School")[[2]], 
+  ci_ind(non_aboriginal, "Numeracy", "BC Public School")[[2]],
+  ci_ind(non_eng_lang_learner, "Numeracy", "BC Independent School")[[2]], 
+  ci_ind(non_eng_lang_learner, "Numeracy", "BC Public School")[[2]],
+  ci_ind(special, "Numeracy", "BC Independent School")[[2]], 
+  ci_ind(special, "Numeracy", "BC Public School")[[2]])
+
+  
+sum_num <- tibble("sub_population" = pub_ind_numeracy$sub_population,
+                  "public_or_independent" = pub_ind_numeracy$public_or_independent,
+                  "avg" = pub_ind_numeracy$avg,
+                  "2.5%" = low,
+                  "97.5%" = high)
+sum_num
+```
+
+```{r 7.2 public vs independent in different subgroups in reading, echo = FALSE}
+pub_ind_reading <- df %>%
+  filter(fsa_skill_code == "Reading" & public_or_independent != 'PROVINCE - TOTAL') %>%
+  group_by(sub_population, public_or_independent) %>%
+  summarise(avg = mean(score))
+
+low <- c(ci_ind(aboriginal, "Reading", "BC Independent School")[[1]], 
+  ci_ind(aboriginal, "Reading", "BC Public School")[[1]],
+  ci_ind(all_students, "Reading", "BC Independent School")[[1]], 
+  ci_ind(all_students, "Reading", "BC Public School")[[1]],
+  ci_ind(eng_lang_learner, "Reading", "BC Independent School")[[1]], 
+  ci_ind(eng_lang_learner, "Reading", "BC Public School")[[1]],
+  ci_ind(female, "Reading", "BC Independent School")[[1]], 
+  ci_ind(female, "Reading", "BC Public School")[[1]],
+  ci_ind(male, "Reading", "BC Independent School")[[1]], 
+  ci_ind(male, "Reading", "BC Public School")[[1]],
+  ci_ind(non_aboriginal, "Reading", "BC Independent School")[[1]], 
+  ci_ind(non_aboriginal, "Reading", "BC Public School")[[1]],
+  ci_ind(non_eng_lang_learner, "Reading", "BC Independent School")[[1]], 
+  ci_ind(non_eng_lang_learner, "Reading", "BC Public School")[[1]],
+  ci_ind(special, "Reading", "BC Independent School")[[1]], 
+  ci_ind(special, "Reading", "BC Public School")[[1]])
+
+high <- c(ci_ind(aboriginal, "Reading", "BC Independent School")[[2]], 
+  ci_ind(aboriginal, "Reading", "BC Public School")[[2]],
+  ci_ind(all_students, "Reading", "BC Independent School")[[2]], 
+  ci_ind(all_students, "Reading", "BC Public School")[[2]],
+  ci_ind(eng_lang_learner, "Reading", "BC Independent School")[[2]], 
+  ci_ind(eng_lang_learner, "Reading", "BC Public School")[[2]],
+  ci_ind(female, "Reading", "BC Independent School")[[2]], 
+  ci_ind(female, "Reading", "BC Public School")[[2]],
+  ci_ind(male, "Reading", "BC Independent School")[[2]], 
+  ci_ind(male, "Reading", "BC Public School")[[2]],
+  ci_ind(non_aboriginal, "Reading", "BC Independent School")[[2]], 
+  ci_ind(non_aboriginal, "Reading", "BC Public School")[[2]],
+  ci_ind(non_eng_lang_learner, "Reading", "BC Independent School")[[2]], 
+  ci_ind(non_eng_lang_learner, "Reading", "BC Public School")[[2]],
+  ci_ind(special, "Reading", "BC Independent School")[[2]], 
+  ci_ind(special, "Reading", "BC Public School")[[2]])
+
+  
+sum_read <- tibble("sub_population" = pub_ind_reading$sub_population,
+                  "public_or_independent" = pub_ind_reading$public_or_independent,
+                  "avg" = pub_ind_reading$avg,
+                  "2.5%" = low,
+                  "97.5%" = high)
+sum_read
+
+```
+
+
+```{r 7.3 public vs independent in different subgroups in writing, echo = FALSE}
+pub_ind_writing <- df %>%
+  filter(fsa_skill_code == "Writing" & public_or_independent != 'PROVINCE - TOTAL') %>%
+  group_by(sub_population, public_or_independent) %>%
+  summarise(avg = mean(score))
+
+low <- c(ci_ind(aboriginal, "Writing", "BC Independent School")[[1]], 
+  ci_ind(aboriginal, "Writing", "BC Public School")[[1]],
+  ci_ind(all_students, "Writing", "BC Independent School")[[1]], 
+  ci_ind(all_students, "Writing", "BC Public School")[[1]],
+  ci_ind(eng_lang_learner, "Writing", "BC Independent School")[[1]], 
+  ci_ind(eng_lang_learner, "Writing", "BC Public School")[[1]],
+  ci_ind(female, "Writing", "BC Independent School")[[1]], 
+  ci_ind(female, "Writing", "BC Public School")[[1]],
+  ci_ind(male, "Writing", "BC Independent School")[[1]], 
+  ci_ind(male, "Writing", "BC Public School")[[1]],
+  ci_ind(non_aboriginal, "Writing", "BC Independent School")[[1]], 
+  ci_ind(non_aboriginal, "Writing", "BC Public School")[[1]],
+  ci_ind(non_eng_lang_learner, "Writing", "BC Independent School")[[1]], 
+  ci_ind(non_eng_lang_learner, "Writing", "BC Public School")[[1]],
+  ci_ind(special, "Writing", "BC Independent School")[[1]], 
+  ci_ind(special, "Writing", "BC Public School")[[1]])
+
+high <- c(ci_ind(aboriginal, "Writing", "BC Independent School")[[2]], 
+  ci_ind(aboriginal, "Writing", "BC Public School")[[2]],
+  ci_ind(all_students, "Writing", "BC Independent School")[[2]], 
+  ci_ind(all_students, "Writing", "BC Public School")[[2]],
+  ci_ind(eng_lang_learner, "Writing", "BC Independent School")[[2]], 
+  ci_ind(eng_lang_learner, "Writing", "BC Public School")[[2]],
+  ci_ind(female, "Writing", "BC Independent School")[[2]], 
+  ci_ind(female, "Writing", "BC Public School")[[2]],
+  ci_ind(male, "Writing", "BC Independent School")[[2]], 
+  ci_ind(male, "Writing", "BC Public School")[[2]],
+  ci_ind(non_aboriginal, "Writing", "BC Independent School")[[2]], 
+  ci_ind(non_aboriginal, "Writing", "BC Public School")[[2]],
+  ci_ind(non_eng_lang_learner, "Writing", "BC Independent School")[[2]], 
+  ci_ind(non_eng_lang_learner, "Writing", "BC Public School")[[2]],
+  ci_ind(special, "Writing", "BC Independent School")[[2]], 
+  ci_ind(special, "Writing", "BC Public School")[[2]])
+
+  
+sum_write <- tibble("sub_population" = pub_ind_writing$sub_population,
+                  "public_or_independent" = pub_ind_writing$public_or_independent,
+                  "avg" = pub_ind_writing$avg,
+                  "2.5%" = low,
+                  "97.5%" = high)
+sum_write
+```
+
+```{r 7.4 aboriginal vs non-aboriginal in numeracy}
+non_ab_numeracy <- df %>%
+  filter(fsa_skill_code == "Numeracy" & public_or_independent == 'PROVINCE - TOTAL') %>%
+  filter(sub_population == "ABORIGINAL" | sub_population == "NON ABORIGINAL") %>%
+  group_by(sub_population) %>%
+  summarise(avg = mean(score))
+
+sum_ab_num <- tibble("sub_population" = non_ab_numeracy$sub_population,
+                  "avg" = non_ab_numeracy$avg,
+                  "2.5%" = c(ci(aboriginal, "Numeracy")[[1]], ci(non_aboriginal, "Numeracy")[[1]]),
+                  "97.5%" = c(ci(aboriginal, "Numeracy")[[2]], ci(non_aboriginal, "Numeracy")[[2]]))
+sum_ab_num
+
+```
+
+```{r 7.5 aboriginal vs non-aboriginal in reading}
+non_ab_reading <- df %>%
+  filter(fsa_skill_code == "Reading" & public_or_independent == 'PROVINCE - TOTAL') %>%
+  filter(sub_population == "ABORIGINAL" | sub_population == "NON ABORIGINAL") %>%
+  group_by(sub_population) %>%
+  summarise(avg = mean(score))
+
+sum_ab_read <- tibble("sub_population" = non_ab_reading$sub_population,
+                  "avg" = non_ab_reading$avg,
+                  "2.5%" = c(ci(aboriginal, "Reading")[[1]], ci(non_aboriginal, "Reading")[[1]]),
+                  "97.5%" = c(ci(aboriginal, "Reading")[[2]], ci(non_aboriginal, "Reading")[[2]]))
+sum_ab_read
+
+```
+
+```{r 7.6 aboriginal vs non-aboriginal in writing}
+non_ab_writing <- df %>%
+  filter(fsa_skill_code == "Writing" & public_or_independent == 'PROVINCE - TOTAL') %>%
+  filter(sub_population == "ABORIGINAL" | sub_population == "NON ABORIGINAL") %>%
+  group_by(sub_population) %>%
+  summarise(avg = mean(score))
+
+sum_ab_write <- tibble("sub_population" = non_ab_writing$sub_population,
+                  "avg" = non_ab_writing$avg,
+                  "2.5%" = c(ci(aboriginal, "Writing")[[1]], ci(non_aboriginal, "Writing")[[1]]),
+                  "97.5%" = c(ci(aboriginal, "Writing")[[2]], ci(non_aboriginal, "Writing")[[2]]))
+sum_ab_write
+```
+
+
+### 8. Summary & Conclusion
+
+

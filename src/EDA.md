@@ -317,22 +317,22 @@ scores for each group to answer subquestions.
     ## # A tibble: 16 x 5
     ##    sub_population               public_or_independent   avg `2.5%` `97.5%`
     ##    <chr>                        <chr>                 <dbl>  <dbl>   <dbl>
-    ##  1 ABORIGINAL                   BC Independent School  387.   361.    447.
-    ##  2 ABORIGINAL                   BC Public School       415.   407.    428.
-    ##  3 ALL STUDENTS                 BC Independent School  531.   504.    553.
-    ##  4 ALL STUDENTS                 BC Public School       475.   467.    470.
-    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School  551.   555.    568.
-    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School       473.   462.    474.
-    ##  7 FEMALE                       BC Independent School  543.   553.    557.
-    ##  8 FEMALE                       BC Public School       474.   460.    494.
-    ##  9 MALE                         BC Independent School  551.   514.    572.
-    ## 10 MALE                         BC Public School       482.   470.    496.
-    ## 11 NON ABORIGINAL               BC Independent School  542.   494.    570.
-    ## 12 NON ABORIGINAL               BC Public School       482.   459.    502.
-    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School  531.   496.    541.
-    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School       478.   466.    482.
-    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  425.   385.    473.
-    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       385.   399.    408.
+    ##  1 ABORIGINAL                   BC Independent School  387.   369.    453.
+    ##  2 ABORIGINAL                   BC Public School       415.   410.    431.
+    ##  3 ALL STUDENTS                 BC Independent School  531.   491.    548.
+    ##  4 ALL STUDENTS                 BC Public School       475.   461.    489.
+    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School  551.   549.    570.
+    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School       473.   467.    464.
+    ##  7 FEMALE                       BC Independent School  543.   521.    565.
+    ##  8 FEMALE                       BC Public School       474.   444.    490.
+    ##  9 MALE                         BC Independent School  551.   543.    576.
+    ## 10 MALE                         BC Public School       482.   481.    503.
+    ## 11 NON ABORIGINAL               BC Independent School  542.   531.    568.
+    ## 12 NON ABORIGINAL               BC Public School       482.   434.    487.
+    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School  531.   529.    548.
+    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School       478.   468.    505.
+    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  425.   388.    479.
+    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       385.   396.    422.
 
 ``` r
 bar_plot_numeracy <- ggplot(sum_num, aes(x = sub_population, y = avg))+
@@ -384,9 +384,7 @@ ridge_plot <- ggplot(ridge_data, aes(x = score, y = sub_population, fill = sub_p
                                scale = 2.0, rel_min_height = 0.01, quantile_lines = TRUE, quantiles = 4) +
            coord_cartesian(clip = "off") + # Required to plot top distribution completely
            labs(title ="FSA Test Scores By Subgroup\n(2007/08 - 2018/19)", 
-                #subtitle = "(Source: Gapminder Dataset)", 
            x = "Score") +
-           #scale_x_continuous(breaks = seq(30, 100, 5)) +
            theme_ridges() + 
            theme(legend.position = "none") +
            theme(axis.text.x = element_text(angle = 70, hjust = 1, size = 10, face = "bold"),
@@ -409,22 +407,22 @@ ridge_plot + facet_grid(cols = vars(fsa_skill_code))
     ## # A tibble: 16 x 5
     ##    sub_population               public_or_independent   avg `2.5%` `97.5%`
     ##    <chr>                        <chr>                 <dbl>  <dbl>   <dbl>
-    ##  1 ABORIGINAL                   BC Independent School  398.   391.    433.
-    ##  2 ABORIGINAL                   BC Public School       435.   420.    452.
-    ##  3 ALL STUDENTS                 BC Independent School  530.   519.    532.
-    ##  4 ALL STUDENTS                 BC Public School       482.   470.    489.
-    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School  510.   493.    533.
-    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School       453.   429.    466.
-    ##  7 FEMALE                       BC Independent School  550.   527.    573.
-    ##  8 FEMALE                       BC Public School       493.   470.    511.
-    ##  9 MALE                         BC Independent School  532.   522.    551.
-    ## 10 MALE                         BC Public School       474.   463.    471.
-    ## 11 NON ABORIGINAL               BC Independent School  539.   534.    557.
-    ## 12 NON ABORIGINAL               BC Public School       488.   479.    500.
-    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School  531.   524.    551.
-    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School       488.   478.    500.
-    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  461.   421.    502.
-    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       409.   387.    425.
+    ##  1 ABORIGINAL                   BC Independent School  398.   372.    416.
+    ##  2 ABORIGINAL                   BC Public School       435.   425.    450.
+    ##  3 ALL STUDENTS                 BC Independent School  530.   502.    544.
+    ##  4 ALL STUDENTS                 BC Public School       482.   475.    487.
+    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School  510.   500.    526.
+    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School       453.   431.    464.
+    ##  7 FEMALE                       BC Independent School  550.   532.    556.
+    ##  8 FEMALE                       BC Public School       493.   476.    513.
+    ##  9 MALE                         BC Independent School  532.   531.    544.
+    ## 10 MALE                         BC Public School       474.   460.    489.
+    ## 11 NON ABORIGINAL               BC Independent School  539.   528.    559.
+    ## 12 NON ABORIGINAL               BC Public School       488.   487.    496.
+    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School  531.   505.    534.
+    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School       488.   488.    496.
+    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  461.   428.    508.
+    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       409.   405.    420.
 
 ``` r
 bar_plot_reading <- ggplot(sum_read, aes(x = sub_population, y = avg))+
@@ -463,27 +461,27 @@ pi_boxplot_reading <- ggplot(pub_ind_read, aes(x = public_or_independent, y = sc
 pi_boxplot_reading
 ```
 
-![](EDA_files/figure-gfm/7.2.2%20Public%20vs%20Independent%20Boxplot%20Chart%20-%20Reading%20Test%20Results-1.png)<!-- -->
+![](EDA_files/figure-gfm/7.2.2.0%20Public%20vs%20Independent%20Boxplot%20Chart%20-%20Reading%20Test%20Results-1.png)<!-- -->
 
     ## # A tibble: 16 x 5
     ##    sub_population               public_or_independent   avg `2.5%` `97.5%`
     ##    <chr>                        <chr>                 <dbl>  <dbl>   <dbl>
-    ##  1 ABORIGINAL                   BC Independent School  4.04   3.63    4.96
-    ##  2 ABORIGINAL                   BC Public School       4.91   4.94    5.66
-    ##  3 ALL STUDENTS                 BC Independent School  6.98   6.02    7.62
-    ##  4 ALL STUDENTS                 BC Public School       5.92   5.16    7.06
-    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School  6.78   6.69    7.36
-    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School       5.45   4.87    5.82
-    ##  7 FEMALE                       BC Independent School  7.46   6.24    8.56
-    ##  8 FEMALE                       BC Public School       6.28   5.34    7.27
-    ##  9 MALE                         BC Independent School  6.70   5.58    7.35
-    ## 10 MALE                         BC Public School       5.55   5.10    6.48
-    ## 11 NON ABORIGINAL               BC Independent School  7.12   6.77    7.96
-    ## 12 NON ABORIGINAL               BC Public School       6.02   5.23    6.51
-    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School  6.98   6.81    8.06
-    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School       5.97   5.64    6.89
-    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  4.24   3.56    5.23
-    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       4.21   4.09    4.89
+    ##  1 ABORIGINAL                   BC Independent School  4.04   3.73    4.68
+    ##  2 ABORIGINAL                   BC Public School       4.91   4.62    5.72
+    ##  3 ALL STUDENTS                 BC Independent School  6.98   5.19    7.66
+    ##  4 ALL STUDENTS                 BC Public School       5.92   5.42    6.13
+    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School  6.78   6.54    7.66
+    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School       5.45   5.09    6.18
+    ##  7 FEMALE                       BC Independent School  7.46   6.67    8.14
+    ##  8 FEMALE                       BC Public School       6.28   5.55    6.92
+    ##  9 MALE                         BC Independent School  6.70   6.09    7.34
+    ## 10 MALE                         BC Public School       5.55   5.03    6.27
+    ## 11 NON ABORIGINAL               BC Independent School  7.12   6.26    7.52
+    ## 12 NON ABORIGINAL               BC Public School       6.02   5.73    6.30
+    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School  6.98   6.09    7.39
+    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School       5.97   5.28    6.67
+    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  4.24   3.90    5.38
+    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       4.21   3.64    5.24
 
 ``` r
 bar_plot_writing <- ggplot(sum_write, aes(x = sub_population, y = avg))+
@@ -541,8 +539,8 @@ sum_ab_num
     ## # A tibble: 2 x 4
     ##   sub_population   avg `2.5%` `97.5%`
     ##   <chr>          <dbl>  <dbl>   <dbl>
-    ## 1 ABORIGINAL      427.   408.    425.
-    ## 2 NON ABORIGINAL  494.   461.    512.
+    ## 1 ABORIGINAL      427.   387.    436.
+    ## 2 NON ABORIGINAL  494.   489.    509.
 
 ``` r
 ab_bar_plot_numeracy <- ggplot(sum_ab_num, aes(x = sub_population, y = avg))+
@@ -599,8 +597,8 @@ sum_ab_read
     ## # A tibble: 2 x 4
     ##   sub_population   avg `2.5%` `97.5%`
     ##   <chr>          <dbl>  <dbl>   <dbl>
-    ## 1 ABORIGINAL      445.   434.    451.
-    ## 2 NON ABORIGINAL  498.   491.    506.
+    ## 1 ABORIGINAL      445.   422.    457.
+    ## 2 NON ABORIGINAL  498.   487.    502.
 
 ``` r
 ab_bar_plot_numeracy <- ggplot(sum_ab_read, aes(x = sub_population, y = avg))+
@@ -657,15 +655,15 @@ sum_ab_write
     ## # A tibble: 2 x 4
     ##   sub_population   avg `2.5%` `97.5%`
     ##   <chr>          <dbl>  <dbl>   <dbl>
-    ## 1 ABORIGINAL      5.32   4.27    5.67
-    ## 2 NON ABORIGINAL  6.29   5.33    7.10
+    ## 1 ABORIGINAL      5.32   4.54    5.62
+    ## 2 NON ABORIGINAL  6.29   4.94    7.04
 
 ``` r
 ab_bar_plot_numeracy <- ggplot(sum_ab_write, aes(x = sub_population, y = avg))+
       geom_col(width = 0.7 , alpha=0.9 , size=0.3, colour="black",position = "dodge") +
       labs(y = "Average Score",
            x = "Sub_Group",
-           title = "BC Schools 2007-2018 FSA - Reading Test ") +
+           title = "FSA Reading Test Scores (2007/08 - 2018/19)") +
       theme(legend.position = "bot") +
       theme_bw()
 

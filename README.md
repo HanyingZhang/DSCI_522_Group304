@@ -23,9 +23,11 @@ This project uses two data files from the BC Ministry of Education that contain 
 * FSA_SKILL_CODE: Subject of the FSA exam (Numeracy / Reading / Writing)
 * NUMBER_EXPECTED_WRITERS: Number of students expected to participate in the FSA
 * NUMBER_WRITERS: Number of students who wrote the FSA
-* SCORE: Mean score for the school, district, or province. This score only counts students who wrote and is rounded up to 5 decimal points.
+* SCORE: Mean score for the school, district, or province. This score only counts students who wrote and is rounded up to 5 decimal points.**
 
 *Note: Students can be part of several sub populations (ex. a Female Aboriginal Non English Language Learner would be part of All Students, Female, Aboriginal, and Non English Language Learner subgroups)
+
+**Note: Based on the technical notes outlined about the FSA, the Numeracy, Reading, and Writing components of the exam each include a different number of multiple-choice and written-response answers, with each section graded for a total of between 12 and 48 marks. The Reading and Numeracy component scores are scaled and standardized to be between 200 and 800, with a mean of 500. The Writing component scores are not scaled, and are out of 12 marks. 
 
 **Links to Preview Data:**  
 - [Foundation Skills Assessment 2017/18 - 2018/19](https://catalogue.data.gov.bc.ca/dataset/bc-schools-foundation-skills-assessment-fsa-/resource/bcb547f0-8ba7-451f-9e11-10524f4d57a0)  

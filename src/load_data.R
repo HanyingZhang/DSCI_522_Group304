@@ -16,10 +16,14 @@ library(docopt)
 
 opt <- docopt(doc)
 
-data = read.csv(opt$arg1)
+data = read_csv(opt$arg1)
 write_csv(data, opt$arg2)
 
 # Alternative way to do this using commandArgs:
 # args = commandArgs(trailingOnly=TRUE)
 # data = read.csv(args[1])
 # write_csv(data, args[2])
+
+# Example:
+# Rscript src/load_data.R 'https://catalogue.data.gov.bc.ca/dataset/5554165d-e365-422f-bf85-4f6e4c9167dc/resource/bcb547f0-8ba7-451f-9e11-10524f4d57a0/download/foundation-skills-assessment-2017-18_to_2018-19.csv' --arg2='data/fsa_2017_2018_test.csv'
+# Note: the data folder used in this example must already exist in your project repository for the command line script to work.

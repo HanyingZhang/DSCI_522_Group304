@@ -33,55 +33,59 @@ library(ggridges)
 ### 2. Load the dataset
 
 ```{r load data}
-rawdata_2007_2016 <- read.csv("https://catalogue.data.gov.bc.ca/dataset/5554165d-e365-422f-bf85-4f6e4c9167dc/resource/97c6cbf7-f529-464a-b771-9719855b86f6/download/fsa.csv")
+rawdata_2007_2016 <- read_csv('../data/fsa_2007-2016.csv')
 
-rawdata_2017_2018 <- read.csv("https://catalogue.data.gov.bc.ca/dataset/5554165d-e365-422f-bf85-4f6e4c9167dc/resource/bcb547f0-8ba7-451f-9e11-10524f4d57a0/download/foundation-skills-assessment-2017-18_to_2018-19.csv")
+rawdata_2017_2018 <- read_csv('../data/fsa_2017-2018.csv')
+head(rawdata_2007_2016)
 ```
 
+```{r data cleaning}
+df_07_16 <- rawdata_2007_2016 %>%
+  clean_names() %>%
+  filter(score != 'Msk') %>%
+  select(school_year, public_or_independent, sub_population, fsa_skill_code, grade, number_expected_writers, number_writers, score) %>%
+  mutate(score = as.numeric(score),
+         number_expected_writers = as.numeric(number_expected_writers),
+         number_writers = as.numeric(number_writers))
+
+df_17_18 <- rawdata_2017_2018 %>%
+  clean_names() %>%
+  filter(score != 'Msk') %>%
+  select(school_year, public_or_independent, sub_population, fsa_skill_code, grade, number_expected_writers, number_writers, score) %>%
+  mutate(score = as.numeric(score),
+         number_expected_writers = as.numeric(number_expected_writers),
+         number_writers = as.numeric(number_writers),
+         public_or_independent = case_when(public_or_independent == "BC PUBLIC SCHOOL" ~ "BC Public School",
+                                           public_or_independent == "BC INDEPENDENT SCHOOL" ~ "BC Independent School",
+                                           public_or_independent == "PROVINCE-TOTAL" ~ "PROVINCE - TOTAL",
+                                           TRUE ~ public_or_independent))
+         
+df <- bind_rows(df_07_16, df_17_18)
+
+head(df)
+```
 
 ### 3. Explore the dataset
 
-```{r 3.1.1 structure of 2007-2016}
-str(rawdata_2007_2016)
+```{r 3.1 structure of the cleaned dataset}
+str(df)
 ```
-```{r 3.1.2 Columns of 2007-2016 }
-cat("The dataframe columns in dataframe for 2007-2016 are", colnames(rawdata_2007_2016), "\n\n")
+```{r 3.2 Columns in cleaned dataframe}
+cat("The dataframe columns in dataframe for 2007-2016 are", colnames(df), "\n\n")
 
-cat("The SCHOOL_YEAR contains", levels(rawdata_2007_2016$SCHOOL_YEAR), "\n\n")
+cat("The SCHOOL_YEAR contains", unique(df$school_year), "\n\n")
 
-cat("The DATA_LEVEL contains", levels(rawdata_2007_2016$DATA_LEVEL), "\n\n")
+cat("The PUBLIC_OR_INDEPENDENT contains", unique(df$public_or_independent), "\n\n")
 
-cat("The PUBLIC_OR_INDEPENDENT contains", levels(rawdata_2007_2016$PUBLIC_OR_INDEPENDENT), "\n\n")
+cat("The SUB_POPULATION contains", length(unique(df$sub_population)), "subgroups, and they are", unique(df$sub_population), "\n\n")
 
-cat("The SUB_POPULATION contains", nlevels(rawdata_2007_2016$SUB_POPULATION), "subgroups, and they are", levels(rawdata_2007_2016$SUB_POPULATION), "\n\n")
+cat("The FSA_SKILL_CODE contains", unique(df$fsa_skill_code), "\n\n")
 
-cat("The FSA_SKILL_CODE contains", levels(rawdata_2007_2016$FSA_SKILL_CODE), "\n\n")
+cat("The GRADE contains", unique(df$grade), "\n\n")
 
-cat("The GRADE contains", unique(rawdata_2007_2016$GRADE), "\n\n")
-
-cat("The SCORE ranges from", min(as.numeric(rawdata_2007_2016$SCORE)), "to", max(as.numeric(rawdata_2007_2016$SCORE)), "and the average is", mean(as.numeric(rawdata_2007_2016$SCORE)), "\n\n")
-```
-```{r 3.2.1 structure of 2017-2018}
-str(rawdata_2017_2018)
+cat("The SCORE ranges from", min(df$score), "to", max(df$score), "and the average is", mean(df$score), "\n\n")
 ```
 
-```{r 3.2.2 Columns of 2017-2018 }
-cat("The dataframe columns in dataframe for 2007-2016 are",   colnames(rawdata_2017_2018), "\n\n")
-
-cat("The SCHOOL_YEAR contains", levels(rawdata_2017_2018$SCHOOL_YEAR), "\n\n")
-
-cat("The DATA_LEVEL contains", levels(rawdata_2017_2018$DATA_LEVEL), "\n\n")
-
-cat("The PUBLIC_OR_INDEPENDENT contains", levels(rawdata_2017_2018$PUBLIC_OR_INDEPENDENT), "\n\n")
-
-cat("The SUB_POPULATION contains", nlevels(rawdata_2017_2018$SUB_POPULATION), "subgroups, and they are", levels(rawdata_2017_2018$SUB_POPULATION), "\n\n")
-
-cat("The FSA_SKILL_CODE contains", levels(rawdata_2017_2018$FSA_SKILL_CODE), "\n\n")
-
-cat("The GRADE contains", unique(rawdata_2017_2018$GRADE), "\n\n")
-
-cat("The SCORE ranges from", min(as.numeric(rawdata_2017_2018$SCORE)), "to", max(as.numeric(rawdata_2017_2018$SCORE)), "and the average is", mean(as.numeric(rawdata_2017_2018$SCORE)), "\n\n")
-```
 
 ### 4. Initial thoughts
 
@@ -110,55 +114,6 @@ Subquestions:
 7. (Exploratory) Are there trends in average FSA scores for Aboriginal or Non Aboriginal students between 2007/08 - 2018/19 school years?
 
 ### 5. Wrangling
-
-```{r 5.0 clean data}
-df_07_16 <- rawdata_2007_2016 %>%
-  clean_names() %>%
-  filter(score != 'Msk') %>%
-  select(school_year, public_or_independent, sub_population, fsa_skill_code, grade, number_expected_writers, number_writers, score) %>%
-  mutate(score = as.numeric(score),
-         number_expected_writers = as.numeric(number_expected_writers),
-         number_writers = as.numeric(number_writers),
-         public_or_independent = as.character(public_or_independent),
-         school_year = as.character(school_year))
-
-df_17_18 <- rawdata_2017_2018 %>%
-  clean_names() %>%
-  filter(score != 'Msk') %>%
-  select(school_year, public_or_independent, sub_population, fsa_skill_code, grade, number_expected_writers, number_writers, score) %>%
-  mutate(score = as.numeric(score),
-         number_expected_writers = as.numeric(number_expected_writers),
-         number_writers = as.numeric(number_writers),
-         public_or_independent = as.character(public_or_independent),
-         school_year = as.character(school_year),
-         public_or_independent = case_when(public_or_independent == "BC PUBLIC SCHOOL" ~ "BC Public School",
-                                           public_or_independent == "BC INDEPENDENT SCHOOL" ~ "BC Independent School",
-                                           public_or_independent == "PROVINCE-TOTAL" ~ "PROVINCE - TOTAL",
-                                           TRUE ~ public_or_independent))
-         
-df <- bind_rows(df_07_16, df_17_18)
-```
-
-```{r 5.1 Ridge Plot Distribution by Test type and Subgroups}
-
-head(df)
-
-ridge_plot <- ggplot(df, aes(x = score, y = sub_population, fill = sub_population)) +  
-           geom_density_ridges(size = 0.5, alpha = 0.7, color = "black", 
-                               scale = 2.0, rel_min_height = 0.01, quantile_lines = TRUE, quantiles = 4) +
-           coord_cartesian(clip = "off") + # Required to plot top distribution completely
-           labs(title ="2007-2018 FSA Test - BC Schools", 
-           x = "Test score") +
-           theme_ridges() + 
-           theme(legend.position = "none") +
-           theme(axis.text.x = element_text(angle = 70, hjust = 1, size = 10, face = "bold"),
-                 axis.text.y = element_text(angle = 0, hjust = 1, size = 10, face = "bold"))
-
-ridge_plot + facet_grid(cols = vars(fsa_skill_code))
-
-```
-
-
 
 ```{r 5.1 subgroups}
 

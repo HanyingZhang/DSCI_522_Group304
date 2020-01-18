@@ -271,7 +271,7 @@ bar_plot_numeracy
 
 ```
 
-```{r 7.2.2.1 Public vs Independent  Boxplot Chart - Numeracy Test Results}
+```{r 7.2.2.1 Public vs Independent Boxplot Chart - Numeracy Test Results}
 pub_ind_num <- df %>%
   filter(fsa_skill_code == "Numeracy" & public_or_independent != 'PROVINCE - TOTAL' & data_level == 'SCHOOL LEVEL')
 
@@ -386,7 +386,7 @@ bar_plot_reading
 ```
 
 
-```{r 7.2.2.0 Public vs Independent  Boxplot Chart - Reading Test Results}
+```{r 7.2.2.0 Public vs Independent Boxplot Chart - Reading Test Results}
 pub_ind_read <- df %>%
   filter(fsa_skill_code == "Reading" & public_or_independent != 'PROVINCE - TOTAL' & data_level == 'SCHOOL LEVEL')
 
@@ -473,7 +473,7 @@ bar_plot_writing
 
 ```
 
-```{r 7.3.2 Public vs Independent  Boxplot Chart - Writing Test Results}
+```{r 7.3.2 Public vs Independent Boxplot Chart - Writing Test Results}
 pub_ind_write <- df %>%
   filter(fsa_skill_code == "Writing" & public_or_independent != 'PROVINCE - TOTAL' & data_level == 'SCHOOL LEVEL')
 
@@ -524,7 +524,7 @@ ab_bar_plot_numeracy
 
 ```
 
-```{r 7.4.2 aboriginal vs non-aboriginal  Boxplot Chart - Numeracy Test Results}
+```{r 7.4.2 aboriginal vs non-aboriginal Boxplot Chart - Numeracy Test Results}
 
 # Filters the Aboriginal and Non Aboriginal data subset for only Numeracy test scores
 sub_num <- sub_data %>%
@@ -576,7 +576,7 @@ ab_bar_plot_numeracy <- ggplot(sum_ab_read, aes(x = sub_population, y = avg))+
 ab_bar_plot_numeracy
 ```
 
-```{r 7.5.2 aboriginal vs non-aboriginal  Boxplot Chart - Reading Test Results}
+```{r 7.5.2 aboriginal vs non-aboriginal Boxplot Chart - Reading Test Results}
 
 # Filters the Aboriginal and Non Aboriginal data subset for only Reading test scores
 sub_read <- sub_data %>%
@@ -628,7 +628,7 @@ ab_bar_plot_numeracy
 
 ```
 
-```{r 7.6.2 aboriginal vs non-aboriginal  Boxplot Chart - Writing Test Results}
+```{r 7.6.2 aboriginal vs non-aboriginal Boxplot Chart - Writing Test Results}
 
 # Filters the Aboriginal and Non Aboriginal data subset for only Writing test scores
 sub_write <- sub_data %>%

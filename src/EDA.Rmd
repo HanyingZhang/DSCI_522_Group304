@@ -14,6 +14,7 @@ library(janitor)
 library(infer)
 library(repr)
 library(gridExtra)
+library(ggridges)
 ```
 
 ### 1. Dataset Description
@@ -130,6 +131,26 @@ df_17_18 <- rawdata_2017_2018 %>%
          
 df <- bind_rows(df_07_16, df_17_18)
 ```
+
+```{r 5.1 Ridge Plot Distribution by Test type and Subgroups}
+
+head(df)
+
+ridge_plot <- ggplot(df, aes(x = score, y = sub_population, fill = sub_population)) +  
+           geom_density_ridges(size = 0.5, alpha = 0.7, color = "black", 
+                               scale = 2.0, rel_min_height = 0.01, quantile_lines = TRUE, quantiles = 4) +
+           coord_cartesian(clip = "off") + # Required to plot top distribution completely
+           labs(title ="2007-2018 FSA Test - BC Schools", 
+           x = "Test score") +
+           theme_ridges() + 
+           theme(legend.position = "none") +
+           theme(axis.text.x = element_text(angle = 70, hjust = 1, size = 10, face = "bold"),
+                 axis.text.y = element_text(angle = 0, hjust = 1, size = 10, face = "bold"))
+
+ridge_plot + facet_grid(cols = vars(fsa_skill_code))
+
+```
+
 
 
 ```{r 5.1 subgroups}
@@ -261,6 +282,48 @@ sum_num <- tibble("sub_population" = pub_ind_numeracy$sub_population,
 sum_num
 ```
 
+```{r 7.2.1 Public vs Independent Bar Chart - Numeracy Test Results}
+
+bar_plot_numeracy <- ggplot(sum_num, aes(x = sub_population, y = avg))+
+      geom_col(aes(fill = public_or_independent), width = 0.7 , alpha=0.9 , size=0.3, colour="black",position = "dodge") +
+      labs(y = "Average Score",
+           x = "Sub_Group",
+           fill = "School Type",
+           title = "2007-2018 FSA - Numeracy Test ") +
+      theme(legend.position = "bot") +
+      coord_flip() +
+      theme_bw()
+
+bar_plot_numeracy
+
+```
+
+```{r 7.2.2 Public vs Independent Ridge Plot - Numeracy Test Results}
+
+pub_ind_numeracy
+
+
+ridge_plot <- ggplot(df, aes(x = score, y = sub_population, fill = sub_population)) +  
+           geom_density_ridges(size = 0.5, alpha = 0.7, color = "black", 
+                               scale = 2.0, rel_min_height = 0.01, quantile_lines = TRUE, quantiles = 4) +
+           coord_cartesian(clip = "off") + # Required to plot top distribution completely
+           labs(title ="2007-2018 FSA Test - BC Schools", 
+                #subtitle = "(Source: Gapminder Dataset)", 
+           x = "Score") +
+           #scale_x_continuous(breaks = seq(30, 100, 5)) +
+           theme_ridges() + 
+           theme(legend.position = "none") +
+           theme(axis.text.x = element_text(angle = 70, hjust = 1, size = 10, face = "bold"),
+                 axis.text.y = element_text(angle = 0, hjust = 1, size = 10, face = "bold"))
+
+
+#options(tidyverse.quiet = TRUE, repr.plot.width = 10, repr.plot.height = 5)
+
+ridge_plot + facet_grid(cols = vars(fsa_skill_code))
+```
+
+
+
 ```{r 7.2 public vs independent in different subgroups in reading, echo = FALSE}
 pub_ind_reading <- df %>%
   filter(fsa_skill_code == "Reading" & public_or_independent != 'PROVINCE - TOTAL') %>%
@@ -310,6 +373,23 @@ sum_read <- tibble("sub_population" = pub_ind_reading$sub_population,
 sum_read
 
 ```
+
+```{r 7.2.1 Public vs Independent Bar Chart - Reading Test Results}
+
+bar_plot_reading <- ggplot(sum_read, aes(x = sub_population, y = avg))+
+      geom_col(aes(fill = public_or_independent), width = 0.7 , alpha=0.9 , size=0.3, colour="black",position = "dodge") +
+      labs(y = "Average Score",
+           x = "Sub_Group",
+           fill = "School Type",
+           title = "2007-2018 FSA - Reading Test ") +
+      theme(legend.position = "bot") +
+      coord_flip() +
+      theme_bw()
+
+bar_plot_reading
+
+```
+
 
 
 ```{r 7.3 public vs independent in different subgroups in writing, echo = FALSE}
@@ -361,6 +441,24 @@ sum_write <- tibble("sub_population" = pub_ind_writing$sub_population,
 sum_write
 ```
 
+```{r 7.3.1 Public vs Independent Bar Chart - Writing Test Results}
+
+bar_plot_writing <- ggplot(sum_write, aes(x = sub_population, y = avg))+
+      geom_col(aes(fill = public_or_independent), width = 0.7 , alpha=0.9 , size=0.3, colour="black",position = "dodge") +
+      labs(y = "Average Score",
+           x = "Sub_Group",
+           fill = "School Type",
+           title = "2007-2018 FSA - Writing Test ") +
+      theme(legend.position = "bot") +
+      coord_flip() +
+      theme_bw()
+
+bar_plot_writing
+
+```
+
+
+
 ```{r 7.4 aboriginal vs non-aboriginal in numeracy}
 non_ab_numeracy <- df %>%
   filter(fsa_skill_code == "Numeracy" & public_or_independent == 'PROVINCE - TOTAL') %>%
@@ -375,6 +473,21 @@ sum_ab_num <- tibble("sub_population" = non_ab_numeracy$sub_population,
 sum_ab_num
 
 ```
+
+```{r 7.4.1 aboriginal vs non-aboriginal Bar Chart - Numeracy Test Results}
+
+ab_bar_plot_numeracy <- ggplot(sum_ab_num, aes(x = sub_population, y = avg))+
+      geom_col(width = 0.7 , alpha=0.9 , size=0.3, colour="black",position = "dodge") +
+      labs(y = "Average Score",
+           x = "Sub_Group",
+           title = "BC Schols 2007-2018 FSA - Numeracy Test ") +
+      theme(legend.position = "bot") +
+      theme_bw()
+
+ab_bar_plot_numeracy
+
+```
+
 
 ```{r 7.5 aboriginal vs non-aboriginal in reading}
 non_ab_reading <- df %>%
@@ -391,6 +504,20 @@ sum_ab_read
 
 ```
 
+```{r 7.5.1 aboriginal vs non-aboriginal Bar Chart - Reading Test Results}
+
+ab_bar_plot_numeracy <- ggplot(sum_ab_read, aes(x = sub_population, y = avg))+
+      geom_col(width = 0.7 , alpha=0.9 , size=0.3, colour="black",position = "dodge") +
+      labs(y = "Average Score",
+           x = "Sub_Group",
+           title = "BC Schools 2007-2018 FSA - Reading Test ") +
+      theme(legend.position = "bot") +
+      theme_bw()
+
+ab_bar_plot_numeracy
+```
+
+
 ```{r 7.6 aboriginal vs non-aboriginal in writing}
 non_ab_writing <- df %>%
   filter(fsa_skill_code == "Writing" & public_or_independent == 'PROVINCE - TOTAL') %>%
@@ -404,6 +531,21 @@ sum_ab_write <- tibble("sub_population" = non_ab_writing$sub_population,
                   "97.5%" = c(ci(aboriginal, "Writing")[[2]], ci(non_aboriginal, "Writing")[[2]]))
 sum_ab_write
 ```
+
+```{r 7.6.1 aboriginal vs non-aboriginal Bar Chart - WritingTest Results}
+
+ab_bar_plot_numeracy <- ggplot(sum_ab_write, aes(x = sub_population, y = avg))+
+      geom_col(width = 0.7 , alpha=0.9 , size=0.3, colour="black",position = "dodge") +
+      labs(y = "Average Score",
+           x = "Sub_Group",
+           title = "BC Schools 2007-2018 FSA - Reading Test ") +
+      theme(legend.position = "bot") +
+      theme_bw()
+
+ab_bar_plot_numeracy
+
+```
+
 
 
 ### 8. Summary & Conclusion

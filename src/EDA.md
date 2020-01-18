@@ -238,6 +238,48 @@ df <- bind_rows(df_07_16, df_17_18)
 ```
 
 ``` r
+head(df)
+```
+
+    ##   school_year public_or_independent           sub_population
+    ## 1   2007/2008      PROVINCE - TOTAL             ALL STUDENTS
+    ## 2   2007/2008      PROVINCE - TOTAL                   FEMALE
+    ## 3   2007/2008      PROVINCE - TOTAL                     MALE
+    ## 4   2007/2008      PROVINCE - TOTAL               ABORIGINAL
+    ## 5   2007/2008      PROVINCE - TOTAL           NON ABORIGINAL
+    ## 6   2007/2008      PROVINCE - TOTAL ENGLISH LANGUAGE LEARNER
+    ##   fsa_skill_code grade number_expected_writers number_writers score
+    ## 1       Numeracy     4                    1260           2041 46069
+    ## 2       Numeracy     4                     658            989 43421
+    ## 3       Numeracy     4                     696           1001 48651
+    ## 4       Numeracy     4                    1502           2298 17745
+    ## 5       Numeracy     4                    1140           1825 50356
+    ## 6       Numeracy     4                    1777           2683 32490
+
+``` r
+ridge_plot <- ggplot(df, aes(x = score, y = sub_population, fill = sub_population)) +  
+           geom_density_ridges(size = 0.5, alpha = 0.7, color = "black", 
+                               scale = 2.0, rel_min_height = 0.01, quantile_lines = TRUE, quantiles = 4) +
+           coord_cartesian(clip = "off") + # Required to plot top distribution completely
+           labs(title ="2007-2018 FSA Test - BC Schools", 
+           x = "Test score") +
+           theme_ridges() + 
+           theme(legend.position = "none") +
+           theme(axis.text.x = element_text(angle = 70, hjust = 1, size = 10, face = "bold"),
+                 axis.text.y = element_text(angle = 0, hjust = 1, size = 10, face = "bold"))
+
+ridge_plot + facet_grid(cols = vars(fsa_skill_code))
+```
+
+    ## Picking joint bandwidth of 2820
+
+    ## Picking joint bandwidth of 2660
+
+    ## Picking joint bandwidth of 4440
+
+![](EDA_files/figure-gfm/5.1%20Ridge%20Plot%20Distribution%20by%20Test%20type%20and%20Subgroups-1.png)<!-- -->
+
+``` r
 subgroup <- function(group){
   sub_group <- df %>%
     filter(sub_population == group)
@@ -297,62 +339,163 @@ SELECTED SUBQUESTIONS:
     ## # A tibble: 16 x 5
     ##    sub_population               public_or_independent    avg `2.5%` `97.5%`
     ##    <fct>                        <chr>                  <dbl>  <dbl>   <dbl>
-    ##  1 ABORIGINAL                   BC Independent School  4111.  1355.   7808.
-    ##  2 ABORIGINAL                   BC Public School       9888.  6576.  15149.
-    ##  3 ALL STUDENTS                 BC Independent School 52211. 32016.  60773.
-    ##  4 ALL STUDENTS                 BC Public School      34574. 21320.  46155.
-    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School 34916. 20345.  37692.
-    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School      25940. 22233.  37508.
-    ##  7 FEMALE                       BC Independent School 54328. 32705.  75608.
-    ##  8 FEMALE                       BC Public School      33288. 27368.  43300.
-    ##  9 MALE                         BC Independent School 54535. 44942.  60371.
-    ## 10 MALE                         BC Public School      36428. 31240.  45602.
-    ## 11 NON ABORIGINAL               BC Independent School 56484. 42588.  58972.
-    ## 12 NON ABORIGINAL               BC Public School      37521. 30602.  38655.
-    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School 52127. 38048.  61368.
-    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School      35575. 25243.  40598.
-    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  5677.  1313.   9102.
-    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       3209.   524.   6553.
+    ##  1 ABORIGINAL                   BC Independent School  4111.  1882.   9213.
+    ##  2 ABORIGINAL                   BC Public School       9888.  7769.  15534.
+    ##  3 ALL STUDENTS                 BC Independent School 52211. 49397.  58885.
+    ##  4 ALL STUDENTS                 BC Public School      34574. 28747.  52342.
+    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School 34916. 23916.  47968.
+    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School      25940. 20374.  42135.
+    ##  7 FEMALE                       BC Independent School 54328. 47487.  54330.
+    ##  8 FEMALE                       BC Public School      33288. 27928.  45131.
+    ##  9 MALE                         BC Independent School 54535. 44537.  65299.
+    ## 10 MALE                         BC Public School      36428. 28459.  47068.
+    ## 11 NON ABORIGINAL               BC Independent School 56484. 43821.  68547.
+    ## 12 NON ABORIGINAL               BC Public School      37521. 37266.  49147.
+    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School 52127. 38916.  58093.
+    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School      35575. 22691.  45014.
+    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  5677.   582.  10222.
+    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       3209.   584.   5816.
+
+``` r
+bar_plot_numeracy <- ggplot(sum_num, aes(x = sub_population, y = avg))+
+      geom_col(aes(fill = public_or_independent), width = 0.7 , alpha=0.9 , size=0.3, colour="black",position = "dodge") +
+      labs(y = "Average Score",
+           x = "Sub_Group",
+           fill = "School Type",
+           title = "2007-2018 FSA - Numeracy Test ") +
+      theme(legend.position = "bot") +
+      coord_flip() +
+      theme_bw()
+
+bar_plot_numeracy
+```
+
+![](EDA_files/figure-gfm/7.2.1%20Public%20vs%20Independent%20Bar%20Chart%20-%20Numeracy%20Test%20Results-1.png)<!-- -->
+
+``` r
+pub_ind_numeracy
+```
+
+    ## # A tibble: 16 x 3
+    ## # Groups:   sub_population [8]
+    ##    sub_population               public_or_independent    avg
+    ##    <fct>                        <chr>                  <dbl>
+    ##  1 ABORIGINAL                   BC Independent School  4111.
+    ##  2 ABORIGINAL                   BC Public School       9888.
+    ##  3 ALL STUDENTS                 BC Independent School 52211.
+    ##  4 ALL STUDENTS                 BC Public School      34574.
+    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School 34916.
+    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School      25940.
+    ##  7 FEMALE                       BC Independent School 54328.
+    ##  8 FEMALE                       BC Public School      33288.
+    ##  9 MALE                         BC Independent School 54535.
+    ## 10 MALE                         BC Public School      36428.
+    ## 11 NON ABORIGINAL               BC Independent School 56484.
+    ## 12 NON ABORIGINAL               BC Public School      37521.
+    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School 52127.
+    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School      35575.
+    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  5677.
+    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       3209.
+
+``` r
+ridge_plot <- ggplot(df, aes(x = score, y = sub_population, fill = sub_population)) +  
+           geom_density_ridges(size = 0.5, alpha = 0.7, color = "black", 
+                               scale = 2.0, rel_min_height = 0.01, quantile_lines = TRUE, quantiles = 4) +
+           coord_cartesian(clip = "off") + # Required to plot top distribution completely
+           labs(title ="2007-2018 FSA Test - BC Schools", 
+                #subtitle = "(Source: Gapminder Dataset)", 
+           x = "Score") +
+           #scale_x_continuous(breaks = seq(30, 100, 5)) +
+           theme_ridges() + 
+           theme(legend.position = "none") +
+           theme(axis.text.x = element_text(angle = 70, hjust = 1, size = 10, face = "bold"),
+                 axis.text.y = element_text(angle = 0, hjust = 1, size = 10, face = "bold"))
+
+
+#options(tidyverse.quiet = TRUE, repr.plot.width = 10, repr.plot.height = 5)
+
+ridge_plot + facet_grid(cols = vars(fsa_skill_code))
+```
+
+    ## Picking joint bandwidth of 2820
+
+    ## Picking joint bandwidth of 2660
+
+    ## Picking joint bandwidth of 4440
+
+![](EDA_files/figure-gfm/7.2.2%20Public%20vs%20Independent%20Ridge%20Plot%20-%20Numeracy%20Test%20Results-1.png)<!-- -->
 
     ## # A tibble: 16 x 5
     ##    sub_population               public_or_independent    avg `2.5%` `97.5%`
     ##    <fct>                        <chr>                  <dbl>  <dbl>   <dbl>
-    ##  1 ABORIGINAL                   BC Independent School  4805.  3694.   5732.
-    ##  2 ABORIGINAL                   BC Public School      14107.  8332.  19024.
-    ##  3 ALL STUDENTS                 BC Independent School 53487. 44408.  70392.
-    ##  4 ALL STUDENTS                 BC Public School      38050. 32351.  47186.
-    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School 26439. 18849.  34665.
-    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School      18402. 14214.  29685.
-    ##  7 FEMALE                       BC Independent School 57497. 41523.  71191.
-    ##  8 FEMALE                       BC Public School      42590. 35227.  55996.
-    ##  9 MALE                         BC Independent School 50827. 29953.  56825.
-    ## 10 MALE                         BC Public School      34108. 28297.  42301.
-    ## 11 NON ABORIGINAL               BC Independent School 57381. 54830.  56691.
-    ## 12 NON ABORIGINAL               BC Public School      41046. 35939.  47534.
-    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School 53749. 43162.  65651.
-    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School      40736. 30499.  47578.
-    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  9470.  1821.  21338.
-    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       4840.  2162.   8775.
+    ##  1 ABORIGINAL                   BC Independent School  4805.  2214.  10162.
+    ##  2 ABORIGINAL                   BC Public School      14107.  7987.  22553.
+    ##  3 ALL STUDENTS                 BC Independent School 53487. 42479.  59630.
+    ##  4 ALL STUDENTS                 BC Public School      38050. 33696.  41447.
+    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School 26439. 10153.  44807.
+    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School      18402. 13350.  24227.
+    ##  7 FEMALE                       BC Independent School 57497. 56786.  69362.
+    ##  8 FEMALE                       BC Public School      42590. 30514.  51944.
+    ##  9 MALE                         BC Independent School 50827. 38546.  59712.
+    ## 10 MALE                         BC Public School      34108. 29921.  34300.
+    ## 11 NON ABORIGINAL               BC Independent School 57381. 49867.  66936.
+    ## 12 NON ABORIGINAL               BC Public School      41046. 34967.  48623.
+    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School 53749. 45924.  60490.
+    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School      40736. 26794.  48138.
+    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  9470.  4565.  16660.
+    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       4840.  4502.   9289.
+
+``` r
+bar_plot_reading <- ggplot(sum_read, aes(x = sub_population, y = avg))+
+      geom_col(aes(fill = public_or_independent), width = 0.7 , alpha=0.9 , size=0.3, colour="black",position = "dodge") +
+      labs(y = "Average Score",
+           x = "Sub_Group",
+           fill = "School Type",
+           title = "2007-2018 FSA - Reading Test ") +
+      theme(legend.position = "bot") +
+      coord_flip() +
+      theme_bw()
+
+bar_plot_reading
+```
+
+![](EDA_files/figure-gfm/7.2.1%20Public%20vs%20Independent%20Bar%20Chart%20-%20Reading%20Test%20Results-1.png)<!-- -->
 
     ## # A tibble: 16 x 5
     ##    sub_population               public_or_independent    avg `2.5%` `97.5%`
     ##    <fct>                        <chr>                  <dbl>  <dbl>   <dbl>
-    ##  1 ABORIGINAL                   BC Independent School 12116.  4502.  24210.
-    ##  2 ABORIGINAL                   BC Public School      34526. 25676.  49173.
-    ##  3 ALL STUDENTS                 BC Independent School 63646. 51566.  80673.
-    ##  4 ALL STUDENTS                 BC Public School      66365. 41179.  83311.
-    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School 37102. 30750.  43965.
-    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School      45085. 38635.  56347.
-    ##  7 FEMALE                       BC Independent School 60108. 54511.  70301.
-    ##  8 FEMALE                       BC Public School      70420. 45608.  88640.
-    ##  9 MALE                         BC Independent School 59733. 45971.  81156.
-    ## 10 MALE                         BC Public School      59303. 43532.  77121.
-    ## 11 NON ABORIGINAL               BC Independent School 66405. 41305.  77720.
-    ## 12 NON ABORIGINAL               BC Public School      68661. 66672.  78733.
-    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School 63595. 34252.  75852.
-    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School      67083. 51605.  81517.
-    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School 11142.  2555.   9579.
-    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School      12117.  4601.  25101.
+    ##  1 ABORIGINAL                   BC Independent School 12116.  7874.  28296.
+    ##  2 ABORIGINAL                   BC Public School      34526. 29176.  30326.
+    ##  3 ALL STUDENTS                 BC Independent School 63646. 46005.  82857.
+    ##  4 ALL STUDENTS                 BC Public School      66365. 55173.  75392.
+    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School 37102. 24104.  50213.
+    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School      45085. 28193.  53873.
+    ##  7 FEMALE                       BC Independent School 60108. 51662.  78053.
+    ##  8 FEMALE                       BC Public School      70420. 66334.  74082.
+    ##  9 MALE                         BC Independent School 59733. 38353.  65647.
+    ## 10 MALE                         BC Public School      59303. 52852.  68110.
+    ## 11 NON ABORIGINAL               BC Independent School 66405. 60638.  81061.
+    ## 12 NON ABORIGINAL               BC Public School      68661. 64003.  82394.
+    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School 63595. 40577.  67513.
+    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School      67083. 61151.  90295.
+    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School 11142.   543.  25593.
+    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School      12117.  7737.  23705.
+
+``` r
+bar_plot_writing <- ggplot(sum_write, aes(x = sub_population, y = avg))+
+      geom_col(aes(fill = public_or_independent), width = 0.7 , alpha=0.9 , size=0.3, colour="black",position = "dodge") +
+      labs(y = "Average Score",
+           x = "Sub_Group",
+           fill = "School Type",
+           title = "2007-2018 FSA - Writing Test ") +
+      theme(legend.position = "bot") +
+      coord_flip() +
+      theme_bw()
+
+bar_plot_writing
+```
+
+![](EDA_files/figure-gfm/7.3.1%20Public%20vs%20Independent%20Bar%20Chart%20-%20Writing%20Test%20Results-1.png)<!-- -->
 
 ``` r
 non_ab_numeracy <- df %>%
@@ -371,8 +514,22 @@ sum_ab_num
     ## # A tibble: 2 x 4
     ##   sub_population    avg `2.5%` `97.5%`
     ##   <fct>           <dbl>  <dbl>   <dbl>
-    ## 1 ABORIGINAL     12544.  7017.  10669.
-    ## 2 NON ABORIGINAL 46220. 33302.  50402.
+    ## 1 ABORIGINAL     12544.  4562.  10577.
+    ## 2 NON ABORIGINAL 46220. 27597.  50628.
+
+``` r
+ab_bar_plot_numeracy <- ggplot(sum_ab_num, aes(x = sub_population, y = avg))+
+      geom_col(width = 0.7 , alpha=0.9 , size=0.3, colour="black",position = "dodge") +
+      labs(y = "Average Score",
+           x = "Sub_Group",
+           title = "BC Schols 2007-2018 FSA - Numeracy Test ") +
+      theme(legend.position = "bot") +
+      theme_bw()
+
+ab_bar_plot_numeracy
+```
+
+![](EDA_files/figure-gfm/7.4.1%20aboriginal%20vs%20non-aboriginal%20Bar%20Chart%20-%20Numeracy%20Test%20Results-1.png)<!-- -->
 
 ``` r
 non_ab_reading <- df %>%
@@ -391,8 +548,22 @@ sum_ab_read
     ## # A tibble: 2 x 4
     ##   sub_population    avg `2.5%` `97.5%`
     ##   <fct>           <dbl>  <dbl>   <dbl>
-    ## 1 ABORIGINAL     19009.  9463.  14067.
-    ## 2 NON ABORIGINAL 48978. 34315.  48213.
+    ## 1 ABORIGINAL     19009. 12029.  11827.
+    ## 2 NON ABORIGINAL 48978. 39998.  48965.
+
+``` r
+ab_bar_plot_numeracy <- ggplot(sum_ab_read, aes(x = sub_population, y = avg))+
+      geom_col(width = 0.7 , alpha=0.9 , size=0.3, colour="black",position = "dodge") +
+      labs(y = "Average Score",
+           x = "Sub_Group",
+           title = "BC Schools 2007-2018 FSA - Reading Test ") +
+      theme(legend.position = "bot") +
+      theme_bw()
+
+ab_bar_plot_numeracy
+```
+
+![](EDA_files/figure-gfm/7.5.1%20aboriginal%20vs%20non-aboriginal%20Bar%20Chart%20-%20Reading%20Test%20Results-1.png)<!-- -->
 
 ``` r
 non_ab_writing <- df %>%
@@ -411,7 +582,21 @@ sum_ab_write
     ## # A tibble: 2 x 4
     ##   sub_population    avg `2.5%` `97.5%`
     ##   <fct>           <dbl>  <dbl>   <dbl>
-    ## 1 ABORIGINAL     59970. 19284.  47819.
-    ## 2 NON ABORIGINAL 78413. 51503.  70444.
+    ## 1 ABORIGINAL     59970. 24436.  35588.
+    ## 2 NON ABORIGINAL 78413. 64989.  86840.
+
+``` r
+ab_bar_plot_numeracy <- ggplot(sum_ab_write, aes(x = sub_population, y = avg))+
+      geom_col(width = 0.7 , alpha=0.9 , size=0.3, colour="black",position = "dodge") +
+      labs(y = "Average Score",
+           x = "Sub_Group",
+           title = "BC Schools 2007-2018 FSA - Reading Test ") +
+      theme(legend.position = "bot") +
+      theme_bw()
+
+ab_bar_plot_numeracy
+```
+
+![](EDA_files/figure-gfm/7.6.1%20aboriginal%20vs%20non-aboriginal%20Bar%20Chart%20-%20WritingTest%20Results-1.png)<!-- -->
 
 ### 8\. Summary & Conclusion

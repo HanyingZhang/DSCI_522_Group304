@@ -95,15 +95,15 @@ head(rawdata_2007_2016)
     ## 6 2007/2008   PROVINCE … PROVINCE - TOTAL <NA>            <NA>         
     ## # … with 12 more variables: SCHOOL_NUMBER <lgl>, SCHOOL_NAME <lgl>,
     ## #   SUB_POPULATION <chr>, FSA_SKILL_CODE <chr>, GRADE <chr>,
-    ## #   NUMBER_EXPECTED_WRITERS <chr>, NUMBER_WRITERS <chr>,
-    ## #   NUMBER_UNKNOWN <chr>, NUMBER_BELOW <chr>, NUMBER_MEETING <chr>,
-    ## #   NUMBER_EXCEEDING <chr>, SCORE <chr>
+    ## #   NUMBER_EXPECTED_WRITERS <chr>, NUMBER_WRITERS <chr>, NUMBER_UNKNOWN <chr>,
+    ## #   NUMBER_BELOW <chr>, NUMBER_MEETING <chr>, NUMBER_EXCEEDING <chr>,
+    ## #   SCORE <chr>
 
 ``` r
 df_07_16 <- rawdata_2007_2016 %>%
   clean_names() %>%
   filter(score != 'Msk') %>%
-  select(school_year, public_or_independent, sub_population, fsa_skill_code, grade, number_expected_writers, number_writers, score) %>%
+  select(school_year, data_level, public_or_independent, sub_population, fsa_skill_code, grade, number_expected_writers, number_writers, score) %>%
   mutate(score = as.numeric(score),
          number_expected_writers = as.numeric(number_expected_writers),
          number_writers = as.numeric(number_writers))
@@ -111,7 +111,7 @@ df_07_16 <- rawdata_2007_2016 %>%
 df_17_18 <- rawdata_2017_2018 %>%
   clean_names() %>%
   filter(score != 'Msk') %>%
-  select(school_year, public_or_independent, sub_population, fsa_skill_code, grade, number_expected_writers, number_writers, score) %>%
+  select(school_year, data_level, public_or_independent, sub_population, fsa_skill_code, grade, number_expected_writers, number_writers, score) %>%
   mutate(score = as.numeric(score),
          number_expected_writers = as.numeric(number_expected_writers),
          number_writers = as.numeric(number_writers),
@@ -125,17 +125,17 @@ df <- bind_rows(df_07_16, df_17_18)
 head(df)
 ```
 
-    ## # A tibble: 6 x 8
-    ##   school_year public_or_indep… sub_population fsa_skill_code grade
-    ##   <chr>       <chr>            <chr>          <chr>          <chr>
-    ## 1 2007/2008   PROVINCE - TOTAL ALL STUDENTS   Numeracy       04   
-    ## 2 2007/2008   PROVINCE - TOTAL FEMALE         Numeracy       04   
-    ## 3 2007/2008   PROVINCE - TOTAL MALE           Numeracy       04   
-    ## 4 2007/2008   PROVINCE - TOTAL ABORIGINAL     Numeracy       04   
-    ## 5 2007/2008   PROVINCE - TOTAL NON ABORIGINAL Numeracy       04   
-    ## 6 2007/2008   PROVINCE - TOTAL ENGLISH LANGU… Numeracy       04   
-    ## # … with 3 more variables: number_expected_writers <dbl>,
-    ## #   number_writers <dbl>, score <dbl>
+    ## # A tibble: 6 x 9
+    ##   school_year data_level public_or_indep… sub_population fsa_skill_code grade
+    ##   <chr>       <chr>      <chr>            <chr>          <chr>          <chr>
+    ## 1 2007/2008   PROVINCE … PROVINCE - TOTAL ALL STUDENTS   Numeracy       04   
+    ## 2 2007/2008   PROVINCE … PROVINCE - TOTAL FEMALE         Numeracy       04   
+    ## 3 2007/2008   PROVINCE … PROVINCE - TOTAL MALE           Numeracy       04   
+    ## 4 2007/2008   PROVINCE … PROVINCE - TOTAL ABORIGINAL     Numeracy       04   
+    ## 5 2007/2008   PROVINCE … PROVINCE - TOTAL NON ABORIGINAL Numeracy       04   
+    ## 6 2007/2008   PROVINCE … PROVINCE - TOTAL ENGLISH LANGU… Numeracy       04   
+    ## # … with 3 more variables: number_expected_writers <dbl>, number_writers <dbl>,
+    ## #   score <dbl>
 
 ### 3\. Explore the dataset
 
@@ -143,8 +143,9 @@ head(df)
 str(df)
 ```
 
-    ## Classes 'spec_tbl_df', 'tbl_df', 'tbl' and 'data.frame': 361902 obs. of  8 variables:
+    ## Classes 'spec_tbl_df', 'tbl_df', 'tbl' and 'data.frame': 361902 obs. of  9 variables:
     ##  $ school_year            : chr  "2007/2008" "2007/2008" "2007/2008" "2007/2008" ...
+    ##  $ data_level             : chr  "PROVINCE LEVEL" "PROVINCE LEVEL" "PROVINCE LEVEL" "PROVINCE LEVEL" ...
     ##  $ public_or_independent  : chr  "PROVINCE - TOTAL" "PROVINCE - TOTAL" "PROVINCE - TOTAL" "PROVINCE - TOTAL" ...
     ##  $ sub_population         : chr  "ALL STUDENTS" "FEMALE" "MALE" "ABORIGINAL" ...
     ##  $ fsa_skill_code         : chr  "Numeracy" "Numeracy" "Numeracy" "Numeracy" ...
@@ -157,13 +158,19 @@ str(df)
 cat("The dataframe columns in dataframe for 2007-2016 are", colnames(df), "\n\n")
 ```
 
-    ## The dataframe columns in dataframe for 2007-2016 are school_year public_or_independent sub_population fsa_skill_code grade number_expected_writers number_writers score
+    ## The dataframe columns in dataframe for 2007-2016 are school_year data_level public_or_independent sub_population fsa_skill_code grade number_expected_writers number_writers score
 
 ``` r
 cat("The SCHOOL_YEAR contains", unique(df$school_year), "\n\n")
 ```
 
     ## The SCHOOL_YEAR contains 2007/2008 2008/2009 2009/2010 2010/2011 2011/2012 2012/2013 2013/2014 2014/2015 2015/2016 2016/2017 2017/2018 2018/2019
+
+``` r
+cat("The DATA_LEVEL contains", unique(df$data_level), "\n\n")
+```
+
+    ## The DATA_LEVEL contains PROVINCE LEVEL DISTRICT LEVEL SCHOOL LEVEL
 
 ``` r
 cat("The PUBLIC_OR_INDEPENDENT contains", unique(df$public_or_independent), "\n\n")
@@ -197,39 +204,37 @@ cat("The SCORE ranges from", min(df$score), "to", max(df$score), "and the averag
 
 ### 4\. Initial thoughts
 
-  - There are heaps of data that we can compare by population type (ex.
-    Male / Female / Aboriginal / Non-aboriginal / Special Needs etc),
-    Grade (for the 2007-2017 data), skill type(numeracy/ reading/
-    writing), or school types(Public school/ Independent school)
+The dataset includes mean FSA scores for many different subgroups which
+can be compared. Possible comparisons include: - Female vs Male -
+Aboriginal vs Non Aboriginal - English Language Learner vs Non English
+Language Learner - Grade 4 vs Grade 7 - Public School vs Independent
+School
+
+FSA scores can also be compared across different school districts and by
+FSA Skill Code (Numeracy, Reading, or Writing components of the exam).
 
   - **Potential Research Questions:**
 
-<!-- end list -->
+There are many questions we could ask about this dataset, including (but
+no limited to) the following:
 
-1.  Inferential: How do the scores for certain exams compare between
-    different sub populations (ex. male / female, aboriginal /
-    non-aboriginal, public / private school)? Ex. Do students in private
-    school perform better than students in publicly funded schools on
-    numeracy exams?
-      - Null Hypothesis: there’s no difference in scores for the
-        different groups
-      - Alternative Hypothesis: there is a difference in scores for the
-        different groups
-2.  Predictive: What score on a specific exam type (ex. numeracy) will a
-    child in a specific sub population (ex. aboriginal) get within a BC
-    publicly funded school based on their:
-      - school district,
-      - gender,
-      - how many special needs / non-English language learner are in the
-        school (assuming here that this may influence scores because
-        more funding may be used towards these other groups than to
-        programs that support the aboriginal population specifically),
-      - scores on other exams, and
-      - number of exam writers from the sub population (i.e. number of
-        students within the class that fall within this sub population
-        group)?
-3.  Predictive: Will the score from Grade 4 influence how they’ll
-    perform in Grade 7?
+Main Questions: 1. (Inferential) Is there a difference in how well BC
+Public School vs Independent School students perform on the FSA exam? 2.
+(Inferential) Is there a difference in how well Aboriginal vs Non
+Aboriginal students perform on the FSA exam? 3. (Predictive) Can we
+predict how well a student will perform on a Numeracy component of the
+FSA exam based on their school district, gender, how many special needs
+students are in the school, and the student’s scores on the other exam
+components?
+
+Subquestions: 4. (Descriptive) Which school type (Public / Independent)
+has a higher average FSA score across all school years? 5. (Descriptive)
+Which group of students (Aboriginal / Non Aboriginal) has a higher
+average FSA score across all school years? 6. (Exploratory) Are there
+trends in average FSA scores for Public or Independent School students
+between 2007/08 - 2018/19 school years? 7. (Exploratory) Are there
+trends in average FSA scores for Aboriginal or Non Aboriginal students
+between 2007/08 - 2018/19 school years?
 
 ### 5\. Wrangling
 
@@ -256,59 +261,78 @@ non_eng_lang_learner<- subgroup('NON ENGLISH LANGUAGE LEARNER')
 special <- subgroup('SPECIAL NEEDS NO GIFTED') 
 ```
 
+``` r
+# Stacks the Aboriginal and Non Aboriginal subgroups into one dataframe
+sub_data <- bind_rows(aboriginal, non_aboriginal)
+
+# Filters the dataframe for 'Province - Total' since we don't want to double-count data
+sub_data <- sub_data %>%
+  filter(public_or_independent == 'PROVINCE - TOTAL')
+```
+
 ### 6\. Research Questions
 
-  - **Selected Research Questions**
+This project will attempt to answer two main inferential research
+questions:
 
-**Question 1**
+1.  Is there a difference in how well BC Public School vs Independent
+    School students perform on the FSA exam?  
+2.  Is there a difference in how well Aboriginal vs Non Aboriginal
+    students perform on the FSA exam?
 
-(Inferential) Is there a difference in how well Public school students
-vs Independent school students perform on the FSA?
+*Note:* Though the project assignment requires only one
+inferential/predictive research question, since these are relatively
+simple questions we’ve chosen two.
 
-  - 2 Group Hypothesis Test (mean scores for all tests together, and
-    tests separately):
-      - Null Hypothesis: No difference
-      - Alternative Hypothesis: Difference
-  - Estimate + Confidence intervals of the mean scores for the different
-    groups
+**Subquestions to the main research questions include:**
 
-**Question 2**
+1.  (Descriptive) Which school type (Public / Independent) has a higher
+    average FSA score across all school years?  
+2.  (Descriptive) Which group of students (Aboriginal / Non Aboriginal)
+    has a higher average FSA score across all school years?  
+3.  (Exploratory) Are there trends in average FSA scores for Public or
+    Independent School students between 2007/08 - 2018/19 school
+    years?  
+4.  (Exploratory) Are there trends in average FSA scores for Aboriginal
+    or Non Aboriginal students between 2007/08 - 2018/19 school years?
 
-(Inferential) Is there a difference in how well Aboriginal vs Non
-aboriginal students perform on the FSA?
+**Analysis Plan** To analyze the data, we will produce the following for
+each of the two main inferential research questions:
 
-  - 2 Group Hypothesis Test (mean scores for all tests together, and
-    tests separately):
-      - Null Hypothesis: No difference
-      - Alternative Hypothesis: Difference
-  - Estimate + Confidence intervals of the mean scores for the different
-    groups
+1.  Hypothesis Test for Difference in Means (t-test):
+      - \(H_0\): There is no difference between the mean FSA scores
+        between groups  
+      - \(H_A\): There exists a difference between the mean FSA scores
+        between groups  
+2.  Estimate and Confidence Intervals of mean FSA scores for each group
 
-SELECTED SUBQUESTIONS:
+These analysis methods will be used to look at mean scores for FSA Skill
+types separately (Numeracy, Reading, Writing) for the different groups.
 
-  - Comparing means
+In addition to the methods above, we will also be comparing means of FSA
+scores for each group to answer subquestions.
 
 ### 7\. Data Analysis & Visualizations
 
     ## # A tibble: 16 x 5
     ##    sub_population               public_or_independent   avg `2.5%` `97.5%`
     ##    <chr>                        <chr>                 <dbl>  <dbl>   <dbl>
-    ##  1 ABORIGINAL                   BC Independent School  393.   355.    426.
-    ##  2 ABORIGINAL                   BC Public School       419.   414.    421.
-    ##  3 ALL STUDENTS                 BC Independent School  531.   514.    538.
-    ##  4 ALL STUDENTS                 BC Public School       474.   441.    480.
-    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School  559.   539.    561.
-    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School       466.   421.    493.
-    ##  7 FEMALE                       BC Independent School  543.   520.    569.
-    ##  8 FEMALE                       BC Public School       473.   454.    483.
-    ##  9 MALE                         BC Independent School  551.   544.    569.
-    ## 10 MALE                         BC Public School       480.   473.    501.
-    ## 11 NON ABORIGINAL               BC Independent School  542.   528.    571.
-    ## 12 NON ABORIGINAL               BC Public School       482.   462.    494.
-    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School  531.   512.    521.
-    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School       477.   471.    481.
-    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  440.   385.    487.
-    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       405.   395.    419.
+    ##  1 ABORIGINAL                   BC Independent School  387.   361.    447.
+    ##  2 ABORIGINAL                   BC Public School       415.   407.    428.
+    ##  3 ALL STUDENTS                 BC Independent School  531.   504.    553.
+    ##  4 ALL STUDENTS                 BC Public School       475.   467.    470.
+    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School  551.   555.    568.
+    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School       473.   462.    474.
+    ##  7 FEMALE                       BC Independent School  543.   553.    557.
+    ##  8 FEMALE                       BC Public School       474.   460.    494.
+    ##  9 MALE                         BC Independent School  551.   514.    572.
+    ## 10 MALE                         BC Public School       482.   470.    496.
+    ## 11 NON ABORIGINAL               BC Independent School  542.   494.    570.
+    ## 12 NON ABORIGINAL               BC Public School       482.   459.    502.
+    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School  531.   496.    541.
+    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School       478.   466.    482.
+    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  425.   385.    473.
+    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       385.   399.    408.
 
 ``` r
 bar_plot_numeracy <- ggplot(sum_num, aes(x = sub_population, y = avg))+
@@ -316,7 +340,7 @@ bar_plot_numeracy <- ggplot(sum_num, aes(x = sub_population, y = avg))+
       labs(y = "Average Score",
            x = "Sub_Group",
            fill = "School Type",
-           title = "2007-2018 FSA - Numeracy Test ") +
+           title = "FSA Numeracy Test Scores\n(2007/08 - 2018/19)") +
       theme(legend.position = "bot") +
       coord_flip() +
       theme_bw()
@@ -327,36 +351,39 @@ bar_plot_numeracy
 ![](EDA_files/figure-gfm/7.2.1%20Public%20vs%20Independent%20Bar%20Chart%20-%20Numeracy%20Test%20Results-1.png)<!-- -->
 
 ``` r
-pub_ind_numeracy
+pub_ind_num <- df %>%
+  filter(fsa_skill_code == "Numeracy" & public_or_independent != 'PROVINCE - TOTAL' & data_level == 'SCHOOL LEVEL')
+
+# Makes a boxplot showing the distribution of average Numeracy test scores for each subgroup
+pi_boxplot_numeracy <- ggplot(pub_ind_num, aes(x = public_or_independent, y = score))+
+      geom_boxplot(width = 0.7 , alpha=0.9 , size=0.3, colour="black") +
+      labs(y = "Average Score",
+           x = "Sub Group",
+           title = "FSA Numeracy Test Scores (2007/08 - 2018/19)") +
+      stat_summary(fun.y = mean,
+                   geom = 'point',
+                   aes(shape = 'mean'),
+                   color = 'blue',
+                   size = 3) +
+      scale_shape_manual('', values = c('mean' = 'triangle')) +
+      theme_bw()
+
+pi_boxplot_numeracy
 ```
 
-    ## # A tibble: 16 x 3
-    ## # Groups:   sub_population [8]
-    ##    sub_population               public_or_independent   avg
-    ##    <chr>                        <chr>                 <dbl>
-    ##  1 ABORIGINAL                   BC Independent School  393.
-    ##  2 ABORIGINAL                   BC Public School       419.
-    ##  3 ALL STUDENTS                 BC Independent School  531.
-    ##  4 ALL STUDENTS                 BC Public School       474.
-    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School  559.
-    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School       466.
-    ##  7 FEMALE                       BC Independent School  543.
-    ##  8 FEMALE                       BC Public School       473.
-    ##  9 MALE                         BC Independent School  551.
-    ## 10 MALE                         BC Public School       480.
-    ## 11 NON ABORIGINAL               BC Independent School  542.
-    ## 12 NON ABORIGINAL               BC Public School       482.
-    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School  531.
-    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School       477.
-    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  440.
-    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       405.
+![](EDA_files/figure-gfm/7.2.2.1%20Public%20vs%20Independent%20Boxplot%20Chart%20-%20Numeracy%20Test%20Results-1.png)<!-- -->
 
 ``` r
-ridge_plot <- ggplot(df, aes(x = score, y = sub_population, fill = sub_population)) +  
+#pub_ind_numeracy
+
+ridge_data <- df %>%
+  filter(data_level == 'SCHOOL LEVEL' & public_or_independent != 'PROVINCE - TOTAL' )
+
+ridge_plot <- ggplot(ridge_data, aes(x = score, y = sub_population, fill = sub_population)) +  
            geom_density_ridges(size = 0.5, alpha = 0.7, color = "black", 
                                scale = 2.0, rel_min_height = 0.01, quantile_lines = TRUE, quantiles = 4) +
            coord_cartesian(clip = "off") + # Required to plot top distribution completely
-           labs(title ="2007-2018 FSA Test - BC Schools", 
+           labs(title ="FSA Test Scores By Subgroup\n(2007/08 - 2018/19)", 
                 #subtitle = "(Source: Gapminder Dataset)", 
            x = "Score") +
            #scale_x_continuous(breaks = seq(30, 100, 5)) +
@@ -371,33 +398,33 @@ ridge_plot <- ggplot(df, aes(x = score, y = sub_population, fill = sub_populatio
 ridge_plot + facet_grid(cols = vars(fsa_skill_code))
 ```
 
-    ## Picking joint bandwidth of 7.22
+    ## Picking joint bandwidth of 7.73
 
-    ## Picking joint bandwidth of 5.7
+    ## Picking joint bandwidth of 6.49
 
-    ## Picking joint bandwidth of 0.206
+    ## Picking joint bandwidth of 0.247
 
-![](EDA_files/figure-gfm/7.2.2%20Public%20vs%20Independent%20Ridge%20Plot%20-%20Numeracy%20Test%20Results-1.png)<!-- -->
+![](EDA_files/figure-gfm/7.2.2%20Public%20vs%20Independent%20Ridge%20Plot%20-%20FSA%20Scores%20by%20Skill%20and%20Subgroup-1.png)<!-- -->
 
     ## # A tibble: 16 x 5
     ##    sub_population               public_or_independent   avg `2.5%` `97.5%`
     ##    <chr>                        <chr>                 <dbl>  <dbl>   <dbl>
-    ##  1 ABORIGINAL                   BC Independent School  405.   367.    429.
-    ##  2 ABORIGINAL                   BC Public School       438.   433.    468.
-    ##  3 ALL STUDENTS                 BC Independent School  530.   512.    550.
-    ##  4 ALL STUDENTS                 BC Public School       481.   462.    487.
-    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School  512.   496.    532.
-    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School       447.   432.    467.
-    ##  7 FEMALE                       BC Independent School  550.   521.    564.
-    ##  8 FEMALE                       BC Public School       492.   474.    506.
-    ##  9 MALE                         BC Independent School  532.   516.    559.
-    ## 10 MALE                         BC Public School       474.   468.    478.
-    ## 11 NON ABORIGINAL               BC Independent School  539.   521.    546.
-    ## 12 NON ABORIGINAL               BC Public School       488.   475.    512.
-    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School  531.   507.    544.
-    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School       487.   472.    488.
-    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  471.   444.    504.
-    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       424.   419.    434.
+    ##  1 ABORIGINAL                   BC Independent School  398.   391.    433.
+    ##  2 ABORIGINAL                   BC Public School       435.   420.    452.
+    ##  3 ALL STUDENTS                 BC Independent School  530.   519.    532.
+    ##  4 ALL STUDENTS                 BC Public School       482.   470.    489.
+    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School  510.   493.    533.
+    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School       453.   429.    466.
+    ##  7 FEMALE                       BC Independent School  550.   527.    573.
+    ##  8 FEMALE                       BC Public School       493.   470.    511.
+    ##  9 MALE                         BC Independent School  532.   522.    551.
+    ## 10 MALE                         BC Public School       474.   463.    471.
+    ## 11 NON ABORIGINAL               BC Independent School  539.   534.    557.
+    ## 12 NON ABORIGINAL               BC Public School       488.   479.    500.
+    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School  531.   524.    551.
+    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School       488.   478.    500.
+    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  461.   421.    502.
+    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       409.   387.    425.
 
 ``` r
 bar_plot_reading <- ggplot(sum_read, aes(x = sub_population, y = avg))+
@@ -405,7 +432,7 @@ bar_plot_reading <- ggplot(sum_read, aes(x = sub_population, y = avg))+
       labs(y = "Average Score",
            x = "Sub_Group",
            fill = "School Type",
-           title = "2007-2018 FSA - Reading Test ") +
+           title = "FSA Reading Test Scores\n(2007/08 - 2018/19)") +
       theme(legend.position = "bot") +
       coord_flip() +
       theme_bw()
@@ -415,25 +442,48 @@ bar_plot_reading
 
 ![](EDA_files/figure-gfm/7.2.1%20Public%20vs%20Independent%20Bar%20Chart%20-%20Reading%20Test%20Results-1.png)<!-- -->
 
+``` r
+pub_ind_read <- df %>%
+  filter(fsa_skill_code == "Reading" & public_or_independent != 'PROVINCE - TOTAL' & data_level == 'SCHOOL LEVEL')
+
+# Makes a boxplot showing the distribution of average Reading test scores for each subgroup
+pi_boxplot_reading <- ggplot(pub_ind_read, aes(x = public_or_independent, y = score))+
+      geom_boxplot(width = 0.7 , alpha=0.9 , size=0.3, colour="black") +
+      labs(y = "Average Score",
+           x = "Sub Group",
+           title = "FSA Reading Test Scores (2007/08 - 2018/19)") +
+      stat_summary(fun.y = mean,
+                   geom = 'point',
+                   aes(shape = 'mean'),
+                   color = 'blue',
+                   size = 3) +
+      scale_shape_manual('', values = c('mean' = 'triangle')) +
+      theme_bw()
+
+pi_boxplot_reading
+```
+
+![](EDA_files/figure-gfm/7.2.2%20Public%20vs%20Independent%20Boxplot%20Chart%20-%20Reading%20Test%20Results-1.png)<!-- -->
+
     ## # A tibble: 16 x 5
     ##    sub_population               public_or_independent   avg `2.5%` `97.5%`
     ##    <chr>                        <chr>                 <dbl>  <dbl>   <dbl>
-    ##  1 ABORIGINAL                   BC Independent School  4.28   3.54    5.01
-    ##  2 ABORIGINAL                   BC Public School       5.03   4.24    5.44
-    ##  3 ALL STUDENTS                 BC Independent School  6.98   6.30    7.43
-    ##  4 ALL STUDENTS                 BC Public School       5.91   5.11    6.41
-    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School  6.87   5.75    7.69
-    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School       5.41   4.42    5.76
-    ##  7 FEMALE                       BC Independent School  7.47   6.27    8.08
-    ##  8 FEMALE                       BC Public School       6.28   5.26    6.45
-    ##  9 MALE                         BC Independent School  6.70   5.18    7.17
-    ## 10 MALE                         BC Public School       5.55   4.86    6.25
-    ## 11 NON ABORIGINAL               BC Independent School  7.12   7.22    8.23
-    ## 12 NON ABORIGINAL               BC Public School       6.02   5.73    6.69
-    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School  6.99   5.97    7.47
-    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School       5.97   4.11    6.73
-    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  4.58   3.64    5.40
-    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       4.64   3.80    4.82
+    ##  1 ABORIGINAL                   BC Independent School  4.04   3.63    4.96
+    ##  2 ABORIGINAL                   BC Public School       4.91   4.94    5.66
+    ##  3 ALL STUDENTS                 BC Independent School  6.98   6.02    7.62
+    ##  4 ALL STUDENTS                 BC Public School       5.92   5.16    7.06
+    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School  6.78   6.69    7.36
+    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School       5.45   4.87    5.82
+    ##  7 FEMALE                       BC Independent School  7.46   6.24    8.56
+    ##  8 FEMALE                       BC Public School       6.28   5.34    7.27
+    ##  9 MALE                         BC Independent School  6.70   5.58    7.35
+    ## 10 MALE                         BC Public School       5.55   5.10    6.48
+    ## 11 NON ABORIGINAL               BC Independent School  7.12   6.77    7.96
+    ## 12 NON ABORIGINAL               BC Public School       6.02   5.23    6.51
+    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School  6.98   6.81    8.06
+    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School       5.97   5.64    6.89
+    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  4.24   3.56    5.23
+    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       4.21   4.09    4.89
 
 ``` r
 bar_plot_writing <- ggplot(sum_write, aes(x = sub_population, y = avg))+
@@ -441,7 +491,7 @@ bar_plot_writing <- ggplot(sum_write, aes(x = sub_population, y = avg))+
       labs(y = "Average Score",
            x = "Sub_Group",
            fill = "School Type",
-           title = "2007-2018 FSA - Writing Test ") +
+           title = "FSA Writing Test Scores\n(2007/08 - 2018/19)") +
       theme(legend.position = "bot") +
       coord_flip() +
       theme_bw()
@@ -450,6 +500,29 @@ bar_plot_writing
 ```
 
 ![](EDA_files/figure-gfm/7.3.1%20Public%20vs%20Independent%20Bar%20Chart%20-%20Writing%20Test%20Results-1.png)<!-- -->
+
+``` r
+pub_ind_write <- df %>%
+  filter(fsa_skill_code == "Writing" & public_or_independent != 'PROVINCE - TOTAL' & data_level == 'SCHOOL LEVEL')
+
+# Makes a boxplot showing the distribution of average writing test scores for each subgroup
+pi_boxplot_writing <- ggplot(pub_ind_write, aes(x = public_or_independent, y = score))+
+      geom_boxplot(width = 0.7 , alpha=0.9 , size=0.3, colour="black") +
+      labs(y = "Average Score",
+           x = "Sub Group",
+           title = "FSA Writing Test Scores (2007/08 - 2018/19)") +
+      stat_summary(fun.y = mean,
+                   geom = 'point',
+                   aes(shape = 'mean'),
+                   color = 'blue',
+                   size = 3) +
+      scale_shape_manual('', values = c('mean' = 'triangle')) +
+      theme_bw()
+
+pi_boxplot_writing
+```
+
+![](EDA_files/figure-gfm/7.3.2%20Public%20vs%20Independent%20Boxplot%20Chart%20-%20Writing%20Test%20Results-1.png)<!-- -->
 
 ``` r
 non_ab_numeracy <- df %>%
@@ -468,15 +541,15 @@ sum_ab_num
     ## # A tibble: 2 x 4
     ##   sub_population   avg `2.5%` `97.5%`
     ##   <chr>          <dbl>  <dbl>   <dbl>
-    ## 1 ABORIGINAL      427.   414.    445.
-    ## 2 NON ABORIGINAL  494.   493.    517.
+    ## 1 ABORIGINAL      427.   408.    425.
+    ## 2 NON ABORIGINAL  494.   461.    512.
 
 ``` r
 ab_bar_plot_numeracy <- ggplot(sum_ab_num, aes(x = sub_population, y = avg))+
       geom_col(width = 0.7 , alpha=0.9 , size=0.3, colour="black",position = "dodge") +
       labs(y = "Average Score",
-           x = "Sub_Group",
-           title = "BC Schols 2007-2018 FSA - Numeracy Test ") +
+           x = "Sub Group",
+           title = "FSA Numeracy Test Scores (2007/08 - 2018/19)") +
       theme(legend.position = "bot") +
       theme_bw()
 
@@ -484,6 +557,30 @@ ab_bar_plot_numeracy
 ```
 
 ![](EDA_files/figure-gfm/7.4.1%20aboriginal%20vs%20non-aboriginal%20Bar%20Chart%20-%20Numeracy%20Test%20Results-1.png)<!-- -->
+
+``` r
+# Filters the Aboriginal and Non Aboriginal data subset for only Numeracy test scores
+sub_num <- sub_data %>%
+  filter(fsa_skill_code == 'Numeracy')
+
+# Makes a boxplot showing the distribution of average Numeracy test scores for each subgroup
+ab_boxplot_numeracy <- ggplot(sub_num, aes(x = sub_population, y = score))+
+      geom_boxplot(width = 0.7 , alpha=0.9 , size=0.3, colour="black") +
+      labs(y = "Average Score",
+           x = "Sub Group",
+           title = "FSA Numeracy Test Scores (2007/08 - 2018/19)") +
+      stat_summary(fun.y = mean,
+                   geom = 'point',
+                   aes(shape = 'mean'),
+                   color = 'blue',
+                   size = 3) +
+      scale_shape_manual('', values = c('mean' = 'triangle')) +
+      theme_bw()
+
+ab_boxplot_numeracy
+```
+
+![](EDA_files/figure-gfm/7.4.2%20aboriginal%20vs%20non-aboriginal%20Boxplot%20Chart%20-%20Numeracy%20Test%20Results-1.png)<!-- -->
 
 ``` r
 non_ab_reading <- df %>%
@@ -502,15 +599,15 @@ sum_ab_read
     ## # A tibble: 2 x 4
     ##   sub_population   avg `2.5%` `97.5%`
     ##   <chr>          <dbl>  <dbl>   <dbl>
-    ## 1 ABORIGINAL      445.   430.    440.
-    ## 2 NON ABORIGINAL  498.   458.    520.
+    ## 1 ABORIGINAL      445.   434.    451.
+    ## 2 NON ABORIGINAL  498.   491.    506.
 
 ``` r
 ab_bar_plot_numeracy <- ggplot(sum_ab_read, aes(x = sub_population, y = avg))+
       geom_col(width = 0.7 , alpha=0.9 , size=0.3, colour="black",position = "dodge") +
       labs(y = "Average Score",
-           x = "Sub_Group",
-           title = "BC Schools 2007-2018 FSA - Reading Test ") +
+           x = "Sub Group",
+           title = "FSA Reading Test Scores (2007/08 - 2018/19)") +
       theme(legend.position = "bot") +
       theme_bw()
 
@@ -518,6 +615,30 @@ ab_bar_plot_numeracy
 ```
 
 ![](EDA_files/figure-gfm/7.5.1%20aboriginal%20vs%20non-aboriginal%20Bar%20Chart%20-%20Reading%20Test%20Results-1.png)<!-- -->
+
+``` r
+# Filters the Aboriginal and Non Aboriginal data subset for only Reading test scores
+sub_read <- sub_data %>%
+  filter(fsa_skill_code == 'Reading')
+
+# Makes a boxplot showing the distribution of average Reading test scores for each subgroup
+ab_boxplot_reading <- ggplot(sub_read, aes(x = sub_population, y = score))+
+      geom_boxplot(width = 0.7 , alpha=0.9 , size=0.3, colour="black") +
+      labs(y = "Average Score",
+           x = "Sub Group",
+           title = "FSA Reading Test Scores (2007/08 - 2018/19)") +
+      stat_summary(fun.y = mean,
+                   geom = 'point',
+                   aes(shape = 'mean'),
+                   color = 'blue',
+                   size = 3) +
+      scale_shape_manual('', values = c('mean' = 'triangle')) +
+      theme_bw()
+
+ab_boxplot_reading
+```
+
+![](EDA_files/figure-gfm/7.5.2%20aboriginal%20vs%20non-aboriginal%20Boxplot%20Chart%20-%20Reading%20Test%20Results-1.png)<!-- -->
 
 ``` r
 non_ab_writing <- df %>%
@@ -536,8 +657,8 @@ sum_ab_write
     ## # A tibble: 2 x 4
     ##   sub_population   avg `2.5%` `97.5%`
     ##   <chr>          <dbl>  <dbl>   <dbl>
-    ## 1 ABORIGINAL      5.32   4.40    5.49
-    ## 2 NON ABORIGINAL  6.29   6.18    6.64
+    ## 1 ABORIGINAL      5.32   4.27    5.67
+    ## 2 NON ABORIGINAL  6.29   5.33    7.10
 
 ``` r
 ab_bar_plot_numeracy <- ggplot(sum_ab_write, aes(x = sub_population, y = avg))+
@@ -551,6 +672,39 @@ ab_bar_plot_numeracy <- ggplot(sum_ab_write, aes(x = sub_population, y = avg))+
 ab_bar_plot_numeracy
 ```
 
-![](EDA_files/figure-gfm/7.6.1%20aboriginal%20vs%20non-aboriginal%20Bar%20Chart%20-%20WritingTest%20Results-1.png)<!-- -->
+![](EDA_files/figure-gfm/7.6.1%20aboriginal%20vs%20non-aboriginal%20Bar%20Chart%20-%20Writing%20Test%20Results-1.png)<!-- -->
+
+``` r
+# Filters the Aboriginal and Non Aboriginal data subset for only Writing test scores
+sub_write <- sub_data %>%
+  filter(fsa_skill_code == 'Writing')
+
+# Makes a boxplot showing the distribution of average Writing test scores for each subgroup
+ab_boxplot_writing <- ggplot(sub_write, aes(x = sub_population, y = score))+
+      geom_boxplot(width = 0.7 , alpha=0.9 , size=0.3, colour="black") +
+      labs(y = "Average Score",
+           x = "Sub Group",
+           title = "FSA Writing Test Scores (2007/08 - 2018/19)") +
+      stat_summary(fun.y = mean,
+                   geom = 'point',
+                   aes(shape = 'mean'),
+                   color = 'blue',
+                   size = 3) +
+      scale_shape_manual('', values = c('mean' = 'triangle')) +
+      theme_bw()
+
+ab_boxplot_writing
+```
+
+![](EDA_files/figure-gfm/7.6.2%20aboriginal%20vs%20non-aboriginal%20Boxplot%20Chart%20-%20Writing%20Test%20Results-1.png)<!-- -->
 
 ### 8\. Summary & Conclusion
+
+Initial findings include: \* There appears to be significant differences
+in the FSA test scores between Aboriginal and Non Aboriginal students
+across all tested skills. \* There are a lot of outlier points when
+comparing the differences in the FSA test scores between Public and
+Independent schools.
+
+A full summary and conclusion will be written during the reporting stage
+of this project.

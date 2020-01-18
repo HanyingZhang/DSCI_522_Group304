@@ -43,7 +43,7 @@ head(rawdata_2007_2016)
 df_07_16 <- rawdata_2007_2016 %>%
   clean_names() %>%
   filter(score != 'Msk') %>%
-  select(school_year, public_or_independent, sub_population, fsa_skill_code, grade, number_expected_writers, number_writers, score) %>%
+  select(school_year, data_level, public_or_independent, sub_population, fsa_skill_code, grade, number_expected_writers, number_writers, score) %>%
   mutate(score = as.numeric(score),
          number_expected_writers = as.numeric(number_expected_writers),
          number_writers = as.numeric(number_writers))
@@ -51,7 +51,7 @@ df_07_16 <- rawdata_2007_2016 %>%
 df_17_18 <- rawdata_2017_2018 %>%
   clean_names() %>%
   filter(score != 'Msk') %>%
-  select(school_year, public_or_independent, sub_population, fsa_skill_code, grade, number_expected_writers, number_writers, score) %>%
+  select(school_year, data_level, public_or_independent, sub_population, fsa_skill_code, grade, number_expected_writers, number_writers, score) %>%
   mutate(score = as.numeric(score),
          number_expected_writers = as.numeric(number_expected_writers),
          number_writers = as.numeric(number_writers),
@@ -74,6 +74,8 @@ str(df)
 cat("The dataframe columns in dataframe for 2007-2016 are", colnames(df), "\n\n")
 
 cat("The SCHOOL_YEAR contains", unique(df$school_year), "\n\n")
+
+cat("The DATA_LEVEL contains", unique(df$data_level), "\n\n")
 
 cat("The PUBLIC_OR_INDEPENDENT contains", unique(df$public_or_independent), "\n\n")
 
@@ -139,34 +141,42 @@ non_eng_lang_learner<- subgroup('NON ENGLISH LANGUAGE LEARNER')
 special <- subgroup('SPECIAL NEEDS NO GIFTED') 
 ```
 
+```{r 5.2 Aboriginal and Non Aboriginal Subgroup}
+# Stacks the Aboriginal and Non Aboriginal subgroups into one dataframe
+sub_data <- bind_rows(aboriginal, non_aboriginal)
+
+# Filters the dataframe for 'Province - Total' since we don't want to double-count data
+sub_data <- sub_data %>%
+  filter(public_or_independent == 'PROVINCE - TOTAL')
+```
 
 ### 6. Research Questions
 
-- **Selected Research Questions**
+This project will attempt to answer two main inferential research questions:  
 
-**Question 1**
+1. Is there a difference in how well BC Public School vs Independent School students perform on the FSA exam?  
+2. Is there a difference in how well Aboriginal vs Non Aboriginal students perform on the FSA exam?
 
-(Inferential) Is there a difference in how well Public school students vs Independent school students perform on the FSA?
+*Note:* Though the project assignment requires only one inferential/predictive research question, since these are relatively simple questions we've chosen two.
 
-- 2 Group Hypothesis Test (mean scores for all tests together, and tests separately): 
-    - Null Hypothesis: No difference
-    - Alternative Hypothesis: Difference
-    
-- Estimate + Confidence intervals of the mean scores for the different groups
+**Subquestions to the main research questions include:**  
 
-**Question 2**
+1. (Descriptive) Which school type (Public / Independent) has a higher average FSA score across all school years?  
+2. (Descriptive) Which group of students (Aboriginal / Non Aboriginal) has a higher average FSA score across all school years?  
+3. (Exploratory) Are there trends in average FSA scores for Public or Independent School students between 2007/08 - 2018/19 school years?  
+4. (Exploratory) Are there trends in average FSA scores for Aboriginal or Non Aboriginal students between 2007/08 - 2018/19 school years?  
 
-(Inferential) Is there a difference in how well Aboriginal vs Non aboriginal students perform on the FSA?
+**Analysis Plan**
+To analyze the data, we will produce the following for each of the two main inferential research questions:  
 
-- 2 Group Hypothesis Test (mean scores for all tests together, and tests separately): 
-    - Null Hypothesis: No difference
-    - Alternative Hypothesis: Difference
-    
-- Estimate + Confidence intervals of the mean scores for the different groups
+1. Hypothesis Test for Difference in Means (t-test):  
+    * $H_0$: There is no difference between the mean FSA scores between groups  
+    * $H_A$: There exists a difference between the mean FSA scores between groups  
+2. Estimate and Confidence Intervals of mean FSA scores for each group
 
-SELECTED SUBQUESTIONS:
+These analysis methods will be used to look at mean scores for FSA Skill types separately (Numeracy, Reading, Writing) for the different groups.
 
-- Comparing means
+In addition to the methods above, we will also be comparing means of FSA scores for each group to answer subquestions.
 
 ### 7. Data Analysis & Visualizations
 ```{r 7.0 ci function, echo = FALSE}
@@ -197,7 +207,7 @@ ci_ind <- function(df, skill, ind){
 
 ```{r 7.1.1 public vs independent in different subgroups in numeracy, echo=FALSE}
 pub_ind_numeracy <- df %>%
-  filter(fsa_skill_code == "Numeracy" & public_or_independent != 'PROVINCE - TOTAL') %>%
+  filter(fsa_skill_code == "Numeracy" & public_or_independent != 'PROVINCE - TOTAL' & data_level == 'SCHOOL LEVEL') %>%
   group_by(sub_population, public_or_independent) %>%
   summarise(avg = mean(score))
 
@@ -244,6 +254,7 @@ sum_num <- tibble("sub_population" = pub_ind_numeracy$sub_population,
 sum_num
 ```
 
+
 ```{r 7.2.1 Public vs Independent Bar Chart - Numeracy Test Results}
 
 bar_plot_numeracy <- ggplot(sum_num, aes(x = sub_population, y = avg))+
@@ -251,7 +262,7 @@ bar_plot_numeracy <- ggplot(sum_num, aes(x = sub_population, y = avg))+
       labs(y = "Average Score",
            x = "Sub_Group",
            fill = "School Type",
-           title = "2007-2018 FSA - Numeracy Test ") +
+           title = "FSA Numeracy Test Scores\n(2007/08 - 2018/19)") +
       theme(legend.position = "bot") +
       coord_flip() +
       theme_bw()
@@ -260,19 +271,41 @@ bar_plot_numeracy
 
 ```
 
-```{r 7.2.2 Public vs Independent Ridge Plot - Numeracy Test Results}
+```{r 7.2.2.1 Public vs Independent  Boxplot Chart - Numeracy Test Results}
+pub_ind_num <- df %>%
+  filter(fsa_skill_code == "Numeracy" & public_or_independent != 'PROVINCE - TOTAL' & data_level == 'SCHOOL LEVEL')
 
-pub_ind_numeracy
+# Makes a boxplot showing the distribution of average Numeracy test scores for each subgroup
+pi_boxplot_numeracy <- ggplot(pub_ind_num, aes(x = public_or_independent, y = score))+
+      geom_boxplot(width = 0.7 , alpha=0.9 , size=0.3, colour="black") +
+      labs(y = "Average Score",
+           x = "Sub Group",
+           title = "FSA Numeracy Test Scores (2007/08 - 2018/19)") +
+      stat_summary(fun.y = mean,
+                   geom = 'point',
+                   aes(shape = 'mean'),
+                   color = 'blue',
+                   size = 3) +
+      scale_shape_manual('', values = c('mean' = 'triangle')) +
+      theme_bw()
 
+pi_boxplot_numeracy
 
-ridge_plot <- ggplot(df, aes(x = score, y = sub_population, fill = sub_population)) +  
+```
+
+```{r 7.2.2 Public vs Independent Ridge Plot - FSA Scores by Skill and Subgroup}
+
+#pub_ind_numeracy
+
+ridge_data <- df %>%
+  filter(data_level == 'SCHOOL LEVEL' & public_or_independent != 'PROVINCE - TOTAL' )
+
+ridge_plot <- ggplot(ridge_data, aes(x = score, y = sub_population, fill = sub_population)) +  
            geom_density_ridges(size = 0.5, alpha = 0.7, color = "black", 
                                scale = 2.0, rel_min_height = 0.01, quantile_lines = TRUE, quantiles = 4) +
            coord_cartesian(clip = "off") + # Required to plot top distribution completely
-           labs(title ="2007-2018 FSA Test - BC Schools", 
-                #subtitle = "(Source: Gapminder Dataset)", 
+           labs(title ="FSA Test Scores By Subgroup\n(2007/08 - 2018/19)", 
            x = "Score") +
-           #scale_x_continuous(breaks = seq(30, 100, 5)) +
            theme_ridges() + 
            theme(legend.position = "none") +
            theme(axis.text.x = element_text(angle = 70, hjust = 1, size = 10, face = "bold"),
@@ -288,7 +321,7 @@ ridge_plot + facet_grid(cols = vars(fsa_skill_code))
 
 ```{r 7.2 public vs independent in different subgroups in reading, echo = FALSE}
 pub_ind_reading <- df %>%
-  filter(fsa_skill_code == "Reading" & public_or_independent != 'PROVINCE - TOTAL') %>%
+  filter(fsa_skill_code == "Reading" & public_or_independent != 'PROVINCE - TOTAL' & data_level == 'SCHOOL LEVEL') %>%
   group_by(sub_population, public_or_independent) %>%
   summarise(avg = mean(score))
 
@@ -343,7 +376,7 @@ bar_plot_reading <- ggplot(sum_read, aes(x = sub_population, y = avg))+
       labs(y = "Average Score",
            x = "Sub_Group",
            fill = "School Type",
-           title = "2007-2018 FSA - Reading Test ") +
+           title = "FSA Reading Test Scores\n(2007/08 - 2018/19)") +
       theme(legend.position = "bot") +
       coord_flip() +
       theme_bw()
@@ -353,10 +386,31 @@ bar_plot_reading
 ```
 
 
+```{r 7.2.2.0 Public vs Independent  Boxplot Chart - Reading Test Results}
+pub_ind_read <- df %>%
+  filter(fsa_skill_code == "Reading" & public_or_independent != 'PROVINCE - TOTAL' & data_level == 'SCHOOL LEVEL')
+
+# Makes a boxplot showing the distribution of average Reading test scores for each subgroup
+pi_boxplot_reading <- ggplot(pub_ind_read, aes(x = public_or_independent, y = score))+
+      geom_boxplot(width = 0.7 , alpha=0.9 , size=0.3, colour="black") +
+      labs(y = "Average Score",
+           x = "Sub Group",
+           title = "FSA Reading Test Scores (2007/08 - 2018/19)") +
+      stat_summary(fun.y = mean,
+                   geom = 'point',
+                   aes(shape = 'mean'),
+                   color = 'blue',
+                   size = 3) +
+      scale_shape_manual('', values = c('mean' = 'triangle')) +
+      theme_bw()
+
+pi_boxplot_reading
+
+```
 
 ```{r 7.3 public vs independent in different subgroups in writing, echo = FALSE}
 pub_ind_writing <- df %>%
-  filter(fsa_skill_code == "Writing" & public_or_independent != 'PROVINCE - TOTAL') %>%
+  filter(fsa_skill_code == "Writing" & public_or_independent != 'PROVINCE - TOTAL' & data_level == 'SCHOOL LEVEL') %>%
   group_by(sub_population, public_or_independent) %>%
   summarise(avg = mean(score))
 
@@ -410,7 +464,7 @@ bar_plot_writing <- ggplot(sum_write, aes(x = sub_population, y = avg))+
       labs(y = "Average Score",
            x = "Sub_Group",
            fill = "School Type",
-           title = "2007-2018 FSA - Writing Test ") +
+           title = "FSA Writing Test Scores\n(2007/08 - 2018/19)") +
       theme(legend.position = "bot") +
       coord_flip() +
       theme_bw()
@@ -419,7 +473,27 @@ bar_plot_writing
 
 ```
 
+```{r 7.3.2 Public vs Independent  Boxplot Chart - Writing Test Results}
+pub_ind_write <- df %>%
+  filter(fsa_skill_code == "Writing" & public_or_independent != 'PROVINCE - TOTAL' & data_level == 'SCHOOL LEVEL')
 
+# Makes a boxplot showing the distribution of average writing test scores for each subgroup
+pi_boxplot_writing <- ggplot(pub_ind_write, aes(x = public_or_independent, y = score))+
+      geom_boxplot(width = 0.7 , alpha=0.9 , size=0.3, colour="black") +
+      labs(y = "Average Score",
+           x = "Sub Group",
+           title = "FSA Writing Test Scores (2007/08 - 2018/19)") +
+      stat_summary(fun.y = mean,
+                   geom = 'point',
+                   aes(shape = 'mean'),
+                   color = 'blue',
+                   size = 3) +
+      scale_shape_manual('', values = c('mean' = 'triangle')) +
+      theme_bw()
+
+pi_boxplot_writing
+
+```
 
 ```{r 7.4 aboriginal vs non-aboriginal in numeracy}
 non_ab_numeracy <- df %>%
@@ -441,8 +515,8 @@ sum_ab_num
 ab_bar_plot_numeracy <- ggplot(sum_ab_num, aes(x = sub_population, y = avg))+
       geom_col(width = 0.7 , alpha=0.9 , size=0.3, colour="black",position = "dodge") +
       labs(y = "Average Score",
-           x = "Sub_Group",
-           title = "BC Schols 2007-2018 FSA - Numeracy Test ") +
+           x = "Sub Group",
+           title = "FSA Numeracy Test Scores (2007/08 - 2018/19)") +
       theme(legend.position = "bot") +
       theme_bw()
 
@@ -450,6 +524,29 @@ ab_bar_plot_numeracy
 
 ```
 
+```{r 7.4.2 aboriginal vs non-aboriginal  Boxplot Chart - Numeracy Test Results}
+
+# Filters the Aboriginal and Non Aboriginal data subset for only Numeracy test scores
+sub_num <- sub_data %>%
+  filter(fsa_skill_code == 'Numeracy')
+
+# Makes a boxplot showing the distribution of average Numeracy test scores for each subgroup
+ab_boxplot_numeracy <- ggplot(sub_num, aes(x = sub_population, y = score))+
+      geom_boxplot(width = 0.7 , alpha=0.9 , size=0.3, colour="black") +
+      labs(y = "Average Score",
+           x = "Sub Group",
+           title = "FSA Numeracy Test Scores (2007/08 - 2018/19)") +
+      stat_summary(fun.y = mean,
+                   geom = 'point',
+                   aes(shape = 'mean'),
+                   color = 'blue',
+                   size = 3) +
+      scale_shape_manual('', values = c('mean' = 'triangle')) +
+      theme_bw()
+
+ab_boxplot_numeracy
+
+```
 
 ```{r 7.5 aboriginal vs non-aboriginal in reading}
 non_ab_reading <- df %>%
@@ -471,14 +568,37 @@ sum_ab_read
 ab_bar_plot_numeracy <- ggplot(sum_ab_read, aes(x = sub_population, y = avg))+
       geom_col(width = 0.7 , alpha=0.9 , size=0.3, colour="black",position = "dodge") +
       labs(y = "Average Score",
-           x = "Sub_Group",
-           title = "BC Schools 2007-2018 FSA - Reading Test ") +
+           x = "Sub Group",
+           title = "FSA Reading Test Scores (2007/08 - 2018/19)") +
       theme(legend.position = "bot") +
       theme_bw()
 
 ab_bar_plot_numeracy
 ```
 
+```{r 7.5.2 aboriginal vs non-aboriginal  Boxplot Chart - Reading Test Results}
+
+# Filters the Aboriginal and Non Aboriginal data subset for only Reading test scores
+sub_read <- sub_data %>%
+  filter(fsa_skill_code == 'Reading')
+
+# Makes a boxplot showing the distribution of average Reading test scores for each subgroup
+ab_boxplot_reading <- ggplot(sub_read, aes(x = sub_population, y = score))+
+      geom_boxplot(width = 0.7 , alpha=0.9 , size=0.3, colour="black") +
+      labs(y = "Average Score",
+           x = "Sub Group",
+           title = "FSA Reading Test Scores (2007/08 - 2018/19)") +
+      stat_summary(fun.y = mean,
+                   geom = 'point',
+                   aes(shape = 'mean'),
+                   color = 'blue',
+                   size = 3) +
+      scale_shape_manual('', values = c('mean' = 'triangle')) +
+      theme_bw()
+
+ab_boxplot_reading
+
+```
 
 ```{r 7.6 aboriginal vs non-aboriginal in writing}
 non_ab_writing <- df %>%
@@ -494,13 +614,13 @@ sum_ab_write <- tibble("sub_population" = non_ab_writing$sub_population,
 sum_ab_write
 ```
 
-```{r 7.6.1 aboriginal vs non-aboriginal Bar Chart - WritingTest Results}
+```{r 7.6.1 aboriginal vs non-aboriginal Bar Chart - Writing Test Results}
 
 ab_bar_plot_numeracy <- ggplot(sum_ab_write, aes(x = sub_population, y = avg))+
       geom_col(width = 0.7 , alpha=0.9 , size=0.3, colour="black",position = "dodge") +
       labs(y = "Average Score",
            x = "Sub_Group",
-           title = "BC Schools 2007-2018 FSA - Reading Test ") +
+           title = "FSA Reading Test Scores (2007/08 - 2018/19)") +
       theme(legend.position = "bot") +
       theme_bw()
 
@@ -508,8 +628,34 @@ ab_bar_plot_numeracy
 
 ```
 
+```{r 7.6.2 aboriginal vs non-aboriginal  Boxplot Chart - Writing Test Results}
 
+# Filters the Aboriginal and Non Aboriginal data subset for only Writing test scores
+sub_write <- sub_data %>%
+  filter(fsa_skill_code == 'Writing')
+
+# Makes a boxplot showing the distribution of average Writing test scores for each subgroup
+ab_boxplot_writing <- ggplot(sub_write, aes(x = sub_population, y = score))+
+      geom_boxplot(width = 0.7 , alpha=0.9 , size=0.3, colour="black") +
+      labs(y = "Average Score",
+           x = "Sub Group",
+           title = "FSA Writing Test Scores (2007/08 - 2018/19)") +
+      stat_summary(fun.y = mean,
+                   geom = 'point',
+                   aes(shape = 'mean'),
+                   color = 'blue',
+                   size = 3) +
+      scale_shape_manual('', values = c('mean' = 'triangle')) +
+      theme_bw()
+
+ab_boxplot_writing
+
+```
 
 ### 8. Summary & Conclusion
 
-This section will be completed after the actual project analysis is completed.
+Initial findings include:
+* There appears to be significant differences in the FSA test scores between Aboriginal and Non Aboriginal students across all tested skills.
+* There are a lot of outlier points when comparing the differences in the FSA test scores between Public and Independent schools.
+
+A full summary and conclusion will be written during the reporting stage of this project.

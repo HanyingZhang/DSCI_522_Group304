@@ -76,6 +76,10 @@ The Summary Statistics Table will give us a sense of whether there might be sign
 
 The Bar Charts will provide a simple way to gauge if our analyses makes sense (ex. if a bar chart shows that Aboriginal students' writing scores are higher than Non Aboriginal students' writing scores, then we know our analysis should not say the opposite).
 
+The working EDA file which contains Summary Statistic Tables and Bar Charts can be found in the src folder as [src/EDA.Rmd](https://github.com/UBC-MDS/DSCI_522_Group304/blob/master/src/EDA.Rmd) or [src/EDA.md](https://github.com/UBC-MDS/DSCI_522_Group304/blob/master/src/EDA.md).
+
+*Note:* Though exploratory data analyses typically don't include boxplots, after we made some exploratory charts we started looking at boxplots as well and saved them in the same working EDA file.
+
 ### REPORTING 
 To report project findings, we will share the results of the analyses using the following visual aids:
 

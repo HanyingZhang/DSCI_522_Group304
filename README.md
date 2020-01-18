@@ -60,7 +60,7 @@ To analyze the data, we will produce the following for each of the two main infe
     * $H_A$: There exists a difference between the mean FSA scores between groups  
 2. Estimate and Confidence Intervals of mean FSA scores for each group
 
-These analysis methods will be used to look at mean scores for all FSA Skill types together as well as separately (Numeracy, Reading, Writing) for the different groups.
+These analysis methods will be used to look at mean scores for FSA Skill types separately (Numeracy, Reading, Writing) for the different groups.
 
 In addition to the methods above, we will also be comparing means of FSA scores for each group to answer subquestions.
 

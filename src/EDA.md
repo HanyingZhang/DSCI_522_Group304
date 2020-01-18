@@ -16,160 +16,184 @@ Analytics](https://catalogue.data.gov.bc.ca/dataset/bc-schools-foundation-skills
 Assessments in Numeracy, Reading and Writing from 2007/2008 to
 2018/2019.
 
-**Dataset Last Modified:**
-2019-02-08
+**Dataset Last Modified:** 2019-02-08
 
 ### 2\. Load the dataset
 
 ``` r
-rawdata_2007_2016 <- read.csv("https://catalogue.data.gov.bc.ca/dataset/5554165d-e365-422f-bf85-4f6e4c9167dc/resource/97c6cbf7-f529-464a-b771-9719855b86f6/download/fsa.csv")
-
-rawdata_2017_2018 <- read.csv("https://catalogue.data.gov.bc.ca/dataset/5554165d-e365-422f-bf85-4f6e4c9167dc/resource/bcb547f0-8ba7-451f-9e11-10524f4d57a0/download/foundation-skills-assessment-2017-18_to_2018-19.csv")
+rawdata_2007_2016 <- read_csv('../data/fsa_2007-2016.csv')
 ```
+
+    ## Parsed with column specification:
+    ## cols(
+    ##   SCHOOL_YEAR = col_character(),
+    ##   DATA_LEVEL = col_character(),
+    ##   PUBLIC_OR_INDEPENDENT = col_character(),
+    ##   DISTRICT_NUMBER = col_character(),
+    ##   DISTRICT_NAME = col_character(),
+    ##   SCHOOL_NUMBER = col_logical(),
+    ##   SCHOOL_NAME = col_logical(),
+    ##   SUB_POPULATION = col_character(),
+    ##   FSA_SKILL_CODE = col_character(),
+    ##   GRADE = col_character(),
+    ##   NUMBER_EXPECTED_WRITERS = col_character(),
+    ##   NUMBER_WRITERS = col_character(),
+    ##   NUMBER_UNKNOWN = col_character(),
+    ##   NUMBER_BELOW = col_character(),
+    ##   NUMBER_MEETING = col_character(),
+    ##   NUMBER_EXCEEDING = col_character(),
+    ##   SCORE = col_character()
+    ## )
+
+    ## Warning: 1021388 parsing failures.
+    ##  row           col           expected                    actual                        file
+    ## 4972 SCHOOL_NUMBER 1/0/T/F/TRUE/FALSE 00501007                  '../data/fsa_2007-2016.csv'
+    ## 4972 SCHOOL_NAME   1/0/T/F/TRUE/FALSE Jaffray Elem-Jr Secondary '../data/fsa_2007-2016.csv'
+    ## 4973 SCHOOL_NUMBER 1/0/T/F/TRUE/FALSE 00501007                  '../data/fsa_2007-2016.csv'
+    ## 4973 SCHOOL_NAME   1/0/T/F/TRUE/FALSE Jaffray Elem-Jr Secondary '../data/fsa_2007-2016.csv'
+    ## 4974 SCHOOL_NUMBER 1/0/T/F/TRUE/FALSE 00501007                  '../data/fsa_2007-2016.csv'
+    ## .... ............. .................. ......................... ...........................
+    ## See problems(...) for more details.
+
+``` r
+rawdata_2017_2018 <- read_csv('../data/fsa_2017-2018.csv')
+```
+
+    ## Parsed with column specification:
+    ## cols(
+    ##   SCHOOL_YEAR = col_character(),
+    ##   DATA_LEVEL = col_character(),
+    ##   PUBLIC_OR_INDEPENDENT = col_character(),
+    ##   DISTRICT_NUMBER = col_character(),
+    ##   DISTRICT_NAME = col_character(),
+    ##   SCHOOL_NUMBER = col_character(),
+    ##   SCHOOL_NAME = col_character(),
+    ##   SUB_POPULATION = col_character(),
+    ##   GRADE = col_character(),
+    ##   FSA_SKILL_CODE = col_character(),
+    ##   NUMBER_EXPECTED_WRITERS = col_character(),
+    ##   NUMBER_WRITERS = col_character(),
+    ##   NUMBER_UNKNOWN = col_character(),
+    ##   NUMBER_EMERGING = col_character(),
+    ##   NUMBER_ONTRACK = col_character(),
+    ##   NUMBER_EXTENDING = col_character(),
+    ##   SCORE = col_character()
+    ## )
+
+``` r
+head(rawdata_2007_2016)
+```
+
+    ## # A tibble: 6 x 17
+    ##   SCHOOL_YEAR DATA_LEVEL PUBLIC_OR_INDEP… DISTRICT_NUMBER DISTRICT_NAME
+    ##   <chr>       <chr>      <chr>            <chr>           <chr>        
+    ## 1 2007/2008   PROVINCE … PROVINCE - TOTAL <NA>            <NA>         
+    ## 2 2007/2008   PROVINCE … PROVINCE - TOTAL <NA>            <NA>         
+    ## 3 2007/2008   PROVINCE … PROVINCE - TOTAL <NA>            <NA>         
+    ## 4 2007/2008   PROVINCE … PROVINCE - TOTAL <NA>            <NA>         
+    ## 5 2007/2008   PROVINCE … PROVINCE - TOTAL <NA>            <NA>         
+    ## 6 2007/2008   PROVINCE … PROVINCE - TOTAL <NA>            <NA>         
+    ## # … with 12 more variables: SCHOOL_NUMBER <lgl>, SCHOOL_NAME <lgl>,
+    ## #   SUB_POPULATION <chr>, FSA_SKILL_CODE <chr>, GRADE <chr>,
+    ## #   NUMBER_EXPECTED_WRITERS <chr>, NUMBER_WRITERS <chr>,
+    ## #   NUMBER_UNKNOWN <chr>, NUMBER_BELOW <chr>, NUMBER_MEETING <chr>,
+    ## #   NUMBER_EXCEEDING <chr>, SCORE <chr>
+
+``` r
+df_07_16 <- rawdata_2007_2016 %>%
+  clean_names() %>%
+  filter(score != 'Msk') %>%
+  select(school_year, public_or_independent, sub_population, fsa_skill_code, grade, number_expected_writers, number_writers, score) %>%
+  mutate(score = as.numeric(score),
+         number_expected_writers = as.numeric(number_expected_writers),
+         number_writers = as.numeric(number_writers))
+
+df_17_18 <- rawdata_2017_2018 %>%
+  clean_names() %>%
+  filter(score != 'Msk') %>%
+  select(school_year, public_or_independent, sub_population, fsa_skill_code, grade, number_expected_writers, number_writers, score) %>%
+  mutate(score = as.numeric(score),
+         number_expected_writers = as.numeric(number_expected_writers),
+         number_writers = as.numeric(number_writers),
+         public_or_independent = case_when(public_or_independent == "BC PUBLIC SCHOOL" ~ "BC Public School",
+                                           public_or_independent == "BC INDEPENDENT SCHOOL" ~ "BC Independent School",
+                                           public_or_independent == "PROVINCE-TOTAL" ~ "PROVINCE - TOTAL",
+                                           TRUE ~ public_or_independent))
+         
+df <- bind_rows(df_07_16, df_17_18)
+
+head(df)
+```
+
+    ## # A tibble: 6 x 8
+    ##   school_year public_or_indep… sub_population fsa_skill_code grade
+    ##   <chr>       <chr>            <chr>          <chr>          <chr>
+    ## 1 2007/2008   PROVINCE - TOTAL ALL STUDENTS   Numeracy       04   
+    ## 2 2007/2008   PROVINCE - TOTAL FEMALE         Numeracy       04   
+    ## 3 2007/2008   PROVINCE - TOTAL MALE           Numeracy       04   
+    ## 4 2007/2008   PROVINCE - TOTAL ABORIGINAL     Numeracy       04   
+    ## 5 2007/2008   PROVINCE - TOTAL NON ABORIGINAL Numeracy       04   
+    ## 6 2007/2008   PROVINCE - TOTAL ENGLISH LANGU… Numeracy       04   
+    ## # … with 3 more variables: number_expected_writers <dbl>,
+    ## #   number_writers <dbl>, score <dbl>
 
 ### 3\. Explore the dataset
 
 ``` r
-str(rawdata_2007_2016)
+str(df)
 ```
 
-    ## 'data.frame':    540451 obs. of  17 variables:
-    ##  $ SCHOOL_YEAR            : Factor w/ 10 levels "2007/2008","2008/2009",..: 1 1 1 1 1 1 1 1 2 2 ...
-    ##  $ DATA_LEVEL             : Factor w/ 3 levels "DISTRICT LEVEL",..: 2 2 2 2 2 2 2 2 2 2 ...
-    ##  $ PUBLIC_OR_INDEPENDENT  : Factor w/ 3 levels "BC Independent School",..: 3 3 3 3 3 3 3 3 3 3 ...
-    ##  $ DISTRICT_NUMBER        : int  NA NA NA NA NA NA NA NA NA NA ...
-    ##  $ DISTRICT_NAME          : Factor w/ 61 levels "","Abbotsford",..: 1 1 1 1 1 1 1 1 1 1 ...
-    ##  $ SCHOOL_NUMBER          : int  NA NA NA NA NA NA NA NA NA NA ...
-    ##  $ SCHOOL_NAME            : Factor w/ 1875 levels "","?A'q'amnik Primary School",..: 1 1 1 1 1 1 1 1 1 1 ...
-    ##  $ SUB_POPULATION         : Factor w/ 8 levels "ABORIGINAL","ALL STUDENTS",..: 2 4 5 1 6 3 7 8 2 4 ...
-    ##  $ FSA_SKILL_CODE         : Factor w/ 3 levels "Numeracy","Reading",..: 1 1 1 1 1 1 1 1 1 1 ...
-    ##  $ GRADE                  : int  4 4 4 4 4 4 4 4 4 4 ...
-    ##  $ NUMBER_EXPECTED_WRITERS: Factor w/ 1962 levels "10","100","1001",..: 1260 658 696 1502 1140 1777 1078 661 1249 642 ...
-    ##  $ NUMBER_WRITERS         : Factor w/ 3059 levels "-","1","10","100",..: 2041 989 1001 2298 1825 2683 1760 557 1909 844 ...
-    ##  $ NUMBER_UNKNOWN         : Factor w/ 1685 levels "0","1","10","100",..: 849 368 478 1427 676 207 561 1271 1364 598 ...
-    ##  $ NUMBER_BELOW           : Factor w/ 1506 levels "-","0","1","10",..: 1471 923 902 332 1334 402 1307 1269 1379 769 ...
-    ##  $ NUMBER_MEETING         : Factor w/ 2615 levels "-","0","1","10",..: 1397 442 403 1462 1228 1858 1161 2369 1316 350 ...
-    ##  $ NUMBER_EXCEEDING       : Factor w/ 1253 levels "-","0","1","10",..: 998 428 584 408 962 1123 897 1194 941 379 ...
-    ##  $ SCORE                  : Factor w/ 99331 levels "",".09091",".55556",..: 46069 43421 48651 17745 50356 32490 48759 14261 48945 45897 ...
+    ## Classes 'spec_tbl_df', 'tbl_df', 'tbl' and 'data.frame': 361902 obs. of  8 variables:
+    ##  $ school_year            : chr  "2007/2008" "2007/2008" "2007/2008" "2007/2008" ...
+    ##  $ public_or_independent  : chr  "PROVINCE - TOTAL" "PROVINCE - TOTAL" "PROVINCE - TOTAL" "PROVINCE - TOTAL" ...
+    ##  $ sub_population         : chr  "ALL STUDENTS" "FEMALE" "MALE" "ABORIGINAL" ...
+    ##  $ fsa_skill_code         : chr  "Numeracy" "Numeracy" "Numeracy" "Numeracy" ...
+    ##  $ grade                  : chr  "04" "04" "04" "04" ...
+    ##  $ number_expected_writers: num  44500 21884 22616 5549 38951 ...
+    ##  $ number_writers         : num  40336 20108 20228 4819 35517 ...
+    ##  $ score                  : num  487 483 491 440 493 ...
 
 ``` r
-cat("The dataframe columns in dataframe for 2007-2016 are", colnames(rawdata_2007_2016), "\n\n")
+cat("The dataframe columns in dataframe for 2007-2016 are", colnames(df), "\n\n")
 ```
 
-    ## The dataframe columns in dataframe for 2007-2016 are SCHOOL_YEAR DATA_LEVEL PUBLIC_OR_INDEPENDENT DISTRICT_NUMBER DISTRICT_NAME SCHOOL_NUMBER SCHOOL_NAME SUB_POPULATION FSA_SKILL_CODE GRADE NUMBER_EXPECTED_WRITERS NUMBER_WRITERS NUMBER_UNKNOWN NUMBER_BELOW NUMBER_MEETING NUMBER_EXCEEDING SCORE
+    ## The dataframe columns in dataframe for 2007-2016 are school_year public_or_independent sub_population fsa_skill_code grade number_expected_writers number_writers score
 
 ``` r
-cat("The SCHOOL_YEAR contains", levels(rawdata_2007_2016$SCHOOL_YEAR), "\n\n")
+cat("The SCHOOL_YEAR contains", unique(df$school_year), "\n\n")
 ```
 
-    ## The SCHOOL_YEAR contains 2007/2008 2008/2009 2009/2010 2010/2011 2011/2012 2012/2013 2013/2014 2014/2015 2015/2016 2016/2017
+    ## The SCHOOL_YEAR contains 2007/2008 2008/2009 2009/2010 2010/2011 2011/2012 2012/2013 2013/2014 2014/2015 2015/2016 2016/2017 2017/2018 2018/2019
 
 ``` r
-cat("The DATA_LEVEL contains", levels(rawdata_2007_2016$DATA_LEVEL), "\n\n")
+cat("The PUBLIC_OR_INDEPENDENT contains", unique(df$public_or_independent), "\n\n")
 ```
 
-    ## The DATA_LEVEL contains DISTRICT LEVEL PROVINCE LEVEL SCHOOL LEVEL
+    ## The PUBLIC_OR_INDEPENDENT contains PROVINCE - TOTAL BC Public School BC Independent School
 
 ``` r
-cat("The PUBLIC_OR_INDEPENDENT contains", levels(rawdata_2007_2016$PUBLIC_OR_INDEPENDENT), "\n\n")
+cat("The SUB_POPULATION contains", length(unique(df$sub_population)), "subgroups, and they are", unique(df$sub_population), "\n\n")
 ```
 
-    ## The PUBLIC_OR_INDEPENDENT contains BC Independent School BC Public School PROVINCE - TOTAL
+    ## The SUB_POPULATION contains 8 subgroups, and they are ALL STUDENTS FEMALE MALE ABORIGINAL NON ABORIGINAL ENGLISH LANGUAGE LEARNER NON ENGLISH LANGUAGE LEARNER SPECIAL NEEDS NO GIFTED
 
 ``` r
-cat("The SUB_POPULATION contains", nlevels(rawdata_2007_2016$SUB_POPULATION), "subgroups, and they are", levels(rawdata_2007_2016$SUB_POPULATION), "\n\n")
-```
-
-    ## The SUB_POPULATION contains 8 subgroups, and they are ABORIGINAL ALL STUDENTS ENGLISH LANGUAGE LEARNER FEMALE MALE NON ABORIGINAL NON ENGLISH LANGUAGE LEARNER SPECIAL NEEDS NO GIFTED
-
-``` r
-cat("The FSA_SKILL_CODE contains", levels(rawdata_2007_2016$FSA_SKILL_CODE), "\n\n")
+cat("The FSA_SKILL_CODE contains", unique(df$fsa_skill_code), "\n\n")
 ```
 
     ## The FSA_SKILL_CODE contains Numeracy Reading Writing
 
 ``` r
-cat("The GRADE contains", unique(rawdata_2007_2016$GRADE), "\n\n")
+cat("The GRADE contains", unique(df$grade), "\n\n")
 ```
 
-    ## The GRADE contains 4 7
+    ## The GRADE contains 04 07
 
 ``` r
-cat("The SCORE ranges from", min(as.numeric(rawdata_2007_2016$SCORE)), "to", max(as.numeric(rawdata_2007_2016$SCORE)), "and the average is", mean(as.numeric(rawdata_2007_2016$SCORE)), "\n\n")
+cat("The SCORE ranges from", min(df$score), "to", max(df$score), "and the average is", mean(df$score), "\n\n")
 ```
 
-    ## The SCORE ranges from 1 to 99331 and the average is 69829.58
-
-``` r
-str(rawdata_2017_2018)
-```
-
-    ## 'data.frame':    107992 obs. of  17 variables:
-    ##  $ SCHOOL_YEAR            : Factor w/ 2 levels "2017/2018","2018/2019": 1 1 1 1 1 1 1 1 1 1 ...
-    ##  $ DATA_LEVEL             : Factor w/ 3 levels "DISTRICT LEVEL",..: 2 2 2 2 2 2 2 2 2 2 ...
-    ##  $ PUBLIC_OR_INDEPENDENT  : Factor w/ 3 levels "BC INDEPENDENT SCHOOL",..: 3 3 3 3 3 3 3 3 2 2 ...
-    ##  $ DISTRICT_NUMBER        : int  NA NA NA NA NA NA NA NA NA NA ...
-    ##  $ DISTRICT_NAME          : Factor w/ 280 levels "","Abbotsford",..: 1 1 1 1 1 1 1 1 1 1 ...
-    ##  $ SCHOOL_NUMBER          : int  NA NA NA NA NA NA NA NA NA NA ...
-    ##  $ SCHOOL_NAME            : Factor w/ 1509 levels "","?A'q'amnik Primary School",..: 1 1 1 1 1 1 1 1 1 1 ...
-    ##  $ SUB_POPULATION         : Factor w/ 8 levels "ABORIGINAL","ALL STUDENTS",..: 2 4 5 1 6 3 7 8 2 4 ...
-    ##  $ GRADE                  : int  4 4 4 4 4 4 4 4 4 4 ...
-    ##  $ FSA_SKILL_CODE         : Factor w/ 3 levels "Numeracy","Reading",..: 1 1 1 1 1 1 1 1 1 1 ...
-    ##  $ NUMBER_EXPECTED_WRITERS: Factor w/ 842 levels "10","100","1001",..: 581 297 324 659 536 814 504 317 522 239 ...
-    ##  $ NUMBER_WRITERS         : Factor w/ 1283 levels "0","1","10","100",..: 739 355 386 811 648 1029 597 202 593 234 ...
-    ##  $ NUMBER_UNKNOWN         : Factor w/ 856 levels "0","1","10","100",..: 48 573 648 148 829 362 780 22 14 548 ...
-    ##  $ NUMBER_EMERGING        : Factor w/ 629 levels "0","1","10","100",..: 35 489 477 205 612 235 605 557 17 459 ...
-    ##  $ NUMBER_ONTRACK         : Factor w/ 1113 levels "0","1","10","100",..: 375 36 69 287 330 556 294 859 276 1044 ...
-    ##  $ NUMBER_EXTENDING       : Factor w/ 427 levels "0","1","10","100",..: 280 102 161 9 275 336 252 339 163 407 ...
-    ##  $ SCORE                  : Factor w/ 29670 levels ".0667",".125",..: 17879 17137 18606 7414 19439 14088 18646 8175 15232 14524 ...
-
-``` r
-cat("The dataframe columns in dataframe for 2007-2016 are",   colnames(rawdata_2017_2018), "\n\n")
-```
-
-    ## The dataframe columns in dataframe for 2007-2016 are SCHOOL_YEAR DATA_LEVEL PUBLIC_OR_INDEPENDENT DISTRICT_NUMBER DISTRICT_NAME SCHOOL_NUMBER SCHOOL_NAME SUB_POPULATION GRADE FSA_SKILL_CODE NUMBER_EXPECTED_WRITERS NUMBER_WRITERS NUMBER_UNKNOWN NUMBER_EMERGING NUMBER_ONTRACK NUMBER_EXTENDING SCORE
-
-``` r
-cat("The SCHOOL_YEAR contains", levels(rawdata_2017_2018$SCHOOL_YEAR), "\n\n")
-```
-
-    ## The SCHOOL_YEAR contains 2017/2018 2018/2019
-
-``` r
-cat("The DATA_LEVEL contains", levels(rawdata_2017_2018$DATA_LEVEL), "\n\n")
-```
-
-    ## The DATA_LEVEL contains DISTRICT LEVEL PROVINCE LEVEL SCHOOL LEVEL
-
-``` r
-cat("The PUBLIC_OR_INDEPENDENT contains", levels(rawdata_2017_2018$PUBLIC_OR_INDEPENDENT), "\n\n")
-```
-
-    ## The PUBLIC_OR_INDEPENDENT contains BC INDEPENDENT SCHOOL BC PUBLIC SCHOOL PROVINCE-TOTAL
-
-``` r
-cat("The SUB_POPULATION contains", nlevels(rawdata_2017_2018$SUB_POPULATION), "subgroups, and they are", levels(rawdata_2017_2018$SUB_POPULATION), "\n\n")
-```
-
-    ## The SUB_POPULATION contains 8 subgroups, and they are ABORIGINAL ALL STUDENTS ENGLISH LANGUAGE LEARNER FEMALE MALE NON ABORIGINAL NON ENGLISH LANGUAGE LEARNER SPECIAL NEEDS NO GIFTED
-
-``` r
-cat("The FSA_SKILL_CODE contains", levels(rawdata_2017_2018$FSA_SKILL_CODE), "\n\n")
-```
-
-    ## The FSA_SKILL_CODE contains Numeracy Reading Writing
-
-``` r
-cat("The GRADE contains", unique(rawdata_2017_2018$GRADE), "\n\n")
-```
-
-    ## The GRADE contains 4 7
-
-``` r
-cat("The SCORE ranges from", min(as.numeric(rawdata_2017_2018$SCORE)), "to", max(as.numeric(rawdata_2017_2018$SCORE)), "and the average is", mean(as.numeric(rawdata_2017_2018$SCORE)), "\n\n")
-```
-
-    ## The SCORE ranges from 1 to 29670 and the average is 18548.81
+    ## The SCORE ranges from 0 to 1420.7 and the average is 326.4003
 
 ### 4\. Initial thoughts
 
@@ -208,76 +232,6 @@ cat("The SCORE ranges from", min(as.numeric(rawdata_2017_2018$SCORE)), "to", max
     perform in Grade 7?
 
 ### 5\. Wrangling
-
-``` r
-df_07_16 <- rawdata_2007_2016 %>%
-  clean_names() %>%
-  filter(score != 'Msk') %>%
-  select(school_year, public_or_independent, sub_population, fsa_skill_code, grade, number_expected_writers, number_writers, score) %>%
-  mutate(score = as.numeric(score),
-         number_expected_writers = as.numeric(number_expected_writers),
-         number_writers = as.numeric(number_writers),
-         public_or_independent = as.character(public_or_independent),
-         school_year = as.character(school_year))
-
-df_17_18 <- rawdata_2017_2018 %>%
-  clean_names() %>%
-  filter(score != 'Msk') %>%
-  select(school_year, public_or_independent, sub_population, fsa_skill_code, grade, number_expected_writers, number_writers, score) %>%
-  mutate(score = as.numeric(score),
-         number_expected_writers = as.numeric(number_expected_writers),
-         number_writers = as.numeric(number_writers),
-         public_or_independent = as.character(public_or_independent),
-         school_year = as.character(school_year),
-         public_or_independent = case_when(public_or_independent == "BC PUBLIC SCHOOL" ~ "BC Public School",
-                                           public_or_independent == "BC INDEPENDENT SCHOOL" ~ "BC Independent School",
-                                           public_or_independent == "PROVINCE-TOTAL" ~ "PROVINCE - TOTAL",
-                                           TRUE ~ public_or_independent))
-         
-df <- bind_rows(df_07_16, df_17_18)
-```
-
-``` r
-head(df)
-```
-
-    ##   school_year public_or_independent           sub_population
-    ## 1   2007/2008      PROVINCE - TOTAL             ALL STUDENTS
-    ## 2   2007/2008      PROVINCE - TOTAL                   FEMALE
-    ## 3   2007/2008      PROVINCE - TOTAL                     MALE
-    ## 4   2007/2008      PROVINCE - TOTAL               ABORIGINAL
-    ## 5   2007/2008      PROVINCE - TOTAL           NON ABORIGINAL
-    ## 6   2007/2008      PROVINCE - TOTAL ENGLISH LANGUAGE LEARNER
-    ##   fsa_skill_code grade number_expected_writers number_writers score
-    ## 1       Numeracy     4                    1260           2041 46069
-    ## 2       Numeracy     4                     658            989 43421
-    ## 3       Numeracy     4                     696           1001 48651
-    ## 4       Numeracy     4                    1502           2298 17745
-    ## 5       Numeracy     4                    1140           1825 50356
-    ## 6       Numeracy     4                    1777           2683 32490
-
-``` r
-ridge_plot <- ggplot(df, aes(x = score, y = sub_population, fill = sub_population)) +  
-           geom_density_ridges(size = 0.5, alpha = 0.7, color = "black", 
-                               scale = 2.0, rel_min_height = 0.01, quantile_lines = TRUE, quantiles = 4) +
-           coord_cartesian(clip = "off") + # Required to plot top distribution completely
-           labs(title ="2007-2018 FSA Test - BC Schools", 
-           x = "Test score") +
-           theme_ridges() + 
-           theme(legend.position = "none") +
-           theme(axis.text.x = element_text(angle = 70, hjust = 1, size = 10, face = "bold"),
-                 axis.text.y = element_text(angle = 0, hjust = 1, size = 10, face = "bold"))
-
-ridge_plot + facet_grid(cols = vars(fsa_skill_code))
-```
-
-    ## Picking joint bandwidth of 2820
-
-    ## Picking joint bandwidth of 2660
-
-    ## Picking joint bandwidth of 4440
-
-![](EDA_files/figure-gfm/5.1%20Ridge%20Plot%20Distribution%20by%20Test%20type%20and%20Subgroups-1.png)<!-- -->
 
 ``` r
 subgroup <- function(group){
@@ -337,24 +291,24 @@ SELECTED SUBQUESTIONS:
 ### 7\. Data Analysis & Visualizations
 
     ## # A tibble: 16 x 5
-    ##    sub_population               public_or_independent    avg `2.5%` `97.5%`
-    ##    <fct>                        <chr>                  <dbl>  <dbl>   <dbl>
-    ##  1 ABORIGINAL                   BC Independent School  4111.  1882.   9213.
-    ##  2 ABORIGINAL                   BC Public School       9888.  7769.  15534.
-    ##  3 ALL STUDENTS                 BC Independent School 52211. 49397.  58885.
-    ##  4 ALL STUDENTS                 BC Public School      34574. 28747.  52342.
-    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School 34916. 23916.  47968.
-    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School      25940. 20374.  42135.
-    ##  7 FEMALE                       BC Independent School 54328. 47487.  54330.
-    ##  8 FEMALE                       BC Public School      33288. 27928.  45131.
-    ##  9 MALE                         BC Independent School 54535. 44537.  65299.
-    ## 10 MALE                         BC Public School      36428. 28459.  47068.
-    ## 11 NON ABORIGINAL               BC Independent School 56484. 43821.  68547.
-    ## 12 NON ABORIGINAL               BC Public School      37521. 37266.  49147.
-    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School 52127. 38916.  58093.
-    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School      35575. 22691.  45014.
-    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  5677.   582.  10222.
-    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       3209.   584.   5816.
+    ##    sub_population               public_or_independent   avg `2.5%` `97.5%`
+    ##    <chr>                        <chr>                 <dbl>  <dbl>   <dbl>
+    ##  1 ABORIGINAL                   BC Independent School  393.   355.    426.
+    ##  2 ABORIGINAL                   BC Public School       419.   414.    421.
+    ##  3 ALL STUDENTS                 BC Independent School  531.   514.    538.
+    ##  4 ALL STUDENTS                 BC Public School       474.   441.    480.
+    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School  559.   539.    561.
+    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School       466.   421.    493.
+    ##  7 FEMALE                       BC Independent School  543.   520.    569.
+    ##  8 FEMALE                       BC Public School       473.   454.    483.
+    ##  9 MALE                         BC Independent School  551.   544.    569.
+    ## 10 MALE                         BC Public School       480.   473.    501.
+    ## 11 NON ABORIGINAL               BC Independent School  542.   528.    571.
+    ## 12 NON ABORIGINAL               BC Public School       482.   462.    494.
+    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School  531.   512.    521.
+    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School       477.   471.    481.
+    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  440.   385.    487.
+    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       405.   395.    419.
 
 ``` r
 bar_plot_numeracy <- ggplot(sum_num, aes(x = sub_population, y = avg))+
@@ -378,24 +332,24 @@ pub_ind_numeracy
 
     ## # A tibble: 16 x 3
     ## # Groups:   sub_population [8]
-    ##    sub_population               public_or_independent    avg
-    ##    <fct>                        <chr>                  <dbl>
-    ##  1 ABORIGINAL                   BC Independent School  4111.
-    ##  2 ABORIGINAL                   BC Public School       9888.
-    ##  3 ALL STUDENTS                 BC Independent School 52211.
-    ##  4 ALL STUDENTS                 BC Public School      34574.
-    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School 34916.
-    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School      25940.
-    ##  7 FEMALE                       BC Independent School 54328.
-    ##  8 FEMALE                       BC Public School      33288.
-    ##  9 MALE                         BC Independent School 54535.
-    ## 10 MALE                         BC Public School      36428.
-    ## 11 NON ABORIGINAL               BC Independent School 56484.
-    ## 12 NON ABORIGINAL               BC Public School      37521.
-    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School 52127.
-    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School      35575.
-    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  5677.
-    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       3209.
+    ##    sub_population               public_or_independent   avg
+    ##    <chr>                        <chr>                 <dbl>
+    ##  1 ABORIGINAL                   BC Independent School  393.
+    ##  2 ABORIGINAL                   BC Public School       419.
+    ##  3 ALL STUDENTS                 BC Independent School  531.
+    ##  4 ALL STUDENTS                 BC Public School       474.
+    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School  559.
+    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School       466.
+    ##  7 FEMALE                       BC Independent School  543.
+    ##  8 FEMALE                       BC Public School       473.
+    ##  9 MALE                         BC Independent School  551.
+    ## 10 MALE                         BC Public School       480.
+    ## 11 NON ABORIGINAL               BC Independent School  542.
+    ## 12 NON ABORIGINAL               BC Public School       482.
+    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School  531.
+    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School       477.
+    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  440.
+    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       405.
 
 ``` r
 ridge_plot <- ggplot(df, aes(x = score, y = sub_population, fill = sub_population)) +  
@@ -417,33 +371,33 @@ ridge_plot <- ggplot(df, aes(x = score, y = sub_population, fill = sub_populatio
 ridge_plot + facet_grid(cols = vars(fsa_skill_code))
 ```
 
-    ## Picking joint bandwidth of 2820
+    ## Picking joint bandwidth of 7.22
 
-    ## Picking joint bandwidth of 2660
+    ## Picking joint bandwidth of 5.7
 
-    ## Picking joint bandwidth of 4440
+    ## Picking joint bandwidth of 0.206
 
 ![](EDA_files/figure-gfm/7.2.2%20Public%20vs%20Independent%20Ridge%20Plot%20-%20Numeracy%20Test%20Results-1.png)<!-- -->
 
     ## # A tibble: 16 x 5
-    ##    sub_population               public_or_independent    avg `2.5%` `97.5%`
-    ##    <fct>                        <chr>                  <dbl>  <dbl>   <dbl>
-    ##  1 ABORIGINAL                   BC Independent School  4805.  2214.  10162.
-    ##  2 ABORIGINAL                   BC Public School      14107.  7987.  22553.
-    ##  3 ALL STUDENTS                 BC Independent School 53487. 42479.  59630.
-    ##  4 ALL STUDENTS                 BC Public School      38050. 33696.  41447.
-    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School 26439. 10153.  44807.
-    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School      18402. 13350.  24227.
-    ##  7 FEMALE                       BC Independent School 57497. 56786.  69362.
-    ##  8 FEMALE                       BC Public School      42590. 30514.  51944.
-    ##  9 MALE                         BC Independent School 50827. 38546.  59712.
-    ## 10 MALE                         BC Public School      34108. 29921.  34300.
-    ## 11 NON ABORIGINAL               BC Independent School 57381. 49867.  66936.
-    ## 12 NON ABORIGINAL               BC Public School      41046. 34967.  48623.
-    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School 53749. 45924.  60490.
-    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School      40736. 26794.  48138.
-    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  9470.  4565.  16660.
-    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       4840.  4502.   9289.
+    ##    sub_population               public_or_independent   avg `2.5%` `97.5%`
+    ##    <chr>                        <chr>                 <dbl>  <dbl>   <dbl>
+    ##  1 ABORIGINAL                   BC Independent School  405.   367.    429.
+    ##  2 ABORIGINAL                   BC Public School       438.   433.    468.
+    ##  3 ALL STUDENTS                 BC Independent School  530.   512.    550.
+    ##  4 ALL STUDENTS                 BC Public School       481.   462.    487.
+    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School  512.   496.    532.
+    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School       447.   432.    467.
+    ##  7 FEMALE                       BC Independent School  550.   521.    564.
+    ##  8 FEMALE                       BC Public School       492.   474.    506.
+    ##  9 MALE                         BC Independent School  532.   516.    559.
+    ## 10 MALE                         BC Public School       474.   468.    478.
+    ## 11 NON ABORIGINAL               BC Independent School  539.   521.    546.
+    ## 12 NON ABORIGINAL               BC Public School       488.   475.    512.
+    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School  531.   507.    544.
+    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School       487.   472.    488.
+    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  471.   444.    504.
+    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       424.   419.    434.
 
 ``` r
 bar_plot_reading <- ggplot(sum_read, aes(x = sub_population, y = avg))+
@@ -462,24 +416,24 @@ bar_plot_reading
 ![](EDA_files/figure-gfm/7.2.1%20Public%20vs%20Independent%20Bar%20Chart%20-%20Reading%20Test%20Results-1.png)<!-- -->
 
     ## # A tibble: 16 x 5
-    ##    sub_population               public_or_independent    avg `2.5%` `97.5%`
-    ##    <fct>                        <chr>                  <dbl>  <dbl>   <dbl>
-    ##  1 ABORIGINAL                   BC Independent School 12116.  7874.  28296.
-    ##  2 ABORIGINAL                   BC Public School      34526. 29176.  30326.
-    ##  3 ALL STUDENTS                 BC Independent School 63646. 46005.  82857.
-    ##  4 ALL STUDENTS                 BC Public School      66365. 55173.  75392.
-    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School 37102. 24104.  50213.
-    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School      45085. 28193.  53873.
-    ##  7 FEMALE                       BC Independent School 60108. 51662.  78053.
-    ##  8 FEMALE                       BC Public School      70420. 66334.  74082.
-    ##  9 MALE                         BC Independent School 59733. 38353.  65647.
-    ## 10 MALE                         BC Public School      59303. 52852.  68110.
-    ## 11 NON ABORIGINAL               BC Independent School 66405. 60638.  81061.
-    ## 12 NON ABORIGINAL               BC Public School      68661. 64003.  82394.
-    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School 63595. 40577.  67513.
-    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School      67083. 61151.  90295.
-    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School 11142.   543.  25593.
-    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School      12117.  7737.  23705.
+    ##    sub_population               public_or_independent   avg `2.5%` `97.5%`
+    ##    <chr>                        <chr>                 <dbl>  <dbl>   <dbl>
+    ##  1 ABORIGINAL                   BC Independent School  4.28   3.54    5.01
+    ##  2 ABORIGINAL                   BC Public School       5.03   4.24    5.44
+    ##  3 ALL STUDENTS                 BC Independent School  6.98   6.30    7.43
+    ##  4 ALL STUDENTS                 BC Public School       5.91   5.11    6.41
+    ##  5 ENGLISH LANGUAGE LEARNER     BC Independent School  6.87   5.75    7.69
+    ##  6 ENGLISH LANGUAGE LEARNER     BC Public School       5.41   4.42    5.76
+    ##  7 FEMALE                       BC Independent School  7.47   6.27    8.08
+    ##  8 FEMALE                       BC Public School       6.28   5.26    6.45
+    ##  9 MALE                         BC Independent School  6.70   5.18    7.17
+    ## 10 MALE                         BC Public School       5.55   4.86    6.25
+    ## 11 NON ABORIGINAL               BC Independent School  7.12   7.22    8.23
+    ## 12 NON ABORIGINAL               BC Public School       6.02   5.73    6.69
+    ## 13 NON ENGLISH LANGUAGE LEARNER BC Independent School  6.99   5.97    7.47
+    ## 14 NON ENGLISH LANGUAGE LEARNER BC Public School       5.97   4.11    6.73
+    ## 15 SPECIAL NEEDS NO GIFTED      BC Independent School  4.58   3.64    5.40
+    ## 16 SPECIAL NEEDS NO GIFTED      BC Public School       4.64   3.80    4.82
 
 ``` r
 bar_plot_writing <- ggplot(sum_write, aes(x = sub_population, y = avg))+
@@ -512,10 +466,10 @@ sum_ab_num
 ```
 
     ## # A tibble: 2 x 4
-    ##   sub_population    avg `2.5%` `97.5%`
-    ##   <fct>           <dbl>  <dbl>   <dbl>
-    ## 1 ABORIGINAL     12544.  4562.  10577.
-    ## 2 NON ABORIGINAL 46220. 27597.  50628.
+    ##   sub_population   avg `2.5%` `97.5%`
+    ##   <chr>          <dbl>  <dbl>   <dbl>
+    ## 1 ABORIGINAL      427.   414.    445.
+    ## 2 NON ABORIGINAL  494.   493.    517.
 
 ``` r
 ab_bar_plot_numeracy <- ggplot(sum_ab_num, aes(x = sub_population, y = avg))+
@@ -546,10 +500,10 @@ sum_ab_read
 ```
 
     ## # A tibble: 2 x 4
-    ##   sub_population    avg `2.5%` `97.5%`
-    ##   <fct>           <dbl>  <dbl>   <dbl>
-    ## 1 ABORIGINAL     19009. 12029.  11827.
-    ## 2 NON ABORIGINAL 48978. 39998.  48965.
+    ##   sub_population   avg `2.5%` `97.5%`
+    ##   <chr>          <dbl>  <dbl>   <dbl>
+    ## 1 ABORIGINAL      445.   430.    440.
+    ## 2 NON ABORIGINAL  498.   458.    520.
 
 ``` r
 ab_bar_plot_numeracy <- ggplot(sum_ab_read, aes(x = sub_population, y = avg))+
@@ -580,10 +534,10 @@ sum_ab_write
 ```
 
     ## # A tibble: 2 x 4
-    ##   sub_population    avg `2.5%` `97.5%`
-    ##   <fct>           <dbl>  <dbl>   <dbl>
-    ## 1 ABORIGINAL     59970. 24436.  35588.
-    ## 2 NON ABORIGINAL 78413. 64989.  86840.
+    ##   sub_population   avg `2.5%` `97.5%`
+    ##   <chr>          <dbl>  <dbl>   <dbl>
+    ## 1 ABORIGINAL      5.32   4.40    5.49
+    ## 2 NON ABORIGINAL  6.29   6.18    6.64
 
 ``` r
 ab_bar_plot_numeracy <- ggplot(sum_ab_write, aes(x = sub_population, y = avg))+

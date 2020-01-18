@@ -85,22 +85,29 @@ cat("The SCORE ranges from", min(as.numeric(rawdata_2017_2018$SCORE)), "to", max
 
 ### 4. Initial thoughts
 
-- There are heaps of data that we can compare by population type (ex. Male / Female / Aboriginal / Non-aboriginal / Special Needs etc), Grade (for the 2007-2017 data), skill type(numeracy/ reading/ writing), or school types(Public school/ Independent school)
+The dataset includes mean FSA scores for many different subgroups which can be compared. Possible comparisons include:
+- Female vs Male
+- Aboriginal vs Non Aboriginal
+- English Language Learner vs Non English Language Learner
+- Grade 4 vs Grade 7
+- Public School vs Independent School
+
+FSA scores can also be compared across different school districts and by FSA Skill Code (Numeracy, Reading, or Writing components of the exam). 
 
 - **Potential Research Questions:**
-1. Inferential: How do the scores for certain exams compare between different sub populations (ex. male / female, aboriginal / non-aboriginal, public / private school)? Ex. Do students in private school perform better than students in publicly funded schools on numeracy exams?
-    - Null Hypothesis: there's no difference in scores for the different groups
-    - Alternative Hypothesis: there is a difference in scores for the different groups
-    
-2. Predictive: What score on a specific exam type (ex. numeracy) will a child in a specific sub population (ex. aboriginal) get within a BC publicly funded school based on their:
-    - school district, 
-    - gender, 
-    - how many special needs / non-English language learner are in the school (assuming here that this may influence scores because more funding may be used towards these other groups than to programs that support the aboriginal population specifically), 
-    - scores on other exams, and 
-    - number of exam writers from the sub population (i.e. number of students within the class that fall within this sub population group)?
 
-3. Predictive: Will the score from Grade 4 influence how they'll perform in Grade 7?
+There are many questions we could ask about this dataset, including (but no limited to) the following:
 
+Main Questions:
+1. (Inferential) Is there a difference in how well BC Public School vs Independent School students perform on the FSA exam?
+2. (Inferential) Is there a difference in how well Aboriginal vs Non Aboriginal students perform on the FSA exam?
+3. (Predictive) Can we predict how well a student will perform on a Numeracy component of the FSA exam based on their school district, gender, how many special needs students are in the school, and the student's scores on the other exam components?
+
+Subquestions:
+4. (Descriptive) Which school type (Public / Independent) has a higher average FSA score across all school years?
+5. (Descriptive) Which group of students (Aboriginal / Non Aboriginal) has a higher average FSA score across all school years?
+6. (Exploratory) Are there trends in average FSA scores for Public or Independent School students between 2007/08 - 2018/19 school years?
+7. (Exploratory) Are there trends in average FSA scores for Aboriginal or Non Aboriginal students between 2007/08 - 2018/19 school years?
 
 ### 5. Wrangling
 
@@ -550,4 +557,4 @@ ab_bar_plot_numeracy
 
 ### 8. Summary & Conclusion
 
-
+This section will be completed after the actual project analysis is completed.

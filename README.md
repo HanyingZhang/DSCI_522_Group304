@@ -15,9 +15,9 @@ This project uses two data files from the BC Ministry of Education that contain 
 * DATA_LEVEL: (Province / District / School Level)
 * PUBLIC_OR_INDEPENDENT: (BC Public School / BC Independent School / Province Total)
 * DISTRICT_NUMBER: Number of the school district (3-digit string)
-* DISTRICT_NAME: Name of the school district
+* DISTRICT_NAME: Name of the school district (61 districts)
 * SCHOOL_NUMBER: 8-digit numerical school identifier
-* SCHOOL_NAME: Name of the school
+* SCHOOL_NAME: Name of the school (1,875 schools)
 * SUB_POPULATION: (All Students / Female / Male / Aboriginal / Non Aboriginal / English Language Learner / Non English Language Learner / Special Needs No Gifted)*
 * GRADE: Grade level of the FSA test (4 or 7)
 * FSA_SKILL_CODE: Subject of the FSA exam (Numeracy / Reading / Writing)
@@ -53,7 +53,7 @@ This project will attempt to answer two main inferential research questions:
 ### ANALYSIS PLAN
 To analyze the data, we will produce the following for each of the two main inferential research questions:  
 
-1. 2-group Hypothesis Tests:  
+1. Hypothesis Test for Difference in Means (t-test):  
     * $H_0$: There is no difference between the mean FSA scores between groups  
     * $H_A$: There exists a difference between the mean FSA scores between groups  
 2. Estimate and Confidence Intervals of mean FSA scores for each group

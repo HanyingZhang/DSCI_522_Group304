@@ -65,12 +65,16 @@ These analysis methods will be used to look at mean scores for FSA Skill types s
 In addition to the methods above, we will also be comparing means of FSA scores for each group to answer subquestions.
 
 ### EXPLORATORY TABLES AND FIGURES
-To explore the data, we will use the following tables and figures for each of the two main inferential research questions:  
+To explore the data, we may use tables and figures like those below for each of the two main inferential research questions:  
 
 1. Summary Statistics Tables: based on mean FSA scores by subgroup  
 2. Bar Chart: showing mean scores by subgroup  
 3. Overlapping Histograms: showing mean FSA score distributions, color-coded by subgroup  
 4. Time-series Scatterplots: showing mean FSA scores (y-axis) over school years (x-axis) with a dot   representing each school (color-coded by subgroup) and a possible linear regression line  
+
+The Summary Statistics Table will give us a sense of whether there might be significant differences in the FSA scores for different subgroups. It will also serve as a reference to ensure that any visualizations we create match what we expect to see based on the data. 
+
+The Bar Charts will provide a simple way to gauge if our analyses makes sense (ex. if a bar chart shows that Aboriginal students' writing scores are higher than Non Aboriginal students' writing scores, then we know our analysis should not say the opposite).
 
 ### REPORTING 
 To report project findings, we will share the results of the analyses using the following visual aids:

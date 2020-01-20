@@ -17,6 +17,20 @@ library(gridExtra)
 library(ggridges)
 ```
 
+### EDA CHECKLIST
+
+Though this EDA file follows general Exploratory Data Analysis steps that were used in previous classes, it still checks off the boxes of the EDA Checklist from Chapter 4 of [The Art of Data Science](https://leanpub.com/artofdatascience):
+
+1. [X] Formulate your question: Section 6 - Research Questions
+2. [X] Read in your data: Section 2 - Load the dataset
+3. [X] Check the packaging: Section 3 - Explore the dataset
+4. [X] Look at the top and the bottom of your data: Section 2 - Load the dataset
+5. [X] Check your "n"s: Section 3 - Explore the dataset
+6. [X] Validate with at least one external data source: Section 2 - Load the dataset
+7. [X] Make a plot: Section 7 - Data Analysis & Visualizations
+8. [X] Try the easy solution first: Section 7 - Data Analysis & Visualizations
+9. [X] Follow-up: Section 8 - Summary & Conclusion
+
 ### 1. Dataset Description
 
 **Dataset: BC Schools - Foundational Skills Assessment(FSA)**
@@ -37,6 +51,22 @@ rawdata_2007_2016 <- read_csv('../data/fsa_2007-2016.csv')
 
 rawdata_2017_2018 <- read_csv('../data/fsa_2017-2018.csv')
 head(rawdata_2007_2016)
+```
+
+```{r validate dataset with external source}
+# There are 60 school districts in BC according to the Vancouver Sun's article based on Ministry of Education data:
+# https://vancouversun.com/news/local-news/by-the-numbers-back-to-school-in-b-c
+
+# This code chunk checks that the original dataset files have 60 districts each
+df_validate_17 <- rawdata_2017_2018 %>%
+  filter(DATA_LEVEL == 'DISTRICT LEVEL' & SUB_POPULATION == 'ALL STUDENTS' & SCHOOL_YEAR == '2018/2019' & FSA_SKILL_CODE == 'Numeracy' & GRADE == '04' & PUBLIC_OR_INDEPENDENT == 'BC PUBLIC SCHOOL')
+
+df_validate_07 <- rawdata_2007_2016 %>%
+  filter(DATA_LEVEL == 'DISTRICT LEVEL' & SUB_POPULATION == 'ALL STUDENTS' & SCHOOL_YEAR == '2007/2008' & FSA_SKILL_CODE == 'Numeracy' & GRADE == '04' & PUBLIC_OR_INDEPENDENT == 'BC Public School')
+
+#df_validate_07
+count(df_validate_07)
+count(df_validate_17) == count(df_validate_07)
 ```
 
 ```{r data cleaning}
@@ -61,8 +91,14 @@ df_17_18 <- rawdata_2017_2018 %>%
                                            TRUE ~ public_or_independent))
          
 df <- bind_rows(df_07_16, df_17_18)
+```
 
+```{r data head}
 head(df)
+```
+
+```{r data tail}
+tail(df)
 ```
 
 ### 3. Explore the dataset
@@ -70,6 +106,7 @@ head(df)
 ```{r 3.1 structure of the cleaned dataset}
 str(df)
 ```
+
 ```{r 3.2 Columns in cleaned dataframe}
 cat("The dataframe columns in dataframe for 2007-2016 are", colnames(df), "\n\n")
 
@@ -654,8 +691,18 @@ ab_boxplot_writing
 
 ### 8. Summary & Conclusion
 
-Initial findings include:
-* There appears to be significant differences in the FSA test scores between Aboriginal and Non Aboriginal students across all tested skills.
+**Initial findings include:**  
+* There appears to be significant differences in the FSA test scores between Aboriginal and Non Aboriginal students across all tested skills.  
 * There are a lot of outlier points when comparing the differences in the FSA test scores between Public and Independent schools.
+
+**Additional follow-up questions include:**  
+*Do you have the right data?*   
+Yes, for the purposes of our research questions we have the right data.   
+
+*Do you need other data?*  
+No, we don't need other data to answer our research questions. There is sufficient data (2007/08 - 2018/19) to answer the research questions.  
+
+*Do you have the right question?*  
+It's unclear whether we have the "right" research questions, but based on the initial findings which show that there are differences in FSA test scores between the subgroups we've chosen it seems the questions may be "right" to ask.  
 
 A full summary and conclusion will be written during the reporting stage of this project.

@@ -1,0 +1,55 @@
+---
+title: "Group 304 Analysis of Differences in FSA Scores Between Subgroups"
+bibliography: ref.bib
+output: 
+  github_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r t-test example}
+# we definitely need to include `var.equal = FALSE` because of our class imbalance
+# we need to run this test for each 
+filtered_data <- data %>%
+  filter(fsa_skill_code)
+t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE)
+```
+
+## Aim
+
+
+## Data
+
+
+## Methods
+
+Example: The R programming language and the following R packages were used to perform the analysis: knitr and tidyverse. The code used to perform the analysis and create this report can be found here: https://github.com/ttimbers/equine_numbers_value_canada_rmd.
+
+## Results
+
+
+## Notes
+
+From Tiffany's example:  
+```{r choosing-k, echo=FALSE, fig.cap="Figure 2. 30-fold cross validation classification accuracy as K is varied.", out.width = '40%'}
+#knitr::include_graphics("../results/accuracy_vs_k.png")
+```
+
+## Notes about the .bib file
+
+From Tiffany's example:  
+* This is where I'll put my references once I start collecting them
+
+* the @ part tells you what type of citation it is (ex. manuscript, book, etc)
+* Streetetal is what you name your reference so you can actually reference it
+
+Testing a reference [@test_ref].
+* if you don't put a reference in the text, it won't show up in the bibliography.
+
+* to get the citation for a package, type this is the Console: `citation(package = "tidyverse")` where you select the package you want
+* `citation()` gets you teh bibliography stuff for the R package
+
+## References

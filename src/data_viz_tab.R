@@ -341,9 +341,95 @@ main <- function(data, out_dir){
     theme(legend.position = "bot") +
     theme_bw()
   ggsave(plot = ab_bar_plot_write,
-         filename = paste0(out_dir, "bar_plot_ab_writing.png"),
+         filename = paste0(out_dir, "bar_plot_ab_writing.png")
   ) 
   
+  #Plot scatterplot for public vs independent in numeracy
+  pub_ind_numeracy_year <- df %>%
+    filter(fsa_skill_code == "Numeracy" & public_or_independent != 'PROVINCE - TOTAL') %>%
+    group_by(year_start, public_or_independent) %>%
+    summarise(avg = mean(score))
+  
+  scatter_plot_numeracy <- pub_ind_numeracy_year %>%
+    ggplot(aes(x = year_start, y = avg)) +
+    geom_point(color = public_or_independent) +
+    labs(x = "School year start", y = "Mean FSA score", title = "BC Schools 2007-2018 FSA - Numeracy Test ") +
+    theme_bw()
+  ggsave(plot = scatter_plot_numeracy,
+         filename = paste0(out_dir, "scatter_ind_numeracy.png"))
+  
+  #Plot scatterplot for public vs independent in reading
+  pub_ind_read_year <- df %>%
+    filter(fsa_skill_code == "Reading" & public_or_independent != 'PROVINCE - TOTAL') %>%
+    group_by(year_start, public_or_independent) %>%
+    summarise(avg = mean(score))
+  
+  scatter_plot_read <- pub_ind_read_year %>%
+    ggplot(aes(x = year_start, y = avg)) +
+    geom_point(color = public_or_independent) +
+    labs(x = "School year start", y = "Mean FSA score", title = "BC Schools 2007-2018 FSA - Reading Test ") +
+    theme_bw()
+  ggsave(plot = scatter_plot_read,
+         filename = paste0(out_dir, "scatter_ind_read.png"))
+  
+  #Plot scatterplot for public vs independent in writing
+  pub_ind_write_year <- df %>%
+    filter(fsa_skill_code == "Writing" & public_or_independent != 'PROVINCE - TOTAL') %>%
+    group_by(year_start, public_or_independent) %>%
+    summarise(avg = mean(score))
+  
+  scatter_plot_write <- pub_ind_read_write %>%
+    ggplot(aes(x = year_start, y = avg)) +
+    geom_point(color = public_or_independent) +
+    labs(x = "School year start", y = "Mean FSA score", title = "BC Schools 2007-2018 FSA - Writing Test ") +
+    theme_bw()
+  ggsave(plot = scatter_plot_write,
+         filename = paste0(out_dir, "scatter_ind_write.png"))
+  
+  #Plot scatterplot for na vs ab in numeracy
+  ab_numeracy_year <- df %>%
+    filter(fsa_skill_code == "Numeracy" & public_or_independent == 'PROVINCE - TOTAL') %>%
+    filter(sub_population == "ABORIGINAL" | sub_population == "NON ABORIGINAL") %>%
+    group_by(year_start, sub_population) %>%
+    summarise(avg = mean(score))
+  
+  scatter_plot_numeracy <- ab_numeracy_year %>%
+    ggplot(aes(x = year_start, y = avg)) +
+    geom_point(color = subgroup) +
+    labs(x = "School year start", y = "Mean FSA score", title = "BC Schools 2007-2018 FSA - Numeracy Test ") +
+    theme_bw()
+  ggsave(plot = scatter_plot_numeracy,
+         filename = paste0(out_dir, "scatter_ab_numeracy.png"))
+  
+  #Plot scatterplot for na vs ab in numeracy
+  ab_reading_year <- df %>%
+    filter(fsa_skill_code == "Reading" & public_or_independent == 'PROVINCE - TOTAL') %>%
+    filter(sub_population == "ABORIGINAL" | sub_population == "NON ABORIGINAL") %>%
+    group_by(year_start, sub_population) %>%
+    summarise(avg = mean(score))
+  
+  scatter_plot_reading <- ab_reading_year %>%
+    ggplot(aes(x = year_start, y = avg)) +
+    geom_point(color = subgroup) +
+    labs(x = "School year start", y = "Mean FSA score", title = "BC Schools 2007-2018 FSA - Numeracy Test ") +
+    theme_bw()
+  ggsave(plot = scatter_plot_reading,
+         filename = paste0(out_dir, "scatter_ab_reading.png"))
+  
+  #Plot scatterplot for na vs ab in writing
+  ab_write_year <- df %>%
+    filter(fsa_skill_code == "Writing" & public_or_independent == 'PROVINCE - TOTAL') %>%
+    filter(sub_population == "ABORIGINAL" | sub_population == "NON ABORIGINAL") %>%
+    group_by(year_start, sub_population) %>%
+    summarise(avg = mean(score))
+  
+  scatter_plot_write <- ab_write_year %>%
+    ggplot(aes(x = year_start, y = avg)) +
+    geom_point(color = subgroup) +
+    labs(x = "School year start", y = "Mean FSA score", title = "BC Schools 2007-2018 FSA - Numeracy Test ") +
+    theme_bw()
+  ggsave(plot = scatter_plot_write,
+         filename = paste0(out_dir, "scatter_ab_write.png"),)
 }  
 
 main(opt[["--train"]], opt[["--out_dir"]])

@@ -82,6 +82,10 @@ def main(raw_data1, raw_data2, local_path):
   clean_data = clean_data.reset_index()
   clean_data.drop(columns = ['index'], inplace = True)
   
+  # Remove erroneous score (Reading and Numeracy cannot be more than 800 or less than 200)
+  # There is only one erroneous score
+  clean_data = clean_data[clean_data['score'] <= 800]
+  
   # Save final cleaned data file to specified local filepath
   clean_data.to_csv(local_path)
   

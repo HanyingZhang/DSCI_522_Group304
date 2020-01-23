@@ -73,9 +73,14 @@ def main(raw_data1, raw_data2, local_path):
   
   # Keep only the school-level data (remove Provincial and District summary rows)
   clean_data = clean_data[clean_data.data_level == 'SCHOOL LEVEL']
+    
+  # Relabel values in public_or_independent column so that they're consistent
+  clean_data = clean_data.replace("BC PUBLIC SCHOOL", "BC Public School")
+  clean_data = clean_data.replace("BC INDEPENDENT SCHOOL", "BC Independent School")
   
   # Reset the index numbers
   clean_data = clean_data.reset_index()
+  clean_data.drop(columns = ['index'], inplace = True)
   
   # Save final cleaned data file to specified local filepath
   clean_data.to_csv(local_path)

@@ -1,0 +1,25 @@
+---
+title: "EDA Continued"
+author: "DSCI 522 Group 304"
+date: "2020-01-22"
+output: gitub_document
+---
+
+During the EDA process we wondered if we should be concerned in a potential class imbalance between subgroups. This EDA document is a continuation of the previous EDA, but using the output of the new clean_data.py script, and seeks to see if there are any other changes that we need to make in the data cleaning process.
+
+```{r}
+library(docopt)
+library(readr)
+library(tidyverse)
+```
+
+```{r}
+# Loads clean data
+data = read_csv('../data/clean_data.csv')
+
+# Filters data for only the subgroups of interest
+filtered_data = data %>%
+  filter(sub_population == 'ABORIGINAL' | sub_population == 'NON ABORIGINAL')
+  
+head(filtered_data)
+```

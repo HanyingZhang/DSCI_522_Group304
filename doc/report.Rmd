@@ -10,13 +10,8 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r t-test example}
-# we definitely need to include `var.equal = FALSE` because of our class imbalance
-# we need to run this test for each 
-filtered_data <- data %>%
-  filter(fsa_skill_code)
-t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE)
-```
+
+
 
 ## Aim
 
@@ -24,13 +19,71 @@ t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE)
 ## Data
 
 
+```{r loads data}
+data = read_csv('../data/clean_data.csv')
+```
+
 ## Methods
 
 Example: The R programming language and the following R packages were used to perform the analysis: knitr and tidyverse. The code used to perform the analysis and create this report can be found here: https://github.com/ttimbers/equine_numbers_value_canada_rmd.
 
 ## Results
 
+Inferential Question 1
+```{r t-test Subgroups - Numeracy}
+# Filters data for only the subgroups of interest
+filtered_data = data %>%
+  filter(sub_population == 'ABORIGINAL' | sub_population == 'NON ABORIGINAL') %>%
+  filter(fsa_skill_code == 'Numeracy')
 
+t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE)
+```
+
+```{r t-test Subgroups - Reading}
+# Filters data for only the subgroups of interest
+filtered_data = data %>%
+  filter(sub_population == 'ABORIGINAL' | sub_population == 'NON ABORIGINAL') %>%
+  filter(fsa_skill_code == 'Reading')
+
+t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE)
+```
+
+
+```{r t-test Subgroups - Writing}
+# Filters data for only the subgroups of interest
+filtered_data = data %>%
+  filter(sub_population == 'ABORIGINAL' | sub_population == 'NON ABORIGINAL') %>%
+  filter(fsa_skill_code == 'Writing')
+
+t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE)
+```
+
+Inferential Question 2
+
+```{r t-test School Type - Numeracy}
+# Filters data for only the subgroups of interest
+filtered_data = data %>%
+  filter(fsa_skill_code == 'Numeracy')
+
+t.test(score ~ public_or_independent, data = filtered_data, var.equal = FALSE)
+```
+
+
+```{r t-test School Type - Reading}
+# Filters data for only the subgroups of interest
+filtered_data = data %>%
+  filter(fsa_skill_code == 'Reading')
+
+t.test(score ~ public_or_independent, data = filtered_data, var.equal = FALSE)
+```
+
+```{r t-test School Type - Writing}
+# Filters data for only the subgroups of interest
+filtered_data = data %>%
+  filter(fsa_skill_code == 'Writing')
+
+t.test(score ~ public_or_independent, data = filtered_data, var.equal = FALSE)
+```
 ## Notes
 
 From Tiffany's example:  

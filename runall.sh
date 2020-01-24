@@ -19,7 +19,7 @@ Rscript src/plot_publicindep_boxplots.R 'data/clean_data.csv' --arg2='img/fig_pi
 
 
 # Produces Historgrams for Inferential Question 2: Difference Between Public and Independent School Scores
-
+Rscript src/plot_publicindep_histogram.R 'data/clean_data.csv' --arg2='img/' --arg3='fig_pi_histogram_numeracy.png' --arg4='fig_pi_histogram_reading.png' --arg5='fig_pi_histogram_writing.png'
 
 # Renders Report
 Rscript -e "rmarkdown::render('doc/report.Rmd')"

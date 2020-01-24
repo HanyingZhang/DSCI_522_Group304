@@ -11,7 +11,7 @@ Options:
 --arg2=<arg2>     Output Directory for plots (required positional argument); example: '/img/'
 --arg3=<arg3>     File path (and filename) of output Numeracy score histogram (required positional argument); example: 'fig_pi_numeracy.png'
 --arg4=<arg4>     File path (and filename) of output Reading score histogram (required positional argument); example: 'fig_pi_reading.png'
---arg5=<arg5>     File path (and filename) of output Reading score histogram (required positional argument); example: 'fig_pi_writing.png'
+--arg5=<arg5>     File path (and filename) of output Writing score histogram (required positional argument); example: 'fig_pi_writing.png'
 
 " -> doc
 
@@ -62,6 +62,7 @@ non_eng_lang_learner<- subgroup('NON ENGLISH LANGUAGE LEARNER')
 special <- subgroup('SPECIAL NEEDS NO GIFTED')
 
 #CONFINDENCE INTERVAL FUNCTION
+set.seed(11)
 ci_ind <- function(df, skill, ind, size=40){
   one_sample <- df %>%
     filter(fsa_skill_code == skill & public_or_independent == ind) %>%
@@ -139,8 +140,8 @@ pi_hist_num <- pub_ind_num %>%
   geom_vline(xintercept = c(pub_ind_num_stat [[2,4]], pub_ind_num_stat [[2,5]]),
              color = "red", lty = 2) +
   scale_fill_manual(values=c("#69b3a2", "#404080")) +
-  labs(y = "Average Score",
-       x = "Sub_Group",
+  labs(y = "Counts",
+       x = "Average Score",
        fill = "School Type",
        title = "FSA Numeracy Test Scores\n(2007/08 - 2018/19)") +
   labs(fill="") +
@@ -221,8 +222,8 @@ pi_hist_read <- pub_ind_read %>%
   geom_vline(xintercept = c(pub_ind_read_stat [[2,4]], pub_ind_read_stat [[2,5]]),
              color = "red", lty = 2) +
   scale_fill_manual(values=c("#69b3a2", "#404080")) +
-  labs(y = "Average Score",
-       x = "Sub_Group",
+  labs(y = "Counts",
+       x = "Average Score",
        fill = "School Type",
        title = "FSA Reading Test Scores\n(2007/08 - 2018/19)") +
   labs(fill="") +
@@ -303,10 +304,10 @@ pi_hist_write <- pub_ind_write %>%
   geom_vline(xintercept = c(pub_ind_write_stat [[2,4]], pub_ind_write_stat [[2,5]]),
              color = "red", lty = 2) +
   scale_fill_manual(values=c("#69b3a2", "#404080")) +
-  labs(y = "Average Score",
-       x = "Sub_Group",
+  labs(y = "Counts",
+       x = "Average Score",
        fill = "School Type",
-       title = "FSA Reading Test Scores\n(2007/08 - 2018/19)") +
+       title = "FSA Writing Test Scores\n(2007/08 - 2018/19)") +
   labs(fill="") +
   theme_bw()
 
@@ -317,5 +318,5 @@ try({
   dir.create(opt$arg2)
 })
 
-# Save FSA reading histogram plot
+# Save FSA writing histogram plot
 ggsave(paste0(opt$arg2, opt$arg5), width = 6, height = 4)

@@ -22,7 +22,7 @@ def main(clean_data, new_data):
   # read in data
   data = pd.read_csv(clean_data)
   
-  # This chunk of code filters data to create a filter
+  # This chunk of code filters data to create a filter based on the 2018/2019 school year data
   filtered_data = data[data.year_start == 2018]
   filtered_data = filtered_data[filtered_data.grade == 4]
   filtered_data = filtered_data[filtered_data['sub_population'].isin(['ABORIGINAL', 'NON ABORIGINAL'])]

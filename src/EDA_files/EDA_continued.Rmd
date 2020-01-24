@@ -48,7 +48,7 @@ filtered_data = data %>%
 t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE)
 ```
 
-The following code cells check using Tiffany's way: comparing scores between schools with both subgroups and schools with only one subgroup (Non Aboriginal). These results show a significant difference between the scores, but upon further analysis this difference is not a reliable way to decide whether we must use only schools with both Aboriginal and Non Aboriginal students. The difference stems from the fact that the scores are average scores of students within a school. By averaging scores of Aboriginal and Non Aboriginal students within a school, we're weighting them equally and so even if there was a smaller number of Aboriginal students that performed poorly, their scores would bring down the average of the entire school in this analysis.
+The following code cells check using Tiffany's way: comparing scores between schools with both subgroups and schools with only one subgroup (Non Aboriginal). These results show a significant difference between the scores.
 
 
 ```{r Difference in Scores for Numeracy Test}
@@ -56,7 +56,7 @@ data <- read_csv('../../data/new_clean_data.csv')
 
 # Filters data for only the subgroups of interest
 filtered_data = data %>%
-  filter(sub_population == 'ABORIGINAL' | sub_population == 'NON ABORIGINAL') %>%
+  filter(sub_population == 'ALL STUDENTS') %>%
   filter(fsa_skill_code == 'Numeracy')
 
 t.test(score ~ has_both, data = filtered_data, var.equal = FALSE)
@@ -66,7 +66,7 @@ t.test(score ~ has_both, data = filtered_data, var.equal = FALSE)
 
 # Filters data for only the subgroups of interest
 filtered_data = data %>%
-  filter(sub_population == 'ABORIGINAL' | sub_population == 'NON ABORIGINAL') %>%
+  filter(sub_population == 'ALL STUDENTS') %>%
   filter(fsa_skill_code == 'Reading')
 
 t.test(score ~ has_both, data = filtered_data, var.equal = FALSE)
@@ -76,7 +76,7 @@ t.test(score ~ has_both, data = filtered_data, var.equal = FALSE)
 
 # Filters data for only the subgroups of interest
 filtered_data = data %>%
-  filter(sub_population == 'ABORIGINAL' | sub_population == 'NON ABORIGINAL') %>%
+  filter(sub_population == 'ALL STUDENTS') %>%
   filter(fsa_skill_code == 'Writing')
 
 t.test(score ~ has_both, data = filtered_data, var.equal = FALSE)

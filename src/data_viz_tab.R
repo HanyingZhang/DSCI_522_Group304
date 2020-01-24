@@ -4,14 +4,19 @@
 "Creates exploratory data visualization(s) and table(s) for the cleaned data
 Saves the plots as png files.
 
-Usage: src/data_viz_tab.r --input=<input> --out_dir=<out_dir>
+Usage: src/data_viz_tab.r --data=<input> --out_dir=<out_dir>
   
 Options:
---input=<input>       Path (including filename) to cleaned data (which needs to be saved as a csv file).
+--data=<input>       Path (including filename) to cleaned data (which needs to be saved as a csv file).
 --out_dir=<out_dir>   Path to directory where the plots should be saved
 " -> doc
 
+# Example of how to run this script:
+# Rscript src/data_viz_tab.R --data="data/clean_data.csv" --out_dir="img"
+
+
 library(docopt)
+library(tidyverse)
 library(dplyr)
 library(janitor)
 library(infer)
@@ -25,7 +30,7 @@ main <- function(data, out_dir){
   df <- read_csv(data) 
   
   theme_set(theme_bw())
-  options(repr.plot.width = 10, repr.plot.height = 10)
+  options(repr.plot.width = 8, repr.plot.height = 8)
   
   pub_ind_numeracy <- df %>%
     filter(fsa_skill_code == "Numeracy" & public_or_independent != 'PROVINCE - TOTAL') %>%
@@ -40,7 +45,9 @@ main <- function(data, out_dir){
          x = "Groups",
          fill = "School Type",
          title = "2007-2018 FSA - Numeracy Test ") +
-    theme(plot.title = element_text(size=12), axis.text = element_text(size=5), axis.title = element_text(size=8)) +
+    theme(plot.title = element_text(size=12), 
+          axis.text = element_text(size=6), 
+          axis.title = element_text(size=8)) +
     coord_flip()
   # Save bar chart for numeracy
   ggsave(plot = bar_plot_numeracy,
@@ -60,7 +67,9 @@ main <- function(data, out_dir){
          x = "Groups",
          fill = "School Type",
          title = "2007-2018 FSA - Reading Test ") +
-    theme(plot.title = element_text(size=12), axis.text = element_text(size=5), axis.title = element_text(size=8)) +
+    theme(plot.title = element_text(size=12), 
+          axis.text = element_text(size=6), 
+          axis.title = element_text(size=8)) +
     coord_flip()
   #Save bar chart for reading
   ggsave(plot = bar_plot_reading,
@@ -81,7 +90,9 @@ main <- function(data, out_dir){
          x = "Groups",
          fill = "School Type",
          title = "2007-2018 FSA - Writing Test ") +
-    theme(plot.title = element_text(size=12), axis.text = element_text(size=5), axis.title = element_text(size=8)) +
+    theme(plot.title = element_text(size=12), 
+          axis.text = element_text(size=6), 
+          axis.title = element_text(size=8)) +
     coord_flip()
   
   ggsave(plot = bar_plot_writing,
@@ -158,11 +169,11 @@ main <- function(data, out_dir){
     ggplot(aes(x = year_start, y = avg)) +
     geom_line(aes(color = public_or_independent)) +
     labs(x = "School year start", y = "Mean FSA score", title = "BC Schools 2007-2018 FSA - Numeracy Test ") +
-    theme(plot.title = element_text(size=9), 
-          axis.text = element_text(size=8), 
+    theme(plot.title = element_text(size=12), 
+          axis.text = element_text(size=6), 
           axis.title = element_text(size=8), 
-          legend.text = element_text(size=6), 
-          legend.title = element_text(size=6))
+          legend.text = element_text(size=7), 
+          legend.title = element_text(size=7))
 
   ggsave(plot = line_plot_numeracy,
          filename = "line_ind_numeracy.png",
@@ -178,11 +189,11 @@ main <- function(data, out_dir){
     ggplot(aes(x = year_start, y = avg)) +
     geom_line(aes(color = public_or_independent)) +
     labs(x = "School year start", y = "Mean FSA score", title = "BC Schools 2007-2018 FSA - Reading Test ") +
-    theme(plot.title = element_text(size=9), 
-          axis.text = element_text(size=8), 
+    theme(plot.title = element_text(size=12), 
+          axis.text = element_text(size=6), 
           axis.title = element_text(size=8), 
-          legend.text = element_text(size=6), 
-          legend.title = element_text(size=6))
+          legend.text = element_text(size=7), 
+          legend.title = element_text(size=7))
   
   ggsave(plot = line_plot_read,
          filename = "line_ind_read.png",
@@ -198,11 +209,11 @@ main <- function(data, out_dir){
     ggplot(aes(x = year_start, y = avg)) +
     geom_line(aes(color = public_or_independent)) +
     labs(x = "School year start", y = "Mean FSA score", title = "BC Schools 2007-2018 FSA - Writing Test ") +
-    theme(plot.title = element_text(size=9), 
-          axis.text = element_text(size=8), 
+    theme(plot.title = element_text(size=12), 
+          axis.text = element_text(size=6), 
           axis.title = element_text(size=8), 
-          legend.text = element_text(size=6), 
-          legend.title = element_text(size=6))
+          legend.text = element_text(size=7), 
+          legend.title = element_text(size=7))
   
   ggsave(plot = line_plot_write,
          filename = "line_ind_write.png",
@@ -219,11 +230,11 @@ main <- function(data, out_dir){
     ggplot(aes(x = year_start, y = avg)) +
     geom_line(aes(color = sub_population)) +
     labs(x = "School year start", y = "Mean FSA score", title = "BC Schools 2007-2018 FSA - Numeracy Test ") +
-    theme(plot.title = element_text(size=9), 
-          axis.text = element_text(size=8), 
+    theme(plot.title = element_text(size=12), 
+          axis.text = element_text(size=6), 
           axis.title = element_text(size=8), 
-          legend.text = element_text(size=6), 
-          legend.title = element_text(size=6))
+          legend.text = element_text(size=7), 
+          legend.title = element_text(size=7))
   
   ggsave(plot = line_plot_numeracy,
          filename = "line_ab_numeracy.png",
@@ -240,11 +251,11 @@ main <- function(data, out_dir){
     ggplot(aes(x = year_start, y = avg)) +
     geom_line(aes(color = sub_population)) +
     labs(x = "School year start", y = "Mean FSA score", title = "BC Schools 2007-2018 FSA - Numeracy Test ") +
-    theme(plot.title = element_text(size=9), 
-          axis.text = element_text(size=8), 
+    theme(plot.title = element_text(size=12), 
+          axis.text = element_text(size=6), 
           axis.title = element_text(size=8), 
-          legend.text = element_text(size=6), 
-          legend.title = element_text(size=6))
+          legend.text = element_text(size=7), 
+          legend.title = element_text(size=7))
   
   ggsave(plot = line_plot_reading,
          filename = "line_ab_reading.png",
@@ -261,17 +272,17 @@ main <- function(data, out_dir){
     ggplot(aes(x = year_start, y = avg)) +
     geom_line(aes(color = sub_population)) +
     labs(x = "School year start", y = "Mean FSA score", title = "BC Schools 2007-2018 FSA - Numeracy Test ") +
-    theme(plot.title = element_text(size=9), 
-          axis.text = element_text(size=8), 
+    theme(plot.title = element_text(size=12), 
+          axis.text = element_text(size=6), 
           axis.title = element_text(size=8), 
-          legend.text = element_text(size=6), 
-          legend.title = element_text(size=6))
+          legend.text = element_text(size=7), 
+          legend.title = element_text(size=7))
   
   ggsave(plot = line_plot_write,
          filename = "line_ab_write.png",
          path = out_dir)
 }  
 
-main(opt[["--train"]], opt[["--out_dir"]])
+main(opt[["--data"]], opt[["--out_dir"]])
 
 

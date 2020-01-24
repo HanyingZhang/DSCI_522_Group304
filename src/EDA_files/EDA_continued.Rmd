@@ -5,7 +5,9 @@ date: "2020-01-22"
 output: gitub_document
 ---
 
-During the EDA process we wondered if we should be concerned in a potential class imbalance between subgroups. This EDA document is a continuation of the previous EDA, but using the output of the new clean_data.py script, and seeks to see if there are any other changes that we need to make in the data cleaning process.
+This EDA file looks at only whether there is still a difference in scores between Aboriginal and Non Aboriginal students using a subset of schools that must have both Aboriginal and Non Aboriginal students. 
+
+The results shown below indicate that there is still a significant difference in scores between the subgroups even when looking only at schools that have both Aboriginal and Non Aboriginal students. 
 
 ```{r}
 library(docopt)
@@ -13,13 +15,71 @@ library(readr)
 library(tidyverse)
 ```
 
-```{r}
-# Loads clean data
-data = read_csv('../data/clean_data.csv')
+
+These first 3 cells show that there's a difference in mean scores between subgroups even if the dataset was filtered to only include schools with both Aboriginal and Non Aboriginal students.
+
+```{r Difference in Scores for Numeracy Test}
+data <- read_csv('../../data/filtered_schools_both_subgroups.csv')
 
 # Filters data for only the subgroups of interest
 filtered_data = data %>%
-  filter(sub_population == 'ABORIGINAL' | sub_population == 'NON ABORIGINAL')
-  
-head(filtered_data)
+  filter(sub_population == 'ABORIGINAL' | sub_population == 'NON ABORIGINAL') %>%
+  filter(fsa_skill_code == 'Numeracy')
+
+t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE)
 ```
+```{r Difference in Scores for Reading Test}
+
+# Filters data for only the subgroups of interest
+filtered_data = data %>%
+  filter(sub_population == 'ABORIGINAL' | sub_population == 'NON ABORIGINAL') %>%
+  filter(fsa_skill_code == 'Reading')
+
+t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE)
+```
+
+```{r Difference in Scores for Writing Test}
+
+# Filters data for only the subgroups of interest
+filtered_data = data %>%
+  filter(sub_population == 'ABORIGINAL' | sub_population == 'NON ABORIGINAL') %>%
+  filter(fsa_skill_code == 'Writing')
+
+t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE)
+```
+
+The following code cells check using Tiffany's way: comparing scores between schools with both subgroups and schools with only one subgroup (Non Aboriginal). These results show a significant difference between the scores, but upon further analysis this difference is not a reliable way to decide whether we must use only schools with both Aboriginal and Non Aboriginal students. The difference stems from the fact that the scores are average scores of students within a school. By averaging scores of Aboriginal and Non Aboriginal students within a school, we're weighting them equally and so even if there was a smaller number of Aboriginal students that performed poorly, their scores would bring down the average of the entire school in this analysis.
+
+
+```{r Difference in Scores for Numeracy Test}
+data <- read_csv('../../data/new_clean_data.csv')
+
+# Filters data for only the subgroups of interest
+filtered_data = data %>%
+  filter(sub_population == 'ABORIGINAL' | sub_population == 'NON ABORIGINAL') %>%
+  filter(fsa_skill_code == 'Numeracy')
+
+t.test(score ~ has_both, data = filtered_data, var.equal = FALSE)
+```
+
+```{r Difference in Scores for Reading Test}
+
+# Filters data for only the subgroups of interest
+filtered_data = data %>%
+  filter(sub_population == 'ABORIGINAL' | sub_population == 'NON ABORIGINAL') %>%
+  filter(fsa_skill_code == 'Reading')
+
+t.test(score ~ has_both, data = filtered_data, var.equal = FALSE)
+```
+
+```{r Difference in Scores for Writing Test}
+
+# Filters data for only the subgroups of interest
+filtered_data = data %>%
+  filter(sub_population == 'ABORIGINAL' | sub_population == 'NON ABORIGINAL') %>%
+  filter(fsa_skill_code == 'Writing')
+
+t.test(score ~ has_both, data = filtered_data, var.equal = FALSE)
+```
+
+

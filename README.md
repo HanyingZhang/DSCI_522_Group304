@@ -3,13 +3,13 @@
 
 Authors: (DSCI 522 Group 304) Anny Chih, Robert Pimentel, & Wenjiao Zou
 
-## About
-
-Using [BC Schools Foundational Skills Assessment
-(FSA)](https://catalogue.data.gov.bc.ca/dataset/bc-schools-foundation-skills-assessment-fsa-)
-scores from school years 2007/2008 through 2018/2019, we looked at
-whether there are differences in exam performance between different
-subgroups and school types to answer two main inferential questions:
+Using (BC Ministry of Education 2019a)
+[here](https://catalogue.data.gov.bc.ca/dataset/bc-schools-foundation-skills-assessment-fsa-/resource/bcb547f0-8ba7-451f-9e11-10524f4d57a0)
+and (BC Ministry of Education 2017a)
+[here](https://catalogue.data.gov.bc.ca/dataset/bc-schools-foundation-skills-assessment-fsa-/resource/97c6cbf7-f529-464a-b771-9719855b86f6)
+from school years 2007/2008 through 2018/2019, we looked at whether
+there are differences in exam performance between different subgroups
+and school types to answer two main inferential questions:
 
 1.  Is there a difference in how well BC Public School vs Independent
     School students perform on the FSA exam?  
@@ -36,16 +36,10 @@ Numeracy and Reading portions of the FSA exam were analyzed
 for additional details).
 
 **Links to Preview Data Source:**  
-\- [Foundation Skills
-Assessment 2017/18-2018/19](https://catalogue.data.gov.bc.ca/dataset/bc-schools-foundation-skills-assessment-fsa-/resource/bcb547f0-8ba7-451f-9e11-10524f4d57a0)  
-\- [Foundation Skills
-Assessment 2007/08-2016/17](https://catalogue.data.gov.bc.ca/dataset/bc-schools-foundation-skills-assessment-fsa-/resource/97c6cbf7-f529-464a-b771-9719855b86f6)
-
-**Links to Preview Data Field Definitions:**  
-\- [FSA Field
-Definitions 2017/18-2018/19](https://catalogue.data.gov.bc.ca/dataset/bc-schools-foundation-skills-assessment-fsa-/resource/ccc5ae0c-922a-4c11-ad44-908d6ec8a873)  
-\- [FSA Field
-Definitions 2007/08-2016/17](https://catalogue.data.gov.bc.ca/dataset/bc-schools-foundation-skills-assessment-fsa-/resource/5f6d7594-5645-4cda-980b-87195d1c1c16)
+\- (BC Ministry of Education 2019b)
+[link](https://catalogue.data.gov.bc.ca/dataset/bc-schools-foundation-skills-assessment-fsa-/resource/bcb547f0-8ba7-451f-9e11-10524f4d57a0)  
+\- (BC Ministry of Education 2017b)
+[link](https://catalogue.data.gov.bc.ca/dataset/bc-schools-foundation-skills-assessment-fsa-/resource/97c6cbf7-f529-464a-b771-9719855b86f6)
 
 ## Report
 
@@ -96,15 +90,40 @@ line/terminal from the root directory of this project:
       - dplyr=0.8.3
       - readr=1.3.1
       - infer=0.5.0
-      - repr=1.0.1
+      - repr=1.0.1 \# References
 
-## License
+<div id="refs" class="references">
 
-The data used in this project was provided by [BC Ministry of
-Education](https://catalogue.data.gov.bc.ca/organization/ministry-of-education)
-- [Education
-Analytics](https://catalogue.data.gov.bc.ca/organization/education-analytics)
-and is licenced under an [Open Government Licence - British
-Columbia](https://www2.gov.bc.ca/gov/content/data/open-data/open-government-licence-bc).
+<div id="ref-FSA2">
 
-## References
+BC Ministry of Education, Education Analytics. 2017a. “Foundation Skills
+Assessment 2007/08-2016/17.” BC Ministry of Education.
+<https://catalogue.data.gov.bc.ca/dataset/bc-schools-foundation-skills-assessment-fsa-/resource/97c6cbf7-f529-464a-b771-9719855b86f6>.
+
+</div>
+
+<div id="ref-Definitions2">
+
+———. 2017b. “FSA Field Definitions 2007/08-2016/17.” BC Ministry of
+Education.
+<https://catalogue.data.gov.bc.ca/dataset/bc-schools-foundation-skills-assessment-fsa-/resource/5f6d7594-5645-4cda-980b-87195d1c1c16>.
+
+</div>
+
+<div id="ref-FSA1">
+
+———. 2019a. “Foundation Skills Assessment 2017/18-2018/19.” BC Ministry
+of Education.
+<https://catalogue.data.gov.bc.ca/dataset/bc-schools-foundation-skills-assessment-fsa-/resource/bcb547f0-8ba7-451f-9e11-10524f4d57a0>.
+
+</div>
+
+<div id="ref-Definitions1">
+
+———. 2019b. “FSA Field Definitions 2017/18-2018/19.” BC Ministry of
+Education.
+<https://catalogue.data.gov.bc.ca/dataset/bc-schools-foundation-skills-assessment-fsa-/resource/ccc5ae0c-922a-4c11-ad44-908d6ec8a873>.
+
+</div>
+
+</div>

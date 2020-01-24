@@ -18,10 +18,7 @@ Options:
 library(docopt)
 library(tidyverse)
 library(dplyr)
-library(janitor)
-library(infer)
 library(repr)
-library(feather)
 
 opt <- docopt(doc)
 

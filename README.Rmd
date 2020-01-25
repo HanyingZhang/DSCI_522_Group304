@@ -31,7 +31,7 @@ The dataset used in this project includes two data files that contain FSA scores
 
 ## Report
 
-The final report can be found [here]('doc/report.md')
+The final report can be found [here](https://github.com/UBC-MDS/DSCI_522_Group304/blob/master/doc/report.md)
 
 ## Usage
 To replicate the analysis, clone this GitHub repository, install the dependencies listed below, and run the following commands at the command line/terminal from the root directory of this project:

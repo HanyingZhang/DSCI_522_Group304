@@ -43,7 +43,8 @@ for additional details).
 
 ## Report
 
-The final report can be found [here]('doc/report.md')
+The final report can be found
+[here](https://github.com/UBC-MDS/DSCI_522_Group304/blob/master/doc/report.md)
 
 ## Usage
 
@@ -98,7 +99,7 @@ line/terminal from the root directory of this project:
 
 # References
 
-<div id="refs" class="references hanging-indent">
+<div id="refs" class="references">
 
 <div id="ref-FSA2">
 

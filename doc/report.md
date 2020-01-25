@@ -104,10 +104,25 @@ Definitions 2007/08-2016/17](https://catalogue.data.gov.bc.ca/dataset/bc-schools
 
 The R and Python programming languages (R Core Team 2019; Van Rossum and
 Drake 2009) and the following R and Python packages were used in this
-project: - tidyverse (Wickham 2017) - knitr (Xie 2014) - docopt (de
-Jonge 2018) - docoptpython (Keleshev 2014) - dplyr (Wickham et al. 2019)
-- repr (Angerer, Kluyver, and Schulz 2019) - pandas (Safia Abdalla 2019)
-- readr (Wickham, Hester, and Francois 2018) - infer (Bray et al. 2019)
+project:
+
+  - tidyverse (Wickham 2017)
+
+  - knitr (Xie 2014)
+
+  - docopt (de Jonge 2018)
+
+  - docoptpython (Keleshev 2014)
+
+  - dplyr (Wickham et al. 2019)
+
+  - repr (Angerer, Kluyver, and Schulz 2019)
+
+  - pandas (Safia Abdalla 2019)
+
+  - readr (Wickham, Hester, and Francois 2018)
+
+  - infer (Bray et al. 2019)
 
 T-tests were carried out to test the null hypothesis that there are no
 differences in the means of the aggregate FSA scores between students of

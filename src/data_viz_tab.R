@@ -1,4 +1,4 @@
-# author: Group 304
+# author: Group 304 (Wenjiao Zou)
 # date: 2020-01-22
 
 "Creates exploratory data visualization(s) and table(s) for the cleaned data

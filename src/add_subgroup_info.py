@@ -1,4 +1,4 @@
-# author: Group 304
+# author: Group 304 (Anny Chih)
 # date: 2020-01-22
 
 """This script takes in a cleaned datafile and 

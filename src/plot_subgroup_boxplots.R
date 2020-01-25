@@ -1,4 +1,4 @@
-# author: Group 304
+# author: Group 304 (Anny Chih)
 # date: 2020-02-21
 
 "This script produces 3 boxplots comparing FSA scores (Numeracy, Reading, and Writing) for Aboriginal and Non Aboriginal students
@@ -43,7 +43,7 @@ filtered_data_writing <- filtered_data %>%
 # Creates a boxplot for Numeracy
 boxplot_numeracy <- ggplot(filtered_data_numeracy, aes(x = sub_population, y = score)) +
   geom_boxplot(width = 0.7 , alpha=0.9 , size=0.3, colour="black") +
-  labs(x = 'Sub Group',
+  labs(x = 'Subgroup',
        y = 'Average Score',
        title = 'FSA Numeracy Test Scores (2007/08 - 2018/19)') +
   stat_summary(fun.y = mean,
@@ -58,7 +58,7 @@ ggsave(opt$arg2, width = 8, height = 10)
 # Creates a boxplot for Reading
 boxplot_reading <- ggplot(filtered_data_reading, aes(x = sub_population, y = score)) +
   geom_boxplot(width = 0.7 , alpha=0.9 , size=0.3, colour="black") +
-  labs(x = 'Sub Group',
+  labs(x = 'Subgroup',
        y = 'Average Score',
        title = 'FSA Reading Test Scores (2007/08 - 2018/19)') +
   stat_summary(fun.y = mean,
@@ -73,7 +73,7 @@ ggsave(opt$arg3, width = 8, height = 10)
 # Creates a boxplot for Writing
 boxplot_writing <- ggplot(filtered_data_writing, aes(x = sub_population, y = score)) +
   geom_boxplot(width = 0.7 , alpha=0.9 , size=0.3, colour="black") +
-  labs(x = 'Sub Group',
+  labs(x = 'Subgroup',
        y = 'Average Score',
        title = 'FSA Writing Test Scores (2007/08 - 2018/19)') +
   stat_summary(fun.y = mean,

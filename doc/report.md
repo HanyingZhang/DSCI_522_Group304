@@ -1,7 +1,7 @@
 Are There Differences in FSA Scores Between Subgroups?
 ================
 DSCI 522 Group 304: Anny Chih, Robert Pimentel, & Wenjiao Zou <br>
-2020-01-23 (updated: 2020-01-24)
+2020-01-23 (updated: 2020-01-25)
 
 # Summary
 
@@ -94,10 +94,25 @@ Definitions 2007/08-2016/17](https://catalogue.data.gov.bc.ca/dataset/bc-schools
 
 The R and Python programming languages (R Core Team 2019; Van Rossum and
 Drake 2009) and the following R and Python packages were used in this
-project: - tidyverse (Wickham 2017) - knitr (Xie 2014) - docopt (de
-Jonge 2018) - docoptpython (Keleshev 2014) - dplyr (Wickham et al. 2019)
-- repr (Angerer, Kluyver, and Schulz 2019) - pandas (Safia Abdalla 2019)
-- readr (Wickham, Hester, and Francois 2018) - infer (Bray et al. 2019)
+project:
+
+  - tidyverse (Wickham 2017)
+
+  - knitr (Xie 2014)
+
+  - docopt (de Jonge 2018)
+
+  - docoptpython (Keleshev 2014)
+
+  - dplyr (Wickham et al. 2019)
+
+  - repr (Angerer, Kluyver, and Schulz 2019)
+
+  - pandas (Safia Abdalla 2019)
+
+  - readr (Wickham, Hester, and Francois 2018)
+
+  - infer (Bray et al. 2019)
 
 T-tests were carried out to test the null hypothesis that there are no
 differences in the means of the aggregate FSA scores between students of
@@ -160,10 +175,18 @@ Fig: Boxplots of mean aggregate scores for Numeracy and Reading sections
 of the FSA exam by school type (BC Independent School / BC Public
 School)
 
-The following histograms were created by taking random samples of
-aggregate scores from both groups and plotting the distribution of their
-means.\[ROBERT - PLEASE FILL THIS SECTION
-OUT\]
+Data from both groups was filtered accordingly to observe the
+distribution of aggregate scores using histograms (bin size = 50). In
+addition, 95% confidence intervals of the mean aggregate scores were
+estimated by bootstrapping the aggregate scores for all students, for
+both groups, using a random sample (size = 50) and resampling with
+replacement 5000 times.
+
+Noticed that because the confidence intervals (difference between dash
+lines of same color) for both groups and skills do not overlap, we
+should expect a significant difference in mean aggregate scores for both
+skills between groups when we run a T-test
+statistics.
 
 <img src="../img/fig_pi_histogram_numeracy.png" width="50%" /><img src="../img/fig_pi_histogram_reading.png" width="50%" />
 
@@ -243,8 +266,12 @@ groups.
 Fig: Boxplots of mean aggregate scores for Numeracy and Reading sections
 of the FSA exam by subgroup (Aboriginal / Non Aboriginal)
 
-\[ROBERT - PLEASE FILL THIS SECTION
-OUT\]
+Histograms and confidence intervals for both FSA skills and groups
+(aboriginal vs non-aboriginal) were constructed in the same way as with
+the independent vs public shools for consistency purposes. Results on
+the plots also indicate that there is a significant difference in scores
+between the two student’s subgroups for both numeracy and reading
+skills.
 
 <img src="../img/fig_ana_histogram_numeracy.png" width="50%" /><img src="../img/fig_ana_histogram_reading.png" width="50%" />
 

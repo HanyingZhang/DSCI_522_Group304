@@ -26,11 +26,11 @@ Using [BC Schools Foundational Skills Assessment (FSA)](https://catalogue.data.g
 By conducting hypothesis testing using t-test statistics and a 95% confidence interval, we determined that:  
 
 1. Yes, there is a difference in how well BC Public School vs Independent School students perform on the Numeracy and Reading portions of the FSA exam; Independent School student scores are higher than Public School student scores.
-2. Yes, there a difference in how well Aboriginal vs Non Aboriginal students perform on the Numeracy and Reading portions of the FSA exam; Non Aboriginal student scores are higher than Aboriginal student scores
+2. Yes, there a difference in how well Aboriginal vs Non Aboriginal students perform on the Numeracy and Reading portions of the FSA exam; Non Aboriginal student scores are higher than Aboriginal student scores.
 
 # Introduction
 
-Each year, the [BC Ministry of Education](https://catalogue.data.gov.bc.ca/organization/ministry-of-education) administers Foundational Skills Assessment (FSA) exams to all Grade 4 and 7 students in the province. The exams are split into three sections to provide parents, teachers, schools, and other organizations with information on how well students are performing in the areas of Numeracy, Reading, and Writing.
+Each year, the [BC Ministry of Education](https://catalogue.data.gov.bc.ca/organization/ministry-of-education) administers Foundational Skills Assessment (FSA) exams to all Grade 4 and 7 students in the province. The exams are split into three sections to provide parents, teachers, schools, and other organizations with information on how well students are performing in the areas of Numeracy, Reading, and Writing. 
 
 By analyzing the differences in FSA scores between different school types (Public / Independent) and subgroups (Aboriginal / Non Aboriginal) using this publicly available dataset, we aim to highlight potential discrepancies in the quality of education that young students receive within the province.  
 
@@ -43,11 +43,11 @@ We believe it's important for every child in BC to receive a quality education r
 data = read_csv('../data/clean_data.csv')
 ```
 
-The data used in this project was provided by [BC Ministry of Education](https://catalogue.data.gov.bc.ca/organization/ministry-of-education) - [Education Analytics](https://catalogue.data.gov.bc.ca/organization/education-analytics) and is licenced under an [Open Government Licence - British Columbia](https://www2.gov.bc.ca/gov/content/data/open-data/open-government-licence-bc).
+The data used in this project was provided by [BC Ministry of Education](https://catalogue.data.gov.bc.ca/organization/ministry-of-education)- [Education Analytics](https://catalogue.data.gov.bc.ca/organization/education-analytics) and is licenced under an [Open Government Licence - British Columbia](https://www2.gov.bc.ca/gov/content/data/open-data/open-government-licence-bc).
 
 This project uses two data files that contain FSA scores from BC students in Grades 4 and 7. The data in the two files have some differences in score summary columns (see FSA field definitions for more info), so only the common fields from these data files are included in this project's analysis. Rows with summary scores on provincial and district levels have been removed so that only school-level information remains. One row of erroneous data was also removed.
 
-The score shown on each row of data represents the average score of all students who wrote the specified exam (Numeracy / Reading / Writing), within the noted school and subgroup. Since the Writing portion of the exam was scored out of 12 from 2007/08-2016/17 but was changed to be scored out of 4 (only one question) in 2017, we have removed it from this analysis and focus only on scores within the Numeracy and Reading portions of the FSA exam.
+The score shown on each row of data represents the average score of all students who wrote the specified exam (Numeracy / Reading / Writing), within the noted school and subgroup. Since the Writing portion of the exam was scored out of 12 from 2007/08 - 2016/17 but was changed to be scored out of 4 (only one question) in 2017/2018, we have removed it from this analysis and focus only on scores within the Numeracy and Reading portions of the FSA exam.
 
 **Links to Preview Data:**  
 - [Foundation Skills Assessment 2017/18-2018/19](https://catalogue.data.gov.bc.ca/dataset/bc-schools-foundation-skills-assessment-fsa-/resource/bcb547f0-8ba7-451f-9e11-10524f4d57a0)  
@@ -90,24 +90,24 @@ During the exploratory data analysis portion of this project, we found that acro
 
 The bar plots below show scores across all subgroups for students from BC Independent Schools and BC Public Schools for Numeracy and Reading sections of the exam. The line graphs below show the scores for all students across time (2007/2008 - 2018/2019 school years) for the same exam sections. BC Independent School scores are represented in red, and BC Public School scores are represented in blue.
 
-*Note:* The graphs below have been shrunken to fit within the width of this report and may be difficult to read. The purpose of including these graphs is simply to illustrate that mean aggregate scores for BC Independent School students were generally higher than mean aggregate scores for BC Public School students across all subgroups and time periods. To view larger versions of the graphs, please see the 'img' folder of this project repository.
+*Note:* The graphs below have been shrunken to fit within the width of this report and may be difficult to read. The purpose of including these graphs is simply to illustrate that mean aggregate scores for BC Independent School students were generally higher than mean aggregate scores for BC Public School students across all subgroups and time periods. To view larger versions of the graphs, please see the [img](https://github.com/UBC-MDS/DSCI_522_Group304/tree/master/img) folder of the project repository.
 
 ```{r EDA1 Bar Plots, echo=FALSE, out.width='50%'}
 knitr::include_graphics(c('../img/bar_plot_numeracy.png', '../img/bar_plot_reading.png'))
 ```
 
-Fig: Mean aggregate scores by across subgroups (Red: BC Independent Schools, Blue: BC Public Schools)
+Fig: Mean aggregate scores for Numeracy and Reading sections of the FSA exam by school type and subgroup (Red: BC Independent Schools, Blue: BC Public Schools)
 
 ```{r EDA1 Line Plots, echo=FALSE, out.width='50%'}
 knitr::include_graphics(c('../img/line_ind_numeracy.png', '../img/line_ind_read.png'))
 ```
 
-Fig: Mean aggregate scores by across subgroups (Red: BC Independent Schools, Blue: BC Public Schools)
+Fig: Mean aggregate scores for Numeracy and Reading sections of the FSA exam by school type over time (Red: BC Independent Schools, Blue: BC Public Schools)
 
 **ANALYSIS**  
 To determine if the differences in mean aggregate FSA scores seen above are significant, we first visualized the scores using boxplots and histograms to plot the mean aggregate scores for each exam section.
 
-The following plots visualize the difference in scores using boxplots. The boxplots for the mean aggregate scores between the subgroups does not overlap much for both Numeracy and Reading sections of the exam, which suggests that the difference in scores may be significant.
+The following plots visualize the difference in scores using boxplots. The boxplots for the mean aggregate scores between the subgroups do not overlap much for both Numeracy and Reading sections of the exam, which suggests that the differences in scores may be significant.
 
 ```{r Q1 Numeracy Boxplot, echo=FALSE, out.width='50%'}
 knitr::include_graphics(c('../img/fig_pi_numeracy.png', '../img/fig_pi_reading.png'))
@@ -117,7 +117,7 @@ Fig: Boxplots of mean aggregate scores for Numeracy and Reading sections of the 
 
 Data from both groups was filtered accordingly to observe the distribution of aggregate scores using histograms (bin size = 50). In addition, 95% confidence intervals of the mean aggregate scores were estimated by bootstrapping the aggregate scores for all students, for both groups, using a random sample (size = 50) and resampling with replacement 5000 times. 
 
-Noticed that because the confidence intervals (difference between dash lines of same color) for both groups and skills do not overlap, we should expect a significant difference in mean aggregate scores for both skills between groups when we run a T-test statistics.
+Note that because the confidence intervals (areas between dash lines of same color) for both groups do not overlap in either histogram, we can expect a significant difference in mean aggregate scores for both skills between groups when we apply T-tests.
 
 ```{r Q1 Numeracy Histogram, echo=FALSE, out.width='50%'}
 knitr::include_graphics(c('../img/fig_pi_histogram_numeracy.png', '../img/fig_pi_histogram_reading.png'))
@@ -127,7 +127,7 @@ Fig: Histograms showing distributions of mean aggregate scores for Numeracy and 
 
 After visualizing the differences, we conducted t-tests at a 95% confidence interval to confirm that the differences are actually significant at this level, and find that they are:
 
-T-test for Differences in Numeracy Scores Between BC Independent School Students and BC Public School Students:
+*T-test for Differences in Numeracy Scores Between BC Independent School Students and BC Public School Students:*
 ```{r t-test School Type - Numeracy, eval=TRUE}
 # Filters data for only the subgroups of interest
 filtered_data = data %>%
@@ -137,7 +137,7 @@ filtered_data = data %>%
 t.test(score ~ public_or_independent, data = filtered_data, var.equal = FALSE)
 ```
 
-T-test for Differences in Reading Scores Between BC Independent School Students and BC Public School Students:
+*T-test for Differences in Reading Scores Between BC Independent School Students and BC Public School Students:*
 ```{r t-test School Type - Reading, eval=TRUE}
 # Filters data for only the subgroups of interest
 filtered_data = data %>%
@@ -157,13 +157,13 @@ During the exploratory data analysis portion of this project, we found that scor
 knitr::include_graphics(c('../img/bar_plot_ab_numeracy.png', '../img/bar_plot_ab_read.png'))
 ```
 
-Fig: Mean aggregate scores by subgroup (Aboriginal / Non Aboriginal)
+Fig: Mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Aboriginal / Non Aboriginal)
 
 ```{r EDA2 Line Plots, echo=FALSE, out.width='50%'}
 knitr::include_graphics(c('../img/line_ab_numeracy.png', '../img/line_ab_reading.png'))
 ```
 
-Fig: Mean aggregate scores of subgroups (Aboriginal / Non Aboriginal) over time
+Fig: Mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Aboriginal / Non Aboriginal) over time
 
 **ANALYSIS**  
 To determine if the differences in mean aggregate FSA scores seen above are significant, we again visualized the scores using boxplots and histograms to plot the mean aggregate scores for each exam section.
@@ -176,7 +176,7 @@ knitr::include_graphics(c('../img/fig_ana_numeracy.png', '../img/fig_ana_reading
 
 Fig: Boxplots of mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Aboriginal / Non Aboriginal)
 
-Histograms and confidence intervals for both FSA skills and groups (aboriginal vs non-aboriginal) were constructed in the same way as with the independent vs public shools for consistency purposes. Results on the plots also indicate that there is a significant difference in scores between the two student's subgroups for both numeracy and reading skills.
+For consistency, histograms and confidence intervals for both skills (Numeracy and Reading) and subgroups (aboriginal vs non-aboriginal) were constructed in the same way here as with the independent vs public shool analysis. Results on these plots also indicate that there is a significant difference in scores between the two student subgroups for both numeracy and reading skills.
 
 ```{r Q2 Numeracy Histogram, echo=FALSE, out.width='50%'}
 knitr::include_graphics(c('../img/fig_ana_histogram_numeracy.png', '../img/fig_ana_histogram_reading.png'))
@@ -186,7 +186,7 @@ Fig: Histograms showing distributions of mean aggregate scores for Numeracy and 
 
 After visualizing the differences, we conducted t-tests at a 95% confidence interval to confirm that the differences are actually significant at this level, and find that they are:
 
-T-test for Differences in Numeracy Scores Between Aboriginal and Non Aboriginal Students:
+*T-test for Differences in Numeracy Scores Between Aboriginal and Non Aboriginal Students:*
 ```{r t-test Subgroups - Numeracy, eval=TRUE}
 # Filters data for only the subgroups of interest
 filtered_data = data %>%
@@ -196,7 +196,7 @@ filtered_data = data %>%
 t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE)
 ```
 
-T-test for Differences in Reading Scores Between Aboriginal and Non Aboriginal Students:
+*T-test for Differences in Reading Scores Between Aboriginal and Non Aboriginal Students:*
 ```{r t-test Subgroups - Reading, eval=TRUE}
 # Filters data for only the subgroups of interest
 filtered_data = data %>%
@@ -210,13 +210,13 @@ t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE)
 
 The graphs and statistical tests above confirm that there are significant differences in mean aggregate FSA exam scores between students from BC Independent Schools and BC Public Schools, and between Aboriginal and Non Aboriginal students, in Numeracy and Reading portions of the exam. The next question we'd like *you* to answer is what we can do about this.
 
-## Notes
+## Notes on Limitations
 
-As with all inferential analyses such as this one, it's possible that there are confounding variables that have not been accounted for in this project. Such variables may include the funding each school receives, the level of affluence of a school's district, whether the neighborhood offers programs to improve numeracy and reading skills, and so on. In an effort to combat this issue, we did also run t-tests using subsets of the data to confirm that there are significant differences in scores for Aboriginal and Non Aboriginal students even in subsets of the data that include only schools with both subgroups of students. 
+As with all inferential analyses such as this one, it's possible that there are confounding variables that have not been accounted for in this project. Such variables may include the funding each school receives, the level of affluence of a school's district, whether the neighborhood offers programs to improve numeracy and reading skills, and so on. In an effort to combat this issue, we ran additional t-tests to confirm that there are significant differences in scores for Aboriginal and Non Aboriginal students even in subsets of the data that include only schools with both subgroups of students. 
 
 To determine if schools met the criteria of having both Aboriginal and Non Aboriginal students, the data was filtered to include only schools who had both Aboriginal and Non Aboriginal Grade 4 students who wrote the exam in the 2018/2019 school year. For more details, please see the `src/filter_schools_both_subgroups.py` script.
 
-The following t-test confirms that there is a significant difference at the 95% confidence interval between Numeracy scores of Aboriginal and Non Aboriginal students:
+The following t-test confirms that there is a significant difference at the 95% confidence interval between Numeracy scores of Aboriginal and Non Aboriginal students using this school data subset:
 
 ```{r Notes Load subset data 1, include=FALSE, eval=TRUE}
 sub_data <- read_csv('../data/filtered_schools_both_subgroups.csv')
@@ -232,7 +232,7 @@ filtered_data = sub_data %>%
 t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE)
 ```
 
-The following t-test confirms that there is a significant difference at the 95% confidence interval between Reading scores of Aboriginal and Non Aboriginal students:
+The following t-test confirms that there is a significant difference at the 95% confidence interval between Reading scores of Aboriginal and Non Aboriginal students using this school data subset:
 
 ```{r Notes Subdata Difference in Scores for Reading Test, eval=TRUE}
 
@@ -243,34 +243,5 @@ filtered_data = sub_data %>%
 
 t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE)
 ```
-
-However, this isn't to say that there are no differences between schools with and without Aboriginal students. In fact, the following t-test confirms that there is also a significant difference in Numeracy scores (for all students) for schools with Aboriginal students and students without Aboriginal students.
-
-```{r Notes Load subset data 2, include=FALSE, eval=TRUE}
-new_data <- read_csv('../data/new_clean_data.csv')
-```
-
-```{r Notes School Difference in Scores for Numeracy Test, eval=TRUE}
-# Filters data for only the subgroups of interest
-filtered_data = new_data %>%
-  filter(sub_population == 'ALL STUDENTS') %>%
-  filter(fsa_skill_code == 'Numeracy')
-
-t.test(score ~ has_both, data = filtered_data, var.equal = FALSE)
-```
-
-And this test confirms that there is also a significant difference in Reading scores (for all students) for schools with Aboriginal students and students without Aboriginal students.
-
-```{r Notes School Difference in Scores for Reading Test, eval=TRUE}
-
-# Filters data for only the subgroups of interest
-filtered_data = new_data %>%
-  filter(sub_population == 'ALL STUDENTS') %>%
-  filter(fsa_skill_code == 'Reading')
-
-t.test(score ~ has_both, data = filtered_data, var.equal = FALSE)
-```
-
-What all these tests mean is that there may be other factors (ex. school district affluence) that happen to be associated with whether a school has Aboriginal students (ex. Aboriginal communities may be more likely to live in areas with lower affluence) that contribute to whether a school's students perform well on the FSA exam. But, even if you look at only schools with both Aboriginal and Non Aboriginal students, there is still a significant difference in the scores between these two subgroups. We chose not to filter the dataset used in the `Analysis` section of this report to include only schools with both Aboriginal and Non Aboriginal students so that we would have a larger dataset to sample from when visualizing the differences.
 
 ## References

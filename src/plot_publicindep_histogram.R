@@ -1,4 +1,4 @@
-# author: Group 304
+# author: Group 304 (Robert Pimentel)
 # date: 2020-01-23
 
 "This script produces 3 histogram comparing FSA average scores (Numeracy, Reading, and Writing) for students in Public schools vs Independent Schools

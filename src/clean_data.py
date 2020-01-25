@@ -1,4 +1,4 @@
-# author: Group 304
+# author: Group 304 (Anny Chih)
 # date: 2020-01-21
 
 """This script takes in 2 .csv files of FSA scores, 

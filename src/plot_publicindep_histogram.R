@@ -62,8 +62,8 @@ non_eng_lang_learner<- subgroup('NON ENGLISH LANGUAGE LEARNER')
 special <- subgroup('SPECIAL NEEDS NO GIFTED')
 
 #CONFINDENCE INTERVAL FUNCTION
-set.seed(11)
-ci_ind <- function(df, skill, ind, size=40){
+set.seed(1234)
+ci_ind <- function(df, skill, ind, size=50){
   one_sample <- df %>%
     filter(fsa_skill_code == skill & public_or_independent == ind) %>%
     rep_sample_n(size) %>%

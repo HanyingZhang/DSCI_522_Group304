@@ -90,7 +90,9 @@ line/terminal from the root directory of this project:
       - dplyr=0.8.3
       - readr=1.3.1
       - infer=0.5.0
-      - repr=1.0.1 \# References
+      - repr=1.0.1
+
+# References
 
 <div id="refs" class="references">
 

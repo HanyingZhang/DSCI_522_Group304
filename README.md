@@ -96,10 +96,11 @@ line/terminal from the root directory of this project:
       - readr=1.3.1
       - infer=0.5.0
       - repr=1.0.1
+  - GNU make 3.81
 
 # References
 
-<div id="refs" class="references">
+<div id="refs" class="references hanging-indent">
 
 <div id="ref-FSA2">
 

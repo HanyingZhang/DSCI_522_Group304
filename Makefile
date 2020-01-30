@@ -10,11 +10,11 @@ data/fsa_2007-2016.csv : src/load_data.R
 
 # Clean the data
 data/clean_data.csv : data/fsa_2017-2018.csv data/fsa_2007-2016.csv src/clean_data.py
-	/opt/miniconda3/envs/mds/bin/python src/clean_data.py --raw_data1='data/fsa_2007-2016.csv' --raw_data2='data/fsa_2017-2018.csv' --local_path='data/clean_data.csv'
+	python src/clean_data.py --raw_data1='data/fsa_2007-2016.csv' --raw_data2='data/fsa_2017-2018.csv' --local_path='data/clean_data.csv'
 
 # Make a data file that includes only schools with both Aboriginal and Non Aboriginal students
 data/filtered_schools_both_subgroups.csv : data/clean_data.csv src/filter_schools_both_subgroups.py
-	/opt/miniconda3/envs/mds/bin/python src/filter_schools_both_subgroups.py --clean_data='data/clean_data.csv' --new_data='data/filtered_schools_both_subgroups.csv'
+	python src/filter_schools_both_subgroups.py --clean_data='data/clean_data.csv' --new_data='data/filtered_schools_both_subgroups.csv'
 
 # Generate EDA line and bar charts
 img/lines_and_bars : data/clean_data.csv src/data_viz_tab.R

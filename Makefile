@@ -1,4 +1,4 @@
-all: doc/report.md data/filtered_schools_both_subgroups.csv
+all: data/filtered_schools_both_subgroups.csv doc/report.md
 
 data/fsa_2017-2018.csv : src/load_data.R
 	Rscript src/load_data.R 'https://catalogue.data.gov.bc.ca/dataset/5554165d-e365-422f-bf85-4f6e4c9167dc/resource/bcb547f0-8ba7-451f-9e11-10524f4d57a0/download/foundation-skills-assessment-2017-18_to_2018-19.csv' --arg2='data/fsa_2017-2018.csv'

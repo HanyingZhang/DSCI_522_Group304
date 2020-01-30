@@ -1,7 +1,17 @@
 Are There Differences in FSA Scores Between Subgroups?
 ================
 DSCI 522 Group 304: Anny Chih, Robert Pimentel, & Wenjiao Zou <br>
-2020-01-23 (updated: 2020-01-29)
+2020-01-23 (updated: 2020-01-30)
+
+  - [Summary](#summary)
+  - [Introduction](#introduction)
+  - [Methods](#methods)
+      - [Data](#data)
+      - [Analysis](#analysis)
+  - [Results](#results)
+      - [Conclusion](#conclusion)
+      - [Notes on Limitations](#notes-on-limitations)
+      - [References](#references)
 
 # Summary
 
@@ -12,9 +22,26 @@ whether there are differences in exam performance between different
 subgroups and school types to answer two main inferential questions:
 
 1.  Is there a difference in how well BC Public School vs Independent
-    School students perform on the FSA exam?  
+    School students perform on the Numeracy and Reading sections of the
+    FSA exam?
+    
+      - *Null Hypothesis*: There is no difference in how well BC Public
+        School and Independent School students perform on the Numeracy
+        and Reading sections of the FSA exam.  
+      - *Alternative Hypothesis*: There is a difference in how well BC
+        Public School and Independent School students perform on the
+        Numeracy and Reading sections of the FSA exam.
+
 2.  Is there a difference in how well Aboriginal vs Non Aboriginal
-    students perform on the FSA exam?
+    students perform on the Numeracy and Reading sections of the FSA
+    exam?
+    
+      - *Null Hypothesis*: There is no difference in how well Aboriginal
+        and Non Aboriginal students perform on the Numeracy and Reading
+        sections of the FSA exam.  
+      - *Alternative Hypothesis*: There is a difference in how well
+        Aboriginal and Non Aboriginal students perform on the Numeracy
+        and Reading sections of the FSA exam.
 
 By conducting hypothesis testing using t-test statistics and a 95%
 confidence interval, we determined that:
@@ -114,6 +141,12 @@ project:
 
   - infer (Bray et al. 2019)
 
+  - broom
+    (<span class="citeproc-not-found" data-reference-id="broom">**???**</span>)
+
+  - Makefile
+    (<span class="citeproc-not-found" data-reference-id="Makefile">**???**</span>)
+
 T-tests were carried out to test the null hypothesis that there are no
 differences in the means of the aggregate FSA scores between students of
 different subgroups, as shown in this report. Additional code used to
@@ -145,15 +178,13 @@ Independent School students were generally higher than mean aggregate
 scores for BC Public School students across all subgroups and time
 periods. To view larger versions of the graphs, please see the
 [img](https://github.com/UBC-MDS/DSCI_522_Group304/tree/master/img)
-folder of the project
-repository.
+folder of the project repository.
 
 <img src="../img/bar_plot_numeracy.png" width="50%" /><img src="../img/bar_plot_reading.png" width="50%" />
 
 Fig: Mean aggregate scores for Numeracy and Reading sections of the FSA
 exam by school type and subgroup (Red: BC Independent Schools, Blue: BC
-Public
-Schools)
+Public Schools)
 
 <img src="../img/line_ind_numeracy.png" width="50%" /><img src="../img/line_ind_read.png" width="50%" />
 
@@ -169,8 +200,7 @@ histograms to plot the mean aggregate scores for each exam section.
 The following plots visualize the difference in scores using boxplots.
 The boxplots for the mean aggregate scores between the subgroups do not
 overlap much for both Numeracy and Reading sections of the exam, which
-suggests that the differences in scores may be
-significant.
+suggests that the differences in scores may be significant.
 
 <img src="../img/fig_pi_numeracy.png" width="50%" /><img src="../img/fig_pi_reading.png" width="50%" />
 
@@ -188,8 +218,7 @@ replacement 5000 times.
 Note that because the confidence intervals (areas between dash lines of
 same color) for both groups do not overlap in either histogram, we can
 expect a significant difference in mean aggregate scores for both skills
-between groups when we apply
-T-tests.
+between groups when we apply T-tests.
 
 <img src="../img/fig_pi_histogram_numeracy.png" width="50%" /><img src="../img/fig_pi_histogram_reading.png" width="50%" />
 
@@ -204,32 +233,20 @@ significant at this level, and find that they are:
 *T-test for Differences in Numeracy Scores Between BC Independent School
 Students and BC Public School Students:*
 
-    ## 
-    ##  Welch Two Sample t-test
-    ## 
-    ## data:  score by public_or_independent
-    ## t = 118.01, df = 21472, p-value < 2.2e-16
-    ## alternative hypothesis: true difference in means is not equal to 0
-    ## 95 percent confidence interval:
-    ##  60.42374 62.46486
-    ## sample estimates:
-    ## mean in group BC Independent School      mean in group BC Public School 
-    ##                            537.8528                            476.4085
+    ## # A tibble: 1 x 10
+    ##   estimate estimate1 estimate2 statistic p.value parameter conf.low conf.high
+    ##      <dbl>     <dbl>     <dbl>     <dbl>   <dbl>     <dbl>    <dbl>     <dbl>
+    ## 1     61.4      538.      476.      118.       0    21472.     60.4      62.5
+    ## # … with 2 more variables: method <chr>, alternative <chr>
 
 *T-test for Differences in Reading Scores Between BC Independent School
 Students and BC Public School Students:*
 
-    ## 
-    ##  Welch Two Sample t-test
-    ## 
-    ## data:  score by public_or_independent
-    ## t = 123.39, df = 21554, p-value < 2.2e-16
-    ## alternative hypothesis: true difference in means is not equal to 0
-    ## 95 percent confidence interval:
-    ##  51.85891 53.53303
-    ## sample estimates:
-    ## mean in group BC Independent School      mean in group BC Public School 
-    ##                            535.2799                            482.5839
+    ## # A tibble: 1 x 10
+    ##   estimate estimate1 estimate2 statistic p.value parameter conf.low conf.high
+    ##      <dbl>     <dbl>     <dbl>     <dbl>   <dbl>     <dbl>    <dbl>     <dbl>
+    ## 1     52.7      535.      483.      123.       0    21554.     51.9      53.5
+    ## # … with 2 more variables: method <chr>, alternative <chr>
 
 **Question 2: Is there a difference in how well Aboriginal vs Non
 Aboriginal students perform on the FSA exam?**
@@ -246,8 +263,7 @@ time.
 <img src="../img/bar_plot_ab_numeracy.png" width="50%" /><img src="../img/bar_plot_ab_read.png" width="50%" />
 
 Fig: Mean aggregate scores for Numeracy and Reading sections of the FSA
-exam by subgroup (Aboriginal / Non
-Aboriginal)
+exam by subgroup (Aboriginal / Non Aboriginal)
 
 <img src="../img/line_ab_numeracy.png" width="50%" /><img src="../img/line_ab_reading.png" width="50%" />
 
@@ -262,8 +278,7 @@ histograms to plot the mean aggregate scores for each exam section.
 The following plots visualize the difference in scores using boxplots.
 Here we see that the boxplots for the different subgroups (Aboriginal /
 Non Aboriginal) do not overlap, which is a strong indicator that there
-is a significant difference in scores between the
-groups.
+is a significant difference in scores between the groups.
 
 <img src="../img/fig_ana_numeracy.png" width="50%" /><img src="../img/fig_ana_reading.png" width="50%" />
 
@@ -275,8 +290,7 @@ For consistency, histograms and confidence intervals for both skills
 constructed in the same way here as with the independent vs public shool
 analysis. Results on these plots also indicate that there is a
 significant difference in scores between the two student subgroups for
-both numeracy and reading
-skills.
+both numeracy and reading skills.
 
 <img src="../img/fig_ana_histogram_numeracy.png" width="50%" /><img src="../img/fig_ana_histogram_reading.png" width="50%" />
 
@@ -291,32 +305,20 @@ significant at this level, and find that they are:
 *T-test for Differences in Numeracy Scores Between Aboriginal and Non
 Aboriginal Students:*
 
-    ## 
-    ##  Welch Two Sample t-test
-    ## 
-    ## data:  score by sub_population
-    ## t = -78.617, df = 3946.4, p-value < 2.2e-16
-    ## alternative hypothesis: true difference in means is not equal to 0
-    ## 95 percent confidence interval:
-    ##  -79.65955 -75.78311
-    ## sample estimates:
-    ##     mean in group ABORIGINAL mean in group NON ABORIGINAL 
-    ##                     415.6077                     493.3290
+    ## # A tibble: 1 x 10
+    ##   estimate estimate1 estimate2 statistic p.value parameter conf.low conf.high
+    ##      <dbl>     <dbl>     <dbl>     <dbl>   <dbl>     <dbl>    <dbl>     <dbl>
+    ## 1    -77.7      416.      493.     -78.6       0     3946.    -79.7     -75.8
+    ## # … with 2 more variables: method <chr>, alternative <chr>
 
 *T-test for Differences in Reading Scores Between Aboriginal and Non
 Aboriginal Students:*
 
-    ## 
-    ##  Welch Two Sample t-test
-    ## 
-    ## data:  score by sub_population
-    ## t = -69.341, df = 3728.3, p-value < 2.2e-16
-    ## alternative hypothesis: true difference in means is not equal to 0
-    ## 95 percent confidence interval:
-    ##  -64.45038 -60.90596
-    ## sample estimates:
-    ##     mean in group ABORIGINAL mean in group NON ABORIGINAL 
-    ##                     434.5958                     497.2740
+    ## # A tibble: 1 x 10
+    ##   estimate estimate1 estimate2 statistic p.value parameter conf.low conf.high
+    ##      <dbl>     <dbl>     <dbl>     <dbl>   <dbl>     <dbl>    <dbl>     <dbl>
+    ## 1    -62.7      435.      497.     -69.3       0     3728.    -64.5     -60.9
+    ## # … with 2 more variables: method <chr>, alternative <chr>
 
 ## Conclusion
 
@@ -349,37 +351,25 @@ The following t-test confirms that there is a significant difference at
 the 95% confidence interval between Numeracy scores of Aboriginal and
 Non Aboriginal students using this school data subset:
 
-    ## 
-    ##  Welch Two Sample t-test
-    ## 
-    ## data:  score by sub_population
-    ## t = -8.8845, df = 593.85, p-value < 2.2e-16
-    ## alternative hypothesis: true difference in means is not equal to 0
-    ## 95 percent confidence interval:
-    ##  -43.20510 -27.56165
-    ## sample estimates:
-    ##     mean in group ABORIGINAL mean in group NON ABORIGINAL 
-    ##                     415.8197                     451.2030
+    ## # A tibble: 1 x 10
+    ##   estimate estimate1 estimate2 statistic  p.value parameter conf.low conf.high
+    ##      <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>    <dbl>     <dbl>
+    ## 1    -35.4      416.      451.     -8.88 7.62e-18      594.    -43.2     -27.6
+    ## # … with 2 more variables: method <chr>, alternative <chr>
 
 The following t-test confirms that there is a significant difference at
 the 95% confidence interval between Reading scores of Aboriginal and Non
 Aboriginal students using this school data subset:
 
-    ## 
-    ##  Welch Two Sample t-test
-    ## 
-    ## data:  score by sub_population
-    ## t = -9.7386, df = 563.2, p-value < 2.2e-16
-    ## alternative hypothesis: true difference in means is not equal to 0
-    ## 95 percent confidence interval:
-    ##  -40.18248 -26.69415
-    ## sample estimates:
-    ##     mean in group ABORIGINAL mean in group NON ABORIGINAL 
-    ##                     435.7861                     469.2244
+    ## # A tibble: 1 x 10
+    ##   estimate estimate1 estimate2 statistic  p.value parameter conf.low conf.high
+    ##      <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>    <dbl>     <dbl>
+    ## 1    -33.4      436.      469.     -9.74 8.11e-21      563.    -40.2     -26.7
+    ## # … with 2 more variables: method <chr>, alternative <chr>
 
 ## References
 
-<div id="refs" class="references">
+<div id="refs" class="references hanging-indent">
 
 <div id="ref-repr">
 

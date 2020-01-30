@@ -1,9 +1,16 @@
-all: doc/report.md 
+all: doc/report.md data/filtered_schools_both_subgroups.csv
+
 data/fsa_2017-2018.csv : src/load_data.R
 	Rscript src/load_data.R 'https://catalogue.data.gov.bc.ca/dataset/5554165d-e365-422f-bf85-4f6e4c9167dc/resource/bcb547f0-8ba7-451f-9e11-10524f4d57a0/download/foundation-skills-assessment-2017-18_to_2018-19.csv' --arg2='data/fsa_2017-2018.csv'
 
 data/fsa_2007-2016.csv : src/load_data.R
 	Rscript src/load_data.R 'https://catalogue.data.gov.bc.ca/dataset/5554165d-e365-422f-bf85-4f6e4c9167dc/resource/97c6cbf7-f529-464a-b771-9719855b86f6/download/fsa.csv' --arg2='data/fsa_2007-2016.csv'
+
+data/clean_data.csv : data/fsa_2017-2018.csv data/fsa_2007-2016.csv src/clean_data.py
+	/opt/miniconda3/envs/mds/bin/python src/clean_data.py --raw_data1='data/fsa_2007-2016.csv' --raw_data2='data/fsa_2017-2018.csv' --local_path='data/clean_data.csv'
+
+data/filtered_schools_both_subgroups.csv : data/clean_data.csv src/filter_schools_both_subgroups.py
+	/opt/miniconda3/envs/mds/bin/python src/filter_schools_both_subgroups.py --clean_data='data/clean_data.csv' --new_data='data/filtered_schools_both_subgroups.csv'
 
 img/lines_and_bars : data/clean_data.csv src/data_viz_tab.R
 	Rscript src/data_viz_tab.R --data='data/clean_data.csv' --out_dir='img'
@@ -24,6 +31,7 @@ doc/report.md : doc/report.Rmd img/lines_and_bars img/pis img/boxplots img/hist1
 	Rscript -e "rmarkdown::render('doc/report.Rmd')"
 
 clean:
-	rm -f doc/report.md
+	rm -f data/*.csv
 	rm -f img/*.png
+	rm -f doc/report.md
 	

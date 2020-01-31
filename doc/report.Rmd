@@ -14,14 +14,22 @@ knitr::opts_chunk$set(echo = FALSE)
 
 library(tidyverse)
 library(knitr)
+library(broom)
 ```
 
 # Summary
 
 Using [BC Schools Foundational Skills Assessment (FSA)](https://catalogue.data.gov.bc.ca/dataset/bc-schools-foundation-skills-assessment-fsa-) scores from school years 2007/2008 through 2018/2019, we looked at whether there are differences in exam performance between different subgroups and school types to answer two main inferential questions:  
 
-1. Is there a difference in how well BC Public School vs Independent School students perform on the FSA exam?  
-2. Is there a difference in how well Aboriginal vs Non Aboriginal students perform on the FSA exam?
+1. Is there a difference in how well BC Public School vs Independent School students perform on the Numeracy and Reading sections of the FSA exam?  
+  
+      - *Null Hypothesis*: There is no difference in how well BC Public School and Independent School students perform on the Numeracy and Reading sections of the FSA exam.  
+      - *Alternative Hypothesis*: There is a difference in how well BC Public School and Independent School students perform on the Numeracy and Reading sections of the FSA exam.
+    
+2. Is there a difference in how well Aboriginal vs Non Aboriginal students perform on the Numeracy and Reading sections of the FSA exam?  
+  
+      - *Null Hypothesis*: There is no difference in how well Aboriginal and Non Aboriginal students perform on the Numeracy and Reading sections of the FSA exam.  
+      - *Alternative Hypothesis*: There is a difference in how well Aboriginal and Non Aboriginal students perform on the Numeracy and Reading sections of the FSA exam.
 
 By conducting hypothesis testing using t-test statistics and a 95% confidence interval, we determined that:  
 
@@ -79,6 +87,10 @@ The R and Python programming languages [@R; @Python] and the following R and Pyt
 
 - infer [@infer]
 
+- broom [@broom]
+
+- Makefile [@Makefile]
+
 T-tests were carried out to test the null hypothesis that there are no differences in the means of the aggregate FSA scores between students of different subgroups, as shown in this report. Additional code used to develop this report can be found here: https://github.com/UBC-MDS/DSCI_522_Group304 
 
 # Results
@@ -134,7 +146,7 @@ filtered_data = data %>%
   filter(fsa_skill_code == 'Numeracy')
 
 # Returns t statistic score
-t.test(score ~ public_or_independent, data = filtered_data, var.equal = FALSE)
+tidy(t.test(score ~ public_or_independent, data = filtered_data, var.equal = FALSE))
 ```
 
 *T-test for Differences in Reading Scores Between BC Independent School Students and BC Public School Students:*
@@ -144,7 +156,7 @@ filtered_data = data %>%
   filter(fsa_skill_code == 'Reading')
 
 # Returns t statistic score
-t.test(score ~ public_or_independent, data = filtered_data, var.equal = FALSE)
+tidy(t.test(score ~ public_or_independent, data = filtered_data, var.equal = FALSE))
 ```
 
 **Question 2: Is there a difference in how well Aboriginal vs Non Aboriginal students perform on the FSA exam?**
@@ -193,7 +205,7 @@ filtered_data = data %>%
   filter(sub_population == 'ABORIGINAL' | sub_population == 'NON ABORIGINAL') %>%
   filter(fsa_skill_code == 'Numeracy')
 
-t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE)
+tidy(t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE))
 ```
 
 *T-test for Differences in Reading Scores Between Aboriginal and Non Aboriginal Students:*
@@ -203,7 +215,7 @@ filtered_data = data %>%
   filter(sub_population == 'ABORIGINAL' | sub_population == 'NON ABORIGINAL') %>%
   filter(fsa_skill_code == 'Reading')
 
-t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE)
+tidy(t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE))
 ```
 
 ## Conclusion
@@ -229,7 +241,7 @@ filtered_data = sub_data %>%
   filter(sub_population == 'ABORIGINAL' | sub_population == 'NON ABORIGINAL') %>%
   filter(fsa_skill_code == 'Numeracy')
 
-t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE)
+tidy(t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE))
 ```
 
 The following t-test confirms that there is a significant difference at the 95% confidence interval between Reading scores of Aboriginal and Non Aboriginal students using this school data subset:
@@ -241,7 +253,7 @@ filtered_data = sub_data %>%
   filter(sub_population == 'ABORIGINAL' | sub_population == 'NON ABORIGINAL') %>%
   filter(fsa_skill_code == 'Reading')
 
-t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE)
+tidy(t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE))
 ```
 
 ## References

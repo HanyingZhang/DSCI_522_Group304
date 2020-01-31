@@ -141,11 +141,9 @@ project:
 
   - infer (Bray et al. 2019)
 
-  - broom
-    (<span class="citeproc-not-found" data-reference-id="broom">**???**</span>)
+  - broom (Robinson and Hayes 2020)
 
-  - Makefile
-    (<span class="citeproc-not-found" data-reference-id="Makefile">**???**</span>)
+  - Makefile (Chemie.fu-berlin.de 2016)
 
 T-tests were carried out to test the null hypothesis that there are no
 differences in the means of the aggregate FSA scores between students of
@@ -387,6 +385,13 @@ Cetinkaya-Rundel. 2019. *Infer: Tidy Statistical Inference*.
 
 </div>
 
+<div id="ref-Makefile">
+
+Chemie.fu-berlin.de. 2016. *GNU Make - an Introduction to Makefiles*.
+<https://www.chemie.fu-berlin.de/chemnet/use/info/make/make_2.html>.
+
+</div>
+
 <div id="ref-docopt">
 
 de Jonge, Edwin. 2018. *Docopt: Command-Line Interface Specification
@@ -406,6 +411,14 @@ Language*. <https://github.com/docopt/docopt>.
 R Core Team. 2019. *R: A Language and Environment for Statistical
 Computing*. Vienna, Austria: R Foundation for Statistical Computing.
 <https://www.R-project.org/>.
+
+</div>
+
+<div id="ref-broom">
+
+Robinson, David, and Alex Hayes. 2020. *Broom: Convert Statistical
+Analysis Objects into Tidy Tibbles*.
+<https://CRAN.R-project.org/package=broom>.
 
 </div>
 

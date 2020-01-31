@@ -95,21 +95,27 @@ sum_ab_num <- tibble("sub_population" = non_ab_numeracy$sub_population,
 
 # Generate Plot
 ana_hist_num <- filtered_data_numeracy %>%
-                ggplot( aes(x=score, fill=reorder(sub_population, score))) +
-                geom_histogram( color="#e9ecef", alpha=0.5, position = 'identity', bins = 50) +
-                geom_vline(xintercept = sum_ab_num  [[1,2]], color = "blue") +
-                geom_vline(xintercept = sum_ab_num  [[2,2]], color = "red") +
-                geom_vline(xintercept = c(sum_ab_num  [[1,3]], sum_ab_num  [[1,4]]),
-                           color = "blue", lty = 2) + 
-                geom_vline(xintercept = c(sum_ab_num  [[2,3]], sum_ab_num  [[2,4]]),
-                           color = "red", lty = 2) +
-                scale_fill_manual(values=c("#69b3a2", "#404080")) +
-                labs(y = "Count",
-                     x = "Average Score",
-                     fill = "Subgroup",
-                     title = "FSA Numeracy Test Scores\n(2007/08 - 2018/19)") +
-                labs(fill="") +
-                theme_bw()
+  ggplot( aes(x=score, fill=reorder(sub_population, score))) +
+  geom_histogram( color="#e9ecef", alpha=0.5, position = 'identity', bins = 50) +
+  geom_vline(xintercept = sum_ab_num  [[1,2]], color = "blue") +
+  geom_vline(xintercept = sum_ab_num  [[2,2]], color = "red") +
+  geom_vline(xintercept = c(sum_ab_num  [[1,3]], sum_ab_num  [[1,4]]),
+             color = "blue", lty = 2) + 
+  geom_vline(xintercept = c(sum_ab_num  [[2,3]], sum_ab_num  [[2,4]]),
+             color = "red", lty = 2) +
+  scale_fill_manual(values=c("#69b3a2", "#404080")) +
+  annotate("text", x = 625, y = 1200, color = 'blue', label = paste("mean = ", round(sum_ab_num  [[1,2]], 2))) +
+  annotate("text", x = 625, y = 1700, color = 'red', label = paste("mean = ", round(sum_ab_num  [[2,2]], 2))) +
+  annotate("text", x = 675, y = 1050, color = 'blue', label = paste(95,"% CI = [",
+                                                                    round(sum_ab_num  [[1,3]], 2),",",round(sum_ab_num  [[1,4]], 2),"]")) +
+  annotate("text", x = 675, y = 1550, color = 'red', label = paste(95,"% CI = [",
+                                                                   round(sum_ab_num  [[2,3]], 2),",",round(sum_ab_num  [[2,4]], 2),"]")) +
+  labs(y = "Count",
+       x = "Average Score",
+       fill = "Subgroup",
+       title = "FSA Numeracy Test Scores\n(2007/08 - 2018/19)") +
+  labs(fill="") +
+  theme_bw()
 
 ana_hist_num + theme(legend.position = "bottom")
 
@@ -129,9 +135,9 @@ non_ab_reading <- filtered_data_reading %>%
   summarise(avg = mean(score))
 
 sum_ab_read <- tibble("sub_population" = non_ab_reading$sub_population,
-                     "avg" = non_ab_reading$avg,
-                     "2.5%" = c(ci(aboriginal, 'Reading')[[1]], ci(non_aboriginal, 'Reading')[[1]]),
-                     "97.5%" = c(ci(aboriginal, 'Reading')[[2]], ci(non_aboriginal, 'Reading')[[2]]))
+                      "avg" = non_ab_reading$avg,
+                      "2.5%" = c(ci(aboriginal, 'Reading')[[1]], ci(non_aboriginal, 'Reading')[[1]]),
+                      "97.5%" = c(ci(aboriginal, 'Reading')[[2]], ci(non_aboriginal, 'Reading')[[2]]))
 
 # Generate Plot
 ana_hist_read <- filtered_data_reading %>%
@@ -144,6 +150,12 @@ ana_hist_read <- filtered_data_reading %>%
   geom_vline(xintercept = c(sum_ab_read  [[2,3]], sum_ab_read  [[2,4]]),
              color = "red", lty = 2) +
   scale_fill_manual(values=c("#69b3a2", "#404080")) +
+  annotate("text", x = 600, y = 1300, color = 'blue', label = paste("mean = ", round(sum_ab_read  [[1,2]], 2))) +
+  annotate("text", x = 600, y = 1800, color = 'red', label = paste("mean = ", round(sum_ab_read  [[2,2]], 2))) +
+  annotate("text", x = 650, y = 1150, color = 'blue', label = paste(95,"% CI = [",
+                                                                    round(sum_ab_read  [[1,3]], 2),",",round(sum_ab_read  [[1,4]], 2),"]")) +
+  annotate("text", x = 650, y = 1650, color = 'red', label = paste(95,"% CI = [",
+                                                                   round(sum_ab_read  [[2,3]], 2),",",round(sum_ab_read  [[2,4]], 2),"]")) +
   labs(y = "Count",
        x = "Average Score",
        fill = "Subgroup",
@@ -170,9 +182,9 @@ non_ab_writing <- filtered_data_writing %>%
   summarise(avg = mean(score))
 
 sum_ab_write <- tibble("sub_population" = non_ab_writing$sub_population,
-                     "avg" = non_ab_writing$avg,
-                     "2.5%" = c(ci(aboriginal, 'Writing')[[1]], ci(non_aboriginal, 'Writing')[[1]]),
-                     "97.5%" = c(ci(aboriginal, 'Writing')[[2]], ci(non_aboriginal, 'Writing')[[2]]))
+                       "avg" = non_ab_writing$avg,
+                       "2.5%" = c(ci(aboriginal, 'Writing')[[1]], ci(non_aboriginal, 'Writing')[[1]]),
+                       "97.5%" = c(ci(aboriginal, 'Writing')[[2]], ci(non_aboriginal, 'Writing')[[2]]))
 
 # Generate Plot
 ana_hist_write <- filtered_data_writing %>%
@@ -185,6 +197,12 @@ ana_hist_write <- filtered_data_writing %>%
   geom_vline(xintercept = c(sum_ab_write  [[2,3]], sum_ab_write  [[2,4]]),
              color = "red", lty = 2) +
   scale_fill_manual(values=c("#69b3a2", "#404080")) +
+  # annotate("text", x = 600, y = 1300, color = 'blue', label = paste("mean = ", round(sum_ab_write  [[1,2]], 2))) +
+  # annotate("text", x = 600, y = 1800, color = 'red', label = paste("mean = ", round(sum_ab_write  [[2,2]], 2))) +
+  # annotate("text", x = 650, y = 1150, color = 'blue', label = paste(95,"% CI = [",
+  #                                     round(sum_ab_write  [[1,3]], 2),",",round(sum_ab_write  [[1,4]], 2),"]")) +
+  # annotate("text", x = 650, y = 1650, color = 'red', label = paste(95,"% CI = [",
+  #                                     round(sum_ab_write  [[2,3]], 2),",",round(sum_ab_write  [[2,4]], 2),"]")) +
   labs(y = "Count",
        x = "Average Score",
        fill = "Subgroup",

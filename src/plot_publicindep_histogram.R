@@ -140,6 +140,12 @@ pi_hist_num <- pub_ind_num %>%
   geom_vline(xintercept = c(pub_ind_num_stat [[2,4]], pub_ind_num_stat [[2,5]]),
              color = "red", lty = 2) +
   scale_fill_manual(values=c("#69b3a2", "#404080")) +
+  annotate("text", x = 250, y = 1200, color = 'blue', label = paste("mean = ", round(pub_ind_num_stat [[1,3]], 2))) +
+  annotate("text", x = 250, y = 1550, color = 'red', label = paste("mean = ", round(pub_ind_num_stat [[2,3]], 2))) +
+  annotate("text", x = 300, y = 1050, color = 'blue', label = paste(95,"% CI = [",
+                                                                    round(pub_ind_num_stat [[1,4]], 2),",", round(pub_ind_num_stat [[1,5]], 2),"]")) +
+  annotate("text", x = 300, y = 1400, color = 'red', label = paste(95,"% CI = [",
+                                                                   round(pub_ind_num_stat [[2,4]], 2),",", round(pub_ind_num_stat [[2,5]], 2),"]")) +
   labs(y = "Counts",
        x = "Average Score",
        fill = "School Type",
@@ -222,6 +228,12 @@ pi_hist_read <- pub_ind_read %>%
   geom_vline(xintercept = c(pub_ind_read_stat [[2,4]], pub_ind_read_stat [[2,5]]),
              color = "red", lty = 2) +
   scale_fill_manual(values=c("#69b3a2", "#404080")) +
+  annotate("text", x = 250, y = 1200, color = 'blue', label = paste("mean = ", round(pub_ind_read_stat [[1,3]], 2))) +
+  annotate("text", x = 250, y = 1550, color = 'red', label = paste("mean = ", round(pub_ind_read_stat [[2,3]], 2))) +
+  annotate("text", x = 300, y = 1050, color = 'blue', label = paste(95,"% CI = [",
+                                                                    round(pub_ind_read_stat [[1,4]], 2),",",round(pub_ind_read_stat [[1,5]], 2),"]")) +
+  annotate("text", x = 300, y = 1400, color = 'red', label = paste(95,"% CI = [",
+                                                                   round(pub_ind_read_stat [[2,4]], 2),",",round(pub_ind_read_stat [[2,5]], 2),"]")) +
   labs(y = "Counts",
        x = "Average Score",
        fill = "School Type",
@@ -304,6 +316,12 @@ pi_hist_write <- pub_ind_write %>%
   geom_vline(xintercept = c(pub_ind_write_stat [[2,4]], pub_ind_write_stat [[2,5]]),
              color = "red", lty = 2) +
   scale_fill_manual(values=c("#69b3a2", "#404080")) +
+  #annotate("text", x = 610, y = 1500, color = 'blue', label = paste("mean = ", round(pub_ind_write_stat [[1,3]], 2))) +
+  #annotate("text", x = 260, y = 1500, color = 'red', label = paste("mean = ", round(pub_ind_write_stat [[2,3]], 2))) +
+  # annotate("text", x = 650, y = 1350, color = 'blue', label = paste(95,"% CI = [",
+  #                                     round(pub_ind_write_stat [[1,4]], 2),",",round(pub_ind_write_stat [[1,5]], 2),"]")) +
+  # annotate("text", x = 300, y = 1350, color = 'red', label = paste(95,"% CI = [",
+  #                                     round(pub_ind_write_stat [[2,4]], 2),",",round(pub_ind_write_stat [[2,5]], 2),"]")) +
   labs(y = "Counts",
        x = "Average Score",
        fill = "School Type",
@@ -320,3 +338,4 @@ try({
 
 # Save FSA writing histogram plot
 ggsave(paste0(opt$arg2, opt$arg5), width = 6, height = 4)
+

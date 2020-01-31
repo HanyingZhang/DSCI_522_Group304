@@ -339,7 +339,8 @@ could investigate the differences in FSA scores between female and male
 subgroups in only BC Independent Schools. We could then look at the
 differences in FSA scores betwen the subgroups in only BC Public Schools
 and see if there are significant differences in subgroup (Female / Male)
-performance in both (or just one) school types (BC Independent / Public.
+performance in both - or just one of the - school types (BC Independent
+/ Public).
 
 ## Notes on Limitations
 

@@ -15,8 +15,8 @@ Authors: (DSCI 522 Group 304) Anny Chih, Robert Pimentel, & Wenjiao Zou
 
 Using [@FSA1] [here](https://catalogue.data.gov.bc.ca/dataset/bc-schools-foundation-skills-assessment-fsa-/resource/bcb547f0-8ba7-451f-9e11-10524f4d57a0) and [@FSA2] [here](https://catalogue.data.gov.bc.ca/dataset/bc-schools-foundation-skills-assessment-fsa-/resource/97c6cbf7-f529-464a-b771-9719855b86f6) from school years 2007/2008 through 2018/2019, we looked at whether there are differences in exam performance between different subgroups and school types to answer two main inferential questions:
 
-1. Is there a difference in how well BC Public School vs Independent School students perform on the FSA exam?  
-2. Is there a difference in how well Aboriginal vs Non Aboriginal students perform on the FSA exam?
+1. Is there a difference in how well BC Public School vs Independent School students perform on the Numeracy and Reading sections of the FSA exam?  
+2. Is there a difference in how well Aboriginal vs Non Aboriginal students perform on the Numeracy and Reading sections of the FSA exam?
 
 By conducting hypothesis testing using t-test statistics and a 95% confidence interval, we determined that:  
 

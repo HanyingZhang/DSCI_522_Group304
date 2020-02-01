@@ -1,7 +1,7 @@
 Are There Differences in FSA Scores Between Subgroups?
 ================
 DSCI 522 Group 304: Anny Chih, Robert Pimentel, & Wenjiao Zou <br>
-2020-01-23 (updated: 2020-01-30)
+2020-01-23 (updated: 2020-01-31)
 
   - [Summary](#summary)
   - [Introduction](#introduction)
@@ -10,6 +10,7 @@ DSCI 522 Group 304: Anny Chih, Robert Pimentel, & Wenjiao Zou <br>
       - [Analysis](#analysis)
   - [Results](#results)
       - [Conclusion](#conclusion)
+      - [Future Direction](#future-direction)
       - [Notes on Limitations](#notes-on-limitations)
       - [References](#references)
 
@@ -141,11 +142,9 @@ project:
 
   - infer (Bray et al. 2019)
 
-  - broom
-    (<span class="citeproc-not-found" data-reference-id="broom">**???**</span>)
+  - broom (Robinson and Hayes 2020)
 
-  - Makefile
-    (<span class="citeproc-not-found" data-reference-id="Makefile">**???**</span>)
+  - Makefile (Chemie.fu-berlin.de 2016)
 
 T-tests were carried out to test the null hypothesis that there are no
 differences in the means of the aggregate FSA scores between students of
@@ -329,6 +328,20 @@ Aboriginal and Non Aboriginal students, in Numeracy and Reading portions
 of the exam. The next question we’d like *you* to answer is what we can
 do about this.
 
+## Future Direction
+
+Following a peer review session with fellow Master of Data Science
+candidates, we found that a natural next question to this analysis is
+whether there are differences in subgroup performance within school
+types. For example, there is an “urban legend” that girls perform better
+in private schools than boys due to peer pressure. To test this myth, we
+could investigate the differences in FSA scores between female and male
+subgroups in only BC Independent Schools. We could then look at the
+differences in FSA scores betwen the subgroups in only BC Public Schools
+and see if there are significant differences in subgroup (Female / Male)
+performance in both - or just one of the - school types (BC Independent
+/ Public).
+
 ## Notes on Limitations
 
 As with all inferential analyses such as this one, it’s possible that
@@ -387,6 +400,13 @@ Cetinkaya-Rundel. 2019. *Infer: Tidy Statistical Inference*.
 
 </div>
 
+<div id="ref-Makefile">
+
+Chemie.fu-berlin.de. 2016. *GNU Make - an Introduction to Makefiles*.
+<https://www.chemie.fu-berlin.de/chemnet/use/info/make/make_2.html>.
+
+</div>
+
 <div id="ref-docopt">
 
 de Jonge, Edwin. 2018. *Docopt: Command-Line Interface Specification
@@ -406,6 +426,14 @@ Language*. <https://github.com/docopt/docopt>.
 R Core Team. 2019. *R: A Language and Environment for Statistical
 Computing*. Vienna, Austria: R Foundation for Statistical Computing.
 <https://www.R-project.org/>.
+
+</div>
+
+<div id="ref-broom">
+
+Robinson, David, and Alex Hayes. 2020. *Broom: Convert Statistical
+Analysis Objects into Tidy Tibbles*.
+<https://CRAN.R-project.org/package=broom>.
 
 </div>
 

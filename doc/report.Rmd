@@ -222,6 +222,10 @@ tidy(t.test(score ~ sub_population, data = filtered_data, var.equal = FALSE))
 
 The graphs and statistical tests above confirm that there are significant differences in mean aggregate FSA exam scores between students from BC Independent Schools and BC Public Schools, and between Aboriginal and Non Aboriginal students, in Numeracy and Reading portions of the exam. The next question we'd like *you* to answer is what we can do about this.
 
+## Future Direction
+
+Following a peer review session with fellow Master of Data Science candidates, we found that a natural next question to this analysis is whether there are differences in subgroup performance within school types. For example, there is an "urban legend" that girls perform better in private schools than boys due to peer pressure. To test this myth, we could investigate the differences in FSA scores between female and male subgroups in only BC Independent Schools. We could then look at the differences in FSA scores betwen the subgroups in only BC Public Schools and see if there are significant differences in subgroup (Female / Male) performance in both - or just one of the - school types (BC Independent / Public).
+
 ## Notes on Limitations
 
 As with all inferential analyses such as this one, it's possible that there are confounding variables that have not been accounted for in this project. Such variables may include the funding each school receives, the level of affluence of a school's district, whether the neighborhood offers programs to improve numeracy and reading skills, and so on. In an effort to combat this issue, we ran additional t-tests to confirm that there are significant differences in scores for Aboriginal and Non Aboriginal students even in subsets of the data that include only schools with both subgroups of students. 

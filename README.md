@@ -12,9 +12,11 @@ there are differences in exam performance between different subgroups
 and school types to answer two main inferential questions:
 
 1.  Is there a difference in how well BC Public School vs Independent
-    School students perform on the FSA exam?  
+    School students perform on the Numeracy and Reading sections of the
+    FSA exam?  
 2.  Is there a difference in how well Aboriginal vs Non Aboriginal
-    students perform on the FSA exam?
+    students perform on the Numeracy and Reading sections of the FSA
+    exam?
 
 By conducting hypothesis testing using t-test statistics and a 95%
 confidence interval, we determined that:

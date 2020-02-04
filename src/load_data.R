@@ -13,11 +13,37 @@ Options:
 
 library(readr)
 library(docopt)
+library(testthat)
 
 opt <- docopt(doc)
 
-data = read_csv(opt$arg1)
-write_csv(data, opt$arg2)
+# Tests that the input link is a link to a csv file
+test_input <- function(){
+  test_that("The link should be a link to a .csv file.",{
+    expect_match(opt$arg1, "*.csv")
+  })
+}
+test_input()
+
+# Tests that the output is a csv file
+test_output <- function(){
+  test_that("The output file should be a .csv file.",{
+    expect_match(opt$arg1, ".csv")
+  })
+}
+test_output()
+
+if (test_input() == TRUE) {
+  data = read_csv(opt$arg1)
+  } else {
+    print("The url provided should be to a .csv file.")
+  }
+
+if (test_output() == TRUE){
+  write_csv(data, opt$arg2)
+  }else{
+    print("The output file should be a .csv file.")
+  }
 
 # Alternative way to do this using commandArgs:
 # args = commandArgs(trailingOnly=TRUE)

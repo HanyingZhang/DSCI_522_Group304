@@ -33,12 +33,14 @@ test_output <- function(){
 }
 test_output()
 
+# Reads the data only if the link is a link to a csv file
 if (test_input() == TRUE) {
   data = read_csv(opt$arg1)
   } else {
     print("The url provided should be to a .csv file.")
   }
 
+# Writes the data only if the output is a csv file
 if (test_output() == TRUE){
   write_csv(data, opt$arg2)
   }else{

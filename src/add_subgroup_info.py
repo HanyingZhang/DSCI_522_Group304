@@ -1,5 +1,5 @@
 # author: Group 304 (Anny Chih)
-# date: 2020-01-22
+# date: 2020-02-04
 
 """This script takes in a cleaned datafile and 
 adds a column of values indicating if the school has BOTH Aboriginal and Non Aboriginal Students
@@ -13,10 +13,20 @@ Options:
 # Example of how to run this script:
 # python src/add_subgroup_info.py --clean_data="data/clean_data.csv" --new_data="data/new_clean_data.csv"
 
+import os
 import pandas as pd
 
 from docopt import docopt
 opt = docopt(__doc__)
+
+# Tests that the file path exists
+def check_path():
+  if (os.path.exists(opt["--clean_data"])):
+    pass
+  else:
+    raise ValueError('The clean_data file cannot be found. Please check the path provided.')
+  
+check_path()
 
 def main(clean_data, new_data):
   

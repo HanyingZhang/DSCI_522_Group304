@@ -1,5 +1,5 @@
 # author: Group 304 (Anny Chih)
-# date: 2020-01-21
+# date: 2020-02-04
 
 """This script takes in 2 .csv files of FSA scores, 
 cleans the data, 
@@ -9,17 +9,27 @@ and writes the cleaned output into a specified location.
 Usage: clean_data.py --raw_data1=<raw_data1> --raw_data2=<raw_data2> --local_path=<local_path>
 
 Options:
---raw_data1=<raw_data_file1> local path and file name of the first file you want to clean and include in the final data file
---raw_data2=<raw_data_file2> local path and file name of the second file you want to clean and include in the final data file
+--raw_data1=<raw_data1> local path and file name of the first file you want to clean and include in the final data file
+--raw_data2=<raw_data2> local path and file name of the second file you want to clean and include in the final data file
 --local_path=<local_path> local path and file name of the cleaned output dataset 
 """
 # Example of how to run this script:
 # python src/clean_data.py --raw_data1="data/fsa_2007-2016.csv" --raw_data2="data/fsa_2017-2018.csv" --local_path="data/clean_data.csv"
 
+import os
 import pandas as pd
 
 from docopt import docopt
 opt = docopt(__doc__)
+
+# Tests that the file paths exist
+def check_paths():
+  if (os.path.exists(opt["--raw_data1"])) and (os.path.exists(opt["--raw_data2"])):
+    pass
+  else:
+    raise ValueError('At least one of the two files you want to combine cannot be found.')
+  
+check_paths()
 
 def main(raw_data1, raw_data2, local_path):
   # read in data

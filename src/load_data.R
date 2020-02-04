@@ -20,7 +20,7 @@ opt <- docopt(doc)
 # Tests that the input link is a link to a csv file
 test_input <- function(){
   test_that("The link should be a link to a .csv file.",{
-    expect_match(opt$arg1, "*.csv")
+    expect_match(opt$arg1, ".csv")
   })
 }
 test_input()
@@ -28,7 +28,7 @@ test_input()
 # Tests that the output is a csv file
 test_output <- function(){
   test_that("The output file should be a .csv file.",{
-    expect_match(opt$arg1, ".csv")
+    expect_match(opt$arg2, ".csv")
   })
 }
 test_output()

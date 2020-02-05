@@ -68,10 +68,10 @@ boxplot_numeracy <- ggplot(filtered_data_numeracy, aes(x = sub_population, y = s
   stat_summary(fun.y = mean,
                geom = 'point',
                aes(shape = 'mean'),
-               color = 'blue',
+               colour = '#20A9B9',
                size = 3) +
   scale_shape_manual('', values = c('mean' = 'triangle')) +
-  theme_bw()
+  theme_bw(base_size = 17)
 ggsave(opt$arg2, width = 8, height = 10)
 
 # Creates a boxplot for Reading
@@ -83,10 +83,10 @@ boxplot_reading <- ggplot(filtered_data_reading, aes(x = sub_population, y = sco
   stat_summary(fun.y = mean,
                geom = 'point',
                aes(shape = 'mean'),
-               color = 'blue',
+               colour = '#20A9B9',
                size = 3) +
   scale_shape_manual('', values = c('mean' = 'triangle')) +
-  theme_bw()
+  theme_bw(base_size = 17)
 ggsave(opt$arg3, width = 8, height = 10)
 
 # Creates a boxplot for Writing
@@ -98,8 +98,8 @@ boxplot_writing <- ggplot(filtered_data_writing, aes(x = sub_population, y = sco
   stat_summary(fun.y = mean,
                geom = 'point',
                aes(shape = 'mean'),
-               color = 'blue',
+               colour = '#20A9B9',
                size = 3) +
   scale_shape_manual('', values = c('mean' = 'triangle')) +
-  theme_bw()
+  theme_bw(base_size = 17)
 ggsave(opt$arg4, width = 8, height = 10)

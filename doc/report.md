@@ -1,7 +1,7 @@
 Are There Differences in FSA Scores Between Subgroups?
 ================
 DSCI 522 Group 304: Anny Chih, Robert Pimentel, & Wenjiao Zou <br>
-2020-01-23 (updated: 2020-01-31)
+2020-01-23 (updated: 2020-02-04)
 
   - [Summary](#summary)
   - [Introduction](#introduction)
@@ -146,6 +146,10 @@ project:
 
   - Makefile (Chemie.fu-berlin.de 2016)
 
+  - kableExtra (Hao Zhu 2019)
+
+  - testthat (Hadley Wickham 2019)
+
 T-tests were carried out to test the null hypothesis that there are no
 differences in the means of the aggregate FSA scores between students of
 different subgroups, as shown in this report. Additional code used to
@@ -232,20 +236,144 @@ significant at this level, and find that they are:
 *T-test for Differences in Numeracy Scores Between BC Independent School
 Students and BC Public School Students:*
 
-    ## # A tibble: 1 x 10
-    ##   estimate estimate1 estimate2 statistic p.value parameter conf.low conf.high
-    ##      <dbl>     <dbl>     <dbl>     <dbl>   <dbl>     <dbl>    <dbl>     <dbl>
-    ## 1     61.4      538.      476.      118.       0    21472.     60.4      62.5
-    ## # … with 2 more variables: method <chr>, alternative <chr>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+
+<thead>
+
+<tr>
+
+<th style="text-align:right;">
+
+Estimated Difference
+
+</th>
+
+<th style="text-align:right;">
+
+P-value
+
+</th>
+
+<th style="text-align:right;">
+
+Confidence Interval (Low)
+
+</th>
+
+<th style="text-align:right;">
+
+Confidence Interval (High)
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:right;">
+
+61.4443
+
+</td>
+
+<td style="text-align:right;">
+
+0
+
+</td>
+
+<td style="text-align:right;">
+
+60.42374
+
+</td>
+
+<td style="text-align:right;">
+
+62.46486
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 *T-test for Differences in Reading Scores Between BC Independent School
 Students and BC Public School Students:*
 
-    ## # A tibble: 1 x 10
-    ##   estimate estimate1 estimate2 statistic p.value parameter conf.low conf.high
-    ##      <dbl>     <dbl>     <dbl>     <dbl>   <dbl>     <dbl>    <dbl>     <dbl>
-    ## 1     52.7      535.      483.      123.       0    21554.     51.9      53.5
-    ## # … with 2 more variables: method <chr>, alternative <chr>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+
+<thead>
+
+<tr>
+
+<th style="text-align:right;">
+
+Estimated Difference
+
+</th>
+
+<th style="text-align:right;">
+
+P-value
+
+</th>
+
+<th style="text-align:right;">
+
+Confidence Interval (Low)
+
+</th>
+
+<th style="text-align:right;">
+
+Confidence Interval (High)
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:right;">
+
+52.69597
+
+</td>
+
+<td style="text-align:right;">
+
+0
+
+</td>
+
+<td style="text-align:right;">
+
+51.85891
+
+</td>
+
+<td style="text-align:right;">
+
+53.53303
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 **Question 2: Is there a difference in how well Aboriginal vs Non
 Aboriginal students perform on the FSA exam?**
@@ -304,20 +432,144 @@ significant at this level, and find that they are:
 *T-test for Differences in Numeracy Scores Between Aboriginal and Non
 Aboriginal Students:*
 
-    ## # A tibble: 1 x 10
-    ##   estimate estimate1 estimate2 statistic p.value parameter conf.low conf.high
-    ##      <dbl>     <dbl>     <dbl>     <dbl>   <dbl>     <dbl>    <dbl>     <dbl>
-    ## 1    -77.7      416.      493.     -78.6       0     3946.    -79.7     -75.8
-    ## # … with 2 more variables: method <chr>, alternative <chr>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+
+<thead>
+
+<tr>
+
+<th style="text-align:right;">
+
+Estimated Difference
+
+</th>
+
+<th style="text-align:right;">
+
+P-value
+
+</th>
+
+<th style="text-align:right;">
+
+Confidence Interval (Low)
+
+</th>
+
+<th style="text-align:right;">
+
+Confidence Interval (High)
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:right;">
+
+\-77.72133
+
+</td>
+
+<td style="text-align:right;">
+
+0
+
+</td>
+
+<td style="text-align:right;">
+
+\-79.65955
+
+</td>
+
+<td style="text-align:right;">
+
+\-75.78311
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 *T-test for Differences in Reading Scores Between Aboriginal and Non
 Aboriginal Students:*
 
-    ## # A tibble: 1 x 10
-    ##   estimate estimate1 estimate2 statistic p.value parameter conf.low conf.high
-    ##      <dbl>     <dbl>     <dbl>     <dbl>   <dbl>     <dbl>    <dbl>     <dbl>
-    ## 1    -62.7      435.      497.     -69.3       0     3728.    -64.5     -60.9
-    ## # … with 2 more variables: method <chr>, alternative <chr>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+
+<thead>
+
+<tr>
+
+<th style="text-align:right;">
+
+Estimated Difference
+
+</th>
+
+<th style="text-align:right;">
+
+P-value
+
+</th>
+
+<th style="text-align:right;">
+
+Confidence Interval (Low)
+
+</th>
+
+<th style="text-align:right;">
+
+Confidence Interval (High)
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:right;">
+
+\-62.67817
+
+</td>
+
+<td style="text-align:right;">
+
+0
+
+</td>
+
+<td style="text-align:right;">
+
+\-64.45038
+
+</td>
+
+<td style="text-align:right;">
+
+\-60.90596
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 ## Conclusion
 
@@ -364,21 +616,145 @@ The following t-test confirms that there is a significant difference at
 the 95% confidence interval between Numeracy scores of Aboriginal and
 Non Aboriginal students using this school data subset:
 
-    ## # A tibble: 1 x 10
-    ##   estimate estimate1 estimate2 statistic  p.value parameter conf.low conf.high
-    ##      <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>    <dbl>     <dbl>
-    ## 1    -35.4      416.      451.     -8.88 7.62e-18      594.    -43.2     -27.6
-    ## # … with 2 more variables: method <chr>, alternative <chr>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+
+<thead>
+
+<tr>
+
+<th style="text-align:right;">
+
+Estimated Difference
+
+</th>
+
+<th style="text-align:right;">
+
+P-value
+
+</th>
+
+<th style="text-align:right;">
+
+Confidence Interval (Low)
+
+</th>
+
+<th style="text-align:right;">
+
+Confidence Interval (High)
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:right;">
+
+\-35.38337
+
+</td>
+
+<td style="text-align:right;">
+
+0
+
+</td>
+
+<td style="text-align:right;">
+
+\-43.2051
+
+</td>
+
+<td style="text-align:right;">
+
+\-27.56165
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 The following t-test confirms that there is a significant difference at
 the 95% confidence interval between Reading scores of Aboriginal and Non
 Aboriginal students using this school data subset:
 
-    ## # A tibble: 1 x 10
-    ##   estimate estimate1 estimate2 statistic  p.value parameter conf.low conf.high
-    ##      <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>    <dbl>     <dbl>
-    ## 1    -33.4      436.      469.     -9.74 8.11e-21      563.    -40.2     -26.7
-    ## # … with 2 more variables: method <chr>, alternative <chr>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+
+<thead>
+
+<tr>
+
+<th style="text-align:right;">
+
+Estimated Difference
+
+</th>
+
+<th style="text-align:right;">
+
+P-value
+
+</th>
+
+<th style="text-align:right;">
+
+Confidence Interval (Low)
+
+</th>
+
+<th style="text-align:right;">
+
+Confidence Interval (High)
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:right;">
+
+\-33.43831
+
+</td>
+
+<td style="text-align:right;">
+
+0
+
+</td>
+
+<td style="text-align:right;">
+
+\-40.18248
+
+</td>
+
+<td style="text-align:right;">
+
+\-26.69415
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 ## References
 
@@ -411,6 +787,21 @@ Chemie.fu-berlin.de. 2016. *GNU Make - an Introduction to Makefiles*.
 
 de Jonge, Edwin. 2018. *Docopt: Command-Line Interface Specification
 Language*. <https://CRAN.R-project.org/package=docopt>.
+
+</div>
+
+<div id="ref-testthat">
+
+Hadley Wickham, R Core Team, RStudio. 2019. *Testthat: Unit Testing for
+R*. <https://cran.r-project.org/web/packages/testthat/testthat.pdf>.
+
+</div>
+
+<div id="ref-kableExtra">
+
+Hao Zhu, Timothy Tsai, Thomas Travison. 2019. *KableExtra: Construct
+Complex Table with ’Kable’ and Pipe Syntax*.
+<https://cran.r-project.org/web/packages/kableExtra/kableExtra.pdf>.
 
 </div>
 

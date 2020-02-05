@@ -114,10 +114,10 @@ The bar plots below show scores across all subgroups for students from BC Indepe
 knitr::include_graphics(c('../img/bar_plot_numeracy.png', '../img/bar_plot_reading.png'))
 ```
 
-Fig: Mean aggregate scores for Numeracy and Reading sections of the FSA exam by school type and subgroup (Red: BC Independent Schools, Blue: BC Public Schools)
+Fig: Mean aggregate scores for Numeracy and Reading sections of the FSA exam by school type and subgroup (Yellow pairs: Numeracy test,  Blue pairs: Reading test; Bright ones:BC Independent Schools, Dim ones: BC Public Schools)
 
-```{r EDA1 Line Plots, echo=FALSE, out.width='50%'}
-knitr::include_graphics(c('../img/line_ind_numeracy.png', '../img/line_ind_read.png'))
+```{r EDA1 Line Plots, echo=FALSE, out.width='60%', out.height='60%', fig.align='center'}
+knitr::include_graphics(c('../img/line_pub_ind.png'))
 ```
 
 Fig: Mean aggregate scores for Numeracy and Reading sections of the FSA exam by school type over time (Red: BC Independent Schools, Blue: BC Public Schools)
@@ -189,10 +189,10 @@ During the exploratory data analysis portion of this project, we found that scor
 knitr::include_graphics(c('../img/bar_plot_ab_numeracy.png', '../img/bar_plot_ab_read.png'))
 ```
 
-Fig: Mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Aboriginal / Non Aboriginal)
+Fig: Mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Yellow pairs: Numeracy test,  Blue pairs: Reading test; Bright ones:Non aboriginal, Dim ones: Aboriginal)
 
-```{r EDA2 Line Plots, echo=FALSE, out.width='50%'}
-knitr::include_graphics(c('../img/line_ab_numeracy.png', '../img/line_ab_reading.png'))
+```{r EDA2 Line Plots, echo=FALSE, out.width='60%', out.height='60%', fig.align='center'}
+knitr::include_graphics(c('../img/line_ab.png'))
 ```
 
 Fig: Mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Aboriginal / Non Aboriginal) over time

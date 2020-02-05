@@ -19,8 +19,28 @@ library(docopt)
 library(tidyverse)
 library(dplyr)
 library(repr)
+library(testthat)
 
 opt <- docopt(doc)
+
+#########################
+
+# Tests that the input link is a link to a csv file
+test_input <- function(){
+  test_that("The link should be a link to a .csv file.",{
+    expect_match(opt$data, ".csv")
+  })
+}
+test_input()
+
+# Tests that the output lies in the `img` file
+test_output <- function(){
+  test_that("The output should be in the img directory.",{
+    expect_match(opt$out_dir, "img")
+  })
+}
+test_output()
+
 
 main <- function(data, out_dir){
   # load data

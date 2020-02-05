@@ -89,9 +89,13 @@ Alternatively, you may run either (just choose one) of these sets of
 command lines which do the same thing:
 
 1.  **Option 1** Using Makefile (from project root directory): `make
-    clean` and then `make all`  
+    clean` and then `make all`. See dependency diagram below.
 2.  **Option 2** Using a shell script (from project root directory):
     `bash runall.sh`
+
+## Makefile Dependency Diagram
+
+![](Makefile.png)
 
 ## Dependencies
 
@@ -110,7 +114,7 @@ command lines which do the same thing:
 
 # References
 
-<div id="refs" class="references hanging-indent">
+<div id="refs" class="references">
 
 <div id="ref-FSA2">
 

@@ -26,9 +26,30 @@ library(readr)
 library(tidyverse)
 library(infer)
 library(repr)
+library(testthat)
 
 opt <- docopt(doc)
 
+#########################
+
+# Tests that the input link is a link to a csv file
+test_input <- function(){
+  test_that("The link should be a link to a .csv file.",{
+    expect_match(opt$arg1, ".csv")
+  })
+}
+test_input()
+
+# Tests that the outputs are all png files
+test_output <- function(){
+  test_that("The output should all be .png files.",{
+    expect_match(opt$arg2, "img")
+    expect_match(opt$arg3, ".png")
+    expect_match(opt$arg4, ".png")
+    expect_match(opt$arg5, ".png")
+  })
+}
+test_output()
 
 # READ CLEAN DATA
 #df <- read_csv('../data/clean_data.csv')

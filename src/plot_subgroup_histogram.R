@@ -26,6 +26,7 @@ library(tidyverse)
 library(infer)
 library(repr)
 library(testthat)
+library(cowplot)
 
 opt <- docopt(doc)
 
@@ -33,7 +34,7 @@ opt <- docopt(doc)
 
 # Tests that the input link is a link to a csv file
 test_input <- function(){
-  test_that("The link should be a link to a .csv file.",{
+  test_that("The clean_data file_path/file_name should be a .csv file.",{
     expect_match(opt$arg1, ".csv")
   })
 }
@@ -118,27 +119,31 @@ sum_ab_num <- tibble("sub_population" = non_ab_numeracy$sub_population,
 ana_hist_num <- filtered_data_numeracy %>%
   ggplot( aes(x=score, fill=reorder(sub_population, score))) +
   geom_histogram( color="#e9ecef", alpha=0.5, position = 'identity', bins = 50) +
-  geom_vline(xintercept = sum_ab_num  [[1,2]], color = "blue") +
-  geom_vline(xintercept = sum_ab_num  [[2,2]], color = "red") +
+  geom_vline(xintercept = sum_ab_num  [[1,2]], color = "black", size = .9) +
+  geom_vline(xintercept = sum_ab_num  [[2,2]], color = "blue", size = .9) +
   geom_vline(xintercept = c(sum_ab_num  [[1,3]], sum_ab_num  [[1,4]]),
-             color = "blue", lty = 2) + 
+             color = "black", lty = 2, size = .7) + 
   geom_vline(xintercept = c(sum_ab_num  [[2,3]], sum_ab_num  [[2,4]]),
-             color = "red", lty = 2) +
+             color = "blue", lty = 2, size = .7) +
   scale_fill_manual(values=c("#69b3a2", "#404080")) +
-  annotate("text", x = 625, y = 1200, color = 'blue', label = paste("mean = ", round(sum_ab_num  [[1,2]], 2))) +
-  annotate("text", x = 625, y = 1700, color = 'red', label = paste("mean = ", round(sum_ab_num  [[2,2]], 2))) +
-  annotate("text", x = 675, y = 1050, color = 'blue', label = paste(95,"% CI = [",
+  annotate("text", x = 250, y = 1200, color = 'black', size=6, label = paste("mean = ", round(sum_ab_num  [[1,2]], 2))) +
+  annotate("text", x = 625, y = 1200, color = 'blue', size=6, label = paste("mean = ", round(sum_ab_num  [[2,2]], 2))) +
+  annotate("text", x = 280, y = 1050, color = 'black', size=6, label = paste(95,"% CI = [",
                                                                     round(sum_ab_num  [[1,3]], 2),",",round(sum_ab_num  [[1,4]], 2),"]")) +
-  annotate("text", x = 675, y = 1550, color = 'red', label = paste(95,"% CI = [",
+  annotate("text", x = 675, y = 1050, color = 'blue', size=6, label = paste(95,"% CI = [",
                                                                    round(sum_ab_num  [[2,3]], 2),",",round(sum_ab_num  [[2,4]], 2),"]")) +
   labs(y = "Count",
        x = "Average Score",
        fill = "Subgroup",
        title = "FSA Numeracy Test Scores\n(2007/08 - 2018/19)") +
   labs(fill="") +
-  theme_bw()
+  theme_bw(base_size=17) +
+  theme(plot.title = element_text(size = 24),
+        axis.text.x = element_text(size =14),
+        axis.title.x = element_text(size = 14))
 
-ana_hist_num + theme(legend.position = "bottom")
+ana_hist_num <- ana_hist_num + theme(legend.position = c(.30, .98),
+                     legend.justification = c("right", "top"))
 
 # Create subdirectory folder if it does not exist
 try({
@@ -146,7 +151,7 @@ try({
 })
 
 # Save FSA numerical histogram plot
-ggsave(paste0(opt$arg2, opt$arg3), width = 6, height = 4)
+ggsave(paste0(opt$arg2, opt$arg3), width = 8, height = 5)
 
 ######---------- READING RESULTS------------#########
 
@@ -164,27 +169,31 @@ sum_ab_read <- tibble("sub_population" = non_ab_reading$sub_population,
 ana_hist_read <- filtered_data_reading %>%
   ggplot( aes(x=score, fill=reorder(sub_population, score))) +
   geom_histogram( color="#e9ecef", alpha=0.5, position = 'identity', bins = 50) +
-  geom_vline(xintercept = sum_ab_read  [[1,2]], color = "blue") +
-  geom_vline(xintercept = sum_ab_read  [[2,2]], color = "red") +
+  geom_vline(xintercept = sum_ab_read  [[1,2]], color = "black", size = .9) +
+  geom_vline(xintercept = sum_ab_read  [[2,2]], color = "blue", size = .9) +
   geom_vline(xintercept = c(sum_ab_read  [[1,3]], sum_ab_read  [[1,4]]),
-             color = "blue", lty = 2) + 
+             color = "black", lty = 2, size = .7) + 
   geom_vline(xintercept = c(sum_ab_read  [[2,3]], sum_ab_read  [[2,4]]),
-             color = "red", lty = 2) +
+             color = "blue", lty = 2, size = .7) +
   scale_fill_manual(values=c("#69b3a2", "#404080")) +
-  annotate("text", x = 600, y = 1300, color = 'blue', label = paste("mean = ", round(sum_ab_read  [[1,2]], 2))) +
-  annotate("text", x = 600, y = 1800, color = 'red', label = paste("mean = ", round(sum_ab_read  [[2,2]], 2))) +
-  annotate("text", x = 650, y = 1150, color = 'blue', label = paste(95,"% CI = [",
+  annotate("text", x = 250, y = 1300, color = 'black', size=6, label = paste("mean = ", round(sum_ab_read  [[1,2]], 2))) +
+  annotate("text", x = 600, y = 1300, color = 'blue', size=6, label = paste("mean = ", round(sum_ab_read  [[2,2]], 2))) +
+  annotate("text", x = 280, y = 1150, color = 'black', size=6, label = paste(95,"% CI = [",
                                                                     round(sum_ab_read  [[1,3]], 2),",",round(sum_ab_read  [[1,4]], 2),"]")) +
-  annotate("text", x = 650, y = 1650, color = 'red', label = paste(95,"% CI = [",
+  annotate("text", x = 650, y = 1150, color = 'blue', size=6, label = paste(95,"% CI = [",
                                                                    round(sum_ab_read  [[2,3]], 2),",",round(sum_ab_read  [[2,4]], 2),"]")) +
   labs(y = "Count",
        x = "Average Score",
        fill = "Subgroup",
        title = "FSA Reading Test Scores\n(2007/08 - 2018/19)") +
   labs(fill="") +
-  theme_bw()
+  theme_bw(base_size=17) +
+  theme(plot.title = element_text(size = 24),
+        axis.text.x = element_text(size =14),
+        axis.title.x = element_text(size = 14))
 
-ana_hist_read + theme(legend.position = "bottom")
+ana_hist_read <- ana_hist_read + theme(legend.position = c(.30, .98),
+                                     legend.justification = c("right", "top"))
 
 # Create subdirectory folder if it does not exist
 try({
@@ -192,7 +201,19 @@ try({
 })
 
 # Save FSA reading histogram plot
-ggsave(paste0(opt$arg2, opt$arg4), width = 6, height = 4)
+ggsave(paste0(opt$arg2, opt$arg4), width = 8, height = 5)
+
+######--------NUMERACY/READING ONE PLOT----#########
+
+theme_set(theme_cowplot())
+plot <- plot_grid(ana_hist_num, ana_hist_read)
+
+#Save plot in subdirectory folder resutls
+try({
+  dir.create(opt$arg2)
+})
+# Save FSA numeracy and reading histogram in a single plot
+ggsave(paste0(opt$arg2, "fig_ana_histograms_join_num_read.png"), width = 20, height = 7)
 
 
 ######---------- WRITING RESULTS------------#########
@@ -211,12 +232,12 @@ sum_ab_write <- tibble("sub_population" = non_ab_writing$sub_population,
 ana_hist_write <- filtered_data_writing %>%
   ggplot( aes(x=score, fill=reorder(sub_population, score))) +
   geom_histogram( color="#e9ecef", alpha=0.5, position = 'identity', bins = 50) +
-  geom_vline(xintercept = sum_ab_write  [[1,2]], color = "blue") +
-  geom_vline(xintercept = sum_ab_write  [[2,2]], color = "red") +
+  geom_vline(xintercept = sum_ab_write  [[1,2]], color = "black", size = .9) +
+  geom_vline(xintercept = sum_ab_write  [[2,2]], color = "blue", size = .9) +
   geom_vline(xintercept = c(sum_ab_write  [[1,3]], sum_ab_write  [[1,4]]),
-             color = "blue", lty = 2) + 
+             color = "black", lty = 2, size = .7) + 
   geom_vline(xintercept = c(sum_ab_write  [[2,3]], sum_ab_write  [[2,4]]),
-             color = "red", lty = 2) +
+             color = "blue", lty = 2, size = .7) +
   scale_fill_manual(values=c("#69b3a2", "#404080")) +
   # annotate("text", x = 600, y = 1300, color = 'blue', label = paste("mean = ", round(sum_ab_write  [[1,2]], 2))) +
   # annotate("text", x = 600, y = 1800, color = 'red', label = paste("mean = ", round(sum_ab_write  [[2,2]], 2))) +
@@ -229,7 +250,10 @@ ana_hist_write <- filtered_data_writing %>%
        fill = "Subgroup",
        title = "FSA Writing Test Scores\n(2007/08 - 2018/19)") +
   labs(fill="") +
-  theme_bw()
+  theme_bw(base_size=17) +
+  theme(plot.title = element_text(size = 24),
+        axis.text.x = element_text(size =14),
+        axis.title.x = element_text(size = 14))
 
 ana_hist_write + theme(legend.position = "bottom")
 

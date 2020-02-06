@@ -18,7 +18,6 @@ Options:
 # Example:
 # Rscript src/plot_publicindep_histogram.R 'data/clean_data.csv' --arg2='img/' --arg3='fig_pi_histogram_numeracy.png' --arg4='fig_pi_histogram_reading.png' --arg5='fig_pi_histogram_writing.png'
 
-
 # Load require Libraries to write the script.
 
 library(docopt)
@@ -27,6 +26,7 @@ library(tidyverse)
 library(infer)
 library(repr)
 library(testthat)
+library(cowplot)
 
 opt <- docopt(doc)
 
@@ -34,7 +34,7 @@ opt <- docopt(doc)
 
 # Tests that the input link is a link to a csv file
 test_input <- function(){
-  test_that("The link should be a link to a .csv file.",{
+  test_that("The clean_data file_path/file_name should be a .csv file.",{
     expect_match(opt$arg1, ".csv")
   })
 }
@@ -153,28 +153,32 @@ pub_ind_num_stat <- sum_num %>% filter(sub_population == "ALL STUDENTS")
 
 pi_hist_num <- pub_ind_num %>%
   ggplot( aes(x=score, fill=reorder(public_or_independent, score))) +
-  geom_histogram( color="#e9ecef", alpha=0.7, position = 'identity', bins = 50) +
-  geom_vline(xintercept = pub_ind_num_stat [[1,3]], color = "blue") +
-  geom_vline(xintercept = pub_ind_num_stat [[2,3]], color = "red") +
+  geom_histogram( color="#e9ecef", alpha=0.5, position = 'identity', bins = 50) +
+  geom_vline(xintercept = pub_ind_num_stat [[1,3]], color = "blue", size = .9) +
+  geom_vline(xintercept = pub_ind_num_stat [[2,3]], color = "black", size = .9) +
   geom_vline(xintercept = c(pub_ind_num_stat [[1,4]], pub_ind_num_stat [[1,5]]),
-             color = "blue", lty = 2) + 
+             color = "blue", lty = 2, size = .7) + 
   geom_vline(xintercept = c(pub_ind_num_stat [[2,4]], pub_ind_num_stat [[2,5]]),
-             color = "red", lty = 2) +
+             color = "black", lty = 2, size = .7) +
   scale_fill_manual(values=c("#69b3a2", "#404080")) +
-  annotate("text", x = 250, y = 1200, color = 'blue', label = paste("mean = ", round(pub_ind_num_stat [[1,3]], 2))) +
-  annotate("text", x = 250, y = 1550, color = 'red', label = paste("mean = ", round(pub_ind_num_stat [[2,3]], 2))) +
-  annotate("text", x = 300, y = 1050, color = 'blue', label = paste(95,"% CI = [",
-                                                                    round(pub_ind_num_stat [[1,4]], 2),",", round(pub_ind_num_stat [[1,5]], 2),"]")) +
-  annotate("text", x = 300, y = 1400, color = 'red', label = paste(95,"% CI = [",
-                                                                   round(pub_ind_num_stat [[2,4]], 2),",", round(pub_ind_num_stat [[2,5]], 2),"]")) +
+  annotate("text", x = 630, y = 1200, color = 'blue', size=6, label = paste("mean = ", round(pub_ind_num_stat [[1,3]], 2))) +
+  annotate("text", x = 280, y = 1200, color = 'black', size=6, label = paste("mean = ", round(pub_ind_num_stat [[2,3]], 2))) +
+  annotate("text", x = 670, y = 1100, , color = 'blue', size=6, label = paste(95,"% CI = [",
+                                                                      round(pub_ind_num_stat [[1,4]], 2),",",round(pub_ind_num_stat [[1,5]], 2),"]")) +
+  annotate("text", x = 320, y = 1100, color = 'black', size=6, label = paste(95,"% CI = [",
+                                                                     round(pub_ind_num_stat [[2,4]], 2),",",round(pub_ind_num_stat [[2,5]], 2),"]")) +
   labs(y = "Counts",
        x = "Average Score",
        fill = "School Type",
        title = "FSA Numeracy Test Scores\n(2007/08 - 2018/19)") +
   labs(fill="") +
-  theme_bw()
+  theme_bw(base_size=17)+
+  theme(plot.title = element_text(size = 24),
+        axis.text.x = element_text(size =14),
+        axis.title.x = element_text(size = 14))
 
-pi_hist_num + theme(legend.position = "bottom")
+pi_hist_num <- pi_hist_num + theme(legend.position = c(.30, .98),
+                                   legend.justification = c("right", "top"))
 
 # Create subdirectory folder if it does not exist
 try({
@@ -182,7 +186,7 @@ try({
 })
 
 # Save FSA numerical histogram plot
-ggsave(paste0(opt$arg2, opt$arg3), width = 6, height = 4)
+ggsave(paste0(opt$arg2, opt$arg3), width = 8, height = 5)
 
 
 ######---------- READING RESULTS------------#########
@@ -242,27 +246,31 @@ pub_ind_read_stat <- sum_read %>% filter(sub_population == "ALL STUDENTS")
 pi_hist_read <- pub_ind_read %>%
   ggplot( aes(x=score, fill=reorder(public_or_independent, score))) +
   geom_histogram( color="#e9ecef", alpha=0.7, position = 'identity', bins = 50) +
-  geom_vline(xintercept = pub_ind_read_stat [[1,3]], color = "blue") +
-  geom_vline(xintercept = pub_ind_read_stat [[2,3]], color = "red") +
+  geom_vline(xintercept = pub_ind_read_stat [[1,3]], color = "blue", size = .9) +
+  geom_vline(xintercept = pub_ind_read_stat [[2,3]], color = "black", size = .9) +
   geom_vline(xintercept = c(pub_ind_read_stat [[1,4]], pub_ind_read_stat [[1,5]]),
-             color = "blue", lty = 2) + 
+             color = "blue", lty = 2, size = .7) + 
   geom_vline(xintercept = c(pub_ind_read_stat [[2,4]], pub_ind_read_stat [[2,5]]),
-             color = "red", lty = 2) +
+             color = "black", lty = 2, size = .7) +
   scale_fill_manual(values=c("#69b3a2", "#404080")) +
-  annotate("text", x = 250, y = 1200, color = 'blue', label = paste("mean = ", round(pub_ind_read_stat [[1,3]], 2))) +
-  annotate("text", x = 250, y = 1550, color = 'red', label = paste("mean = ", round(pub_ind_read_stat [[2,3]], 2))) +
-  annotate("text", x = 300, y = 1050, color = 'blue', label = paste(95,"% CI = [",
-                                                                    round(pub_ind_read_stat [[1,4]], 2),",",round(pub_ind_read_stat [[1,5]], 2),"]")) +
-  annotate("text", x = 300, y = 1400, color = 'red', label = paste(95,"% CI = [",
-                                                                   round(pub_ind_read_stat [[2,4]], 2),",",round(pub_ind_read_stat [[2,5]], 2),"]")) +
+  annotate("text", x = 630, y = 1500, color = 'blue', size=6, label = paste("mean = ", round(pub_ind_read_stat [[1,3]], 2))) +
+  annotate("text", x = 280, y = 1500, color = 'black', size=6, label = paste("mean = ", round(pub_ind_read_stat [[2,3]], 2))) +
+  annotate("text", x = 670, y = 1375, , color = 'blue', size=6, label = paste(95,"% CI = [",
+                                                                      round(pub_ind_read_stat [[1,4]], 2),",",round(pub_ind_read_stat [[1,5]], 2),"]")) +
+  annotate("text", x = 320, y = 1375, color = 'black', size=6, label = paste(95,"% CI = [",
+                                                                     round(pub_ind_read_stat [[2,4]], 2),",",round(pub_ind_read_stat [[2,5]], 2),"]")) +
   labs(y = "Counts",
        x = "Average Score",
        fill = "School Type",
        title = "FSA Reading Test Scores\n(2007/08 - 2018/19)") +
   labs(fill="") +
-  theme_bw()
+  theme_bw(base_size=17)+
+  theme(plot.title = element_text(size = 24),
+        axis.text.x = element_text(size =14),
+        axis.title.x = element_text(size = 14))
 
-pi_hist_read + theme(legend.position = "bottom")
+pi_hist_read <- pi_hist_read + theme(legend.position = c(.30, .98),
+                                     legend.justification = c("right", "top"))
 
 # Create subdirectory folder if it does not exist
 try({
@@ -270,7 +278,19 @@ try({
 })
 
 # Save FSA reading histogram plot
-ggsave(paste0(opt$arg2, opt$arg4), width = 6, height = 4)
+ggsave(paste0(opt$arg2, opt$arg4), width = 8, height = 5)
+
+######--------NUMERACY/READING ONE PLOT----#########
+
+theme_set(theme_cowplot())
+plot <- plot_grid(pi_hist_num, pi_hist_read)
+
+#Save plot in subdirectory folder resutls
+try({
+  dir.create(opt$arg2)
+})
+# Save FSA numeracy and reading histogram in a single plot
+ggsave(paste0(opt$arg2, "fig_pi_histograms_join_num_read.png"), width = 20, height = 7)
 
 
 ######---------- WRITING RESULTS------------#########
@@ -348,7 +368,10 @@ pi_hist_write <- pub_ind_write %>%
        fill = "School Type",
        title = "FSA Writing Test Scores\n(2007/08 - 2018/19)") +
   labs(fill="") +
-  theme_bw()
+  theme_bw() +
+  theme(plot.title = element_text(size = 12),
+        axis.text.x = element_text(size =10),
+        axis.title.x = element_text(size = 10))
 
 pi_hist_write + theme(legend.position = "bottom")
 
@@ -358,5 +381,6 @@ try({
 })
 
 # Save FSA writing histogram plot
-ggsave(paste0(opt$arg2, opt$arg5), width = 6, height = 4)
+ggsave(paste0(opt$arg2, opt$arg5), width = 8, height = 5)
+
 

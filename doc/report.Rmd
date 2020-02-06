@@ -139,7 +139,7 @@ Data from both groups was filtered accordingly to observe the distribution of ag
 Note that because the confidence intervals (areas between dash lines of same color) for both groups do not overlap in either histogram, we can expect a significant difference in mean aggregate scores for both skills between groups when we apply T-tests.
 
 ```{r Q1 Numeracy Histogram, echo=FALSE, fig.cap = 'Histograms showing distributions of mean aggregate scores for Numeracy and Reading section of the FSA exam by school type (BC Independent School / BC Public School)'}
-knitr::include_graphics(c('../img/fig_pi_histogram_numeracy.png', '../img/fig_pi_histogram_reading.png'))
+knitr::include_graphics('../img/fig_pi_histograms_join_num_read.png')
 ```
 
 After visualizing the differences, we conducted t-tests at a 95% confidence interval to confirm that the differences are actually significant at this level, and find that they are:
@@ -207,7 +207,7 @@ knitr::include_graphics('../img/boxplot_ana.png')
 For consistency, histograms and confidence intervals for both skills (Numeracy and Reading) and subgroups (aboriginal vs non-aboriginal) were constructed in the same way here as with the independent vs public shool analysis. Results on these plots also indicate that there is a significant difference in scores between the two student subgroups for both numeracy and reading skills.
 
 ```{r Q2 Numeracy Histogram, echo=FALSE, fig.cap = 'Histograms showing distributions of mean aggregate scores for Numeracy and Reading section of the FSA exam by subgroup (Aboriginal / Non Aboriginal)'}
-knitr::include_graphics(c('../img/fig_ana_histogram_numeracy.png', '../img/fig_ana_histogram_reading.png'))
+knitr::include_graphics('../img/fig_ana_histograms_join_num_read.png')
 ```
 
 After visualizing the differences, we conducted t-tests at a 95% confidence interval to confirm that the differences are actually significant at this level, and find that they are:

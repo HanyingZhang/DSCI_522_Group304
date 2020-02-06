@@ -224,26 +224,13 @@ Public Schools)
 
 <div class="figure">
 
-<img src="../img/line_ind_numeracy.png" alt="Mean aggregate scores for Numeracy and Reading sections of the FSA exam by school type over time (Red: BC Independent Schools, Blue: BC Public Schools)" width="2100" />
+<img src="../img/line_pub_ind.png" alt="Mean aggregate scores for Numeracy and Reading sections of the FSA exam by school type and subgroup (Yellow pairs: Numeracy test,  Blue pairs: Reading test; Bright ones:BC Independent Schools, Dim ones: BC Public Schools)" width="2100" />
 
 <p class="caption">
 
 Mean aggregate scores for Numeracy and Reading sections of the FSA exam
-by school type over time (Red: BC Independent Schools, Blue: BC Public
-Schools)
-
-</p>
-
-</div>
-
-<div class="figure">
-
-<img src="../img/line_ind_read.png" alt="Mean aggregate scores for Numeracy and Reading sections of the FSA exam by school type over time (Red: BC Independent Schools, Blue: BC Public Schools)" width="2100" />
-
-<p class="caption">
-
-Mean aggregate scores for Numeracy and Reading sections of the FSA exam
-by school type over time (Red: BC Independent Schools, Blue: BC Public
+by school type and subgroup (Yellow pairs: Numeracy test, Blue pairs:
+Reading test; Bright ones:BC Independent Schools, Dim ones: BC Public
 Schools)
 
 </p>
@@ -499,25 +486,13 @@ by subgroup (Aboriginal / Non Aboriginal)
 
 <div class="figure">
 
-<img src="../img/line_ab_numeracy.png" alt="Mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Aboriginal / Non Aboriginal) over time" width="2100" />
+<img src="../img/line_ab.png" alt="Mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Yellow pairs: Numeracy test,  Blue pairs: Reading test; Bright ones:Non aboriginal, Dim ones: Aboriginal)" width="2100" />
 
 <p class="caption">
 
 Mean aggregate scores for Numeracy and Reading sections of the FSA exam
-by subgroup (Aboriginal / Non Aboriginal) over time
-
-</p>
-
-</div>
-
-<div class="figure">
-
-<img src="../img/line_ab_reading.png" alt="Mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Aboriginal / Non Aboriginal) over time" width="2100" />
-
-<p class="caption">
-
-Mean aggregate scores for Numeracy and Reading sections of the FSA exam
-by subgroup (Aboriginal / Non Aboriginal) over time
+by subgroup (Yellow pairs: Numeracy test, Blue pairs: Reading test;
+Bright ones:Non aboriginal, Dim ones: Aboriginal)
 
 </p>
 

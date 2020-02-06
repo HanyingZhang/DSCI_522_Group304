@@ -19,8 +19,30 @@ library(docopt)
 library(tidyverse)
 library(dplyr)
 library(repr)
+library(testthat)
+library(ggthemes)
+library(ggfortify)
 
 opt <- docopt(doc)
+
+#########################
+
+# Tests that the input link is a link to a csv file
+test_input <- function(){
+  test_that("The link should be a link to a .csv file.",{
+    expect_match(opt$data, ".csv")
+  })
+}
+test_input()
+
+# Tests that the output lies in the `img` file
+test_output <- function(){
+  test_that("The output should be in the img directory.",{
+    expect_match(opt$out_dir, "img")
+  })
+}
+test_output()
+
 
 main <- function(data, out_dir){
   # load data
@@ -40,12 +62,15 @@ main <- function(data, out_dir){
     geom_bar(aes(fill = public_or_independent), alpha=0.9 , width=0.7, position = "dodge", stat="identity") +
     labs(y = "Average Score",
          x = "Subroup",
-         fill = "School Type",
          title = "FSA Numeracy Test Scores (2007/08 - 2018/19)") +
     theme(plot.title = element_text(size=12), 
-          axis.text = element_text(size=6), 
-          axis.title = element_text(size=8)) +
-    coord_flip()
+          axis.text.x = element_text(size=10), 
+          axis.title.x = element_text(size=10),
+          legend.position = "none"
+          ) +
+    coord_flip() +
+    scale_y_continuous(trans="reverse") 
+    
   # Save bar chart for numeracy
   ggsave(plot = bar_plot_numeracy,
          filename = "bar_plot_numeracy.png",
@@ -65,8 +90,11 @@ main <- function(data, out_dir){
          fill = "School Type",
          title = "FSA Reading Test Scores (2007/08 - 2018/19)") +
     theme(plot.title = element_text(size=12), 
-          axis.text = element_text(size=6), 
-          axis.title = element_text(size=8)) +
+          axis.text = element_text(size=10), 
+          axis.title = element_text(size=10),
+          axis.text.y = element_blank(), 
+          axis.title.y = element_blank(),
+          axis.ticks.y = element_blank(),) +
     coord_flip()
   #Save bar chart for reading
   ggsave(plot = bar_plot_reading,
@@ -74,28 +102,6 @@ main <- function(data, out_dir){
          path = out_dir
   )
   
-  
-  pub_ind_writing <- df %>%
-    filter(fsa_skill_code == "Writing" & public_or_independent != 'PROVINCE - TOTAL' & data_level == 'SCHOOL LEVEL') %>%
-    group_by(sub_population, public_or_independent) %>%
-    summarise(avg = mean(score))
-  
-  # Plot bar chart for writing
-  bar_plot_writing <- ggplot(pub_ind_writing, aes(x = sub_population, y = avg))+
-    geom_bar(aes(fill = public_or_independent), alpha=0.9 , width=0.7, position = "dodge", stat="identity") +
-    labs(y = "Average Score",
-         x = "Subgroup",
-         fill = "School Type",
-         title = "FSA Writing Test Scores (2007/08 - 2018/19)") +
-    theme(plot.title = element_text(size=12), 
-          axis.text = element_text(size=6), 
-          axis.title = element_text(size=8)) +
-    coord_flip()
-  
-  ggsave(plot = bar_plot_writing,
-         filename = "bar_plot_writing.png",
-         path = out_dir
-  )
   
   # Summary statistic table for non-ab vs ab in numeracy
   non_ab_numeracy <- df %>%
@@ -110,7 +116,12 @@ main <- function(data, out_dir){
     labs(y = "Average Score",
          x = "Subgroup",
          title = "FSA Numeracy Test Scores (2007/08 - 2018/19)") +
-    theme(legend.position = "bot")
+    theme(plot.title = element_text(size=12), 
+          axis.text = element_text(size=10), 
+          axis.title = element_text(size=10),) +
+    scale_y_continuous(trans="reverse") +
+    coord_flip()
+  
   ggsave(plot = ab_bar_plot_numeracy,
          filename = "bar_plot_ab_numeracy.png",
          path = out_dir
@@ -125,175 +136,82 @@ main <- function(data, out_dir){
   
   # Plot bar chart
   ab_bar_plot_read <- ggplot(non_ab_read, aes(x = sub_population, y = avg))+
-    geom_bar(width = 0.3 , alpha=0.9 , size=0.3, position = "dodge", stat = 'identity', fill="#759ed1") +
+    geom_bar(width = 0.3 , alpha=0.9 , size=0.3, position = "dodge", stat = 'identity', fill="#fcba03") +
     labs(y = "Average Score",
-         x = "Subroup",
+         x = "     ",
          title = "FSA Reading Test Scores (2007/08 - 2018/19)") +
-    theme(legend.position = "bot")
+    coord_flip() + 
+    theme(axis.ticks.y = element_blank(),
+          plot.title = element_text(size=12), 
+          axis.text = element_text(size=10), 
+          axis.title = element_text(size=10),) +
+    scale_x_discrete(position="top")
+    
   ggsave(plot = ab_bar_plot_read,
          filename = "bar_plot_ab_read.png",
          path = out_dir
   )
   
   
-  # Summary statistic table for non-ab vs ab in writing
-  non_ab_write <- df %>%
-    filter(fsa_skill_code == "Writing") %>%
-    filter(sub_population == "ABORIGINAL" | sub_population == "NON ABORIGINAL") %>%
-    group_by(sub_population) %>%
-    summarise(avg = mean(score))
-  
-  # Plot bar chart
-  ab_bar_plot_write <- ggplot(non_ab_write, aes(x = sub_population, y = avg))+
-    geom_bar(width = 0.3 , alpha=0.9 , size=0.3, position = "dodge", stat = 'identity', fill="#759ed1") +
-    labs(y = "Average Score",
-         x = "Subroup",
-         title = "FSA Writing Test Scores (2007/08 - 2018/19)") +
-    theme(legend.position = "bot")
-  
-  ggsave(plot = ab_bar_plot_write,
-         filename = "ab_bar_plot_write.png",
-         path = out_dir
-  )
-  
   #Plot line chart for public vs independent in numeracy
   pub_ind_numeracy_year <- df %>%
-    filter(fsa_skill_code == "Numeracy") %>%
-    group_by(year_start, public_or_independent) %>%
-    summarise("avg" = mean(score))
+    filter(fsa_skill_code != "Writing") %>%
+    group_by(year_start, public_or_independent, fsa_skill_code) %>%
+    summarise("avg" = mean(score)) %>%
+    mutate(group = paste(public_or_independent, fsa_skill_code))
   
-  line_plot_numeracy <- pub_ind_numeracy_year %>%
+  
+  p1 <- pub_ind_numeracy_year %>%
     ggplot(aes(x = year_start, y = avg)) +
-    geom_line(aes(color = public_or_independent)) +
-    labs(x = "School Year Start", y = "Average Score", title = "FSA Numeracy Test Scores (2007/08 - 2018/19) by Subgroup") +
-    theme(plot.title = element_text(size=12), 
-          axis.text = element_text(size=6), 
-          axis.title = element_text(size=8), 
-          legend.text = element_text(size=7), 
-          legend.title = element_text(size=7)) +
-    scale_x_continuous(breaks = seq(2007, 2018, 1))
-  
-  ggsave(plot = line_plot_numeracy,
-         filename = "line_ind_numeracy.png",
-         path = out_dir)
-  
-  #Plot line chart for public vs independent in reading
-  pub_ind_read_year <- df %>%
-    filter(fsa_skill_code == "Reading") %>%
-    group_by(year_start, public_or_independent) %>%
-    summarise(avg = mean(score))
-  
-  line_plot_read <- pub_ind_read_year %>%
-    ggplot(aes(x = year_start, y = avg)) +
-    geom_line(aes(color = public_or_independent)) +
+    geom_line(aes(color = group)) +
     labs(x = "School Year Start", 
          y = "Average Score", 
-         title = "FSA Reading Test Scores (2007/08 - 2018/19) by Subgroup") +
-    theme(plot.title = element_text(size=12), 
-          axis.text = element_text(size=6), 
-          axis.title = element_text(size=8), 
-          legend.text = element_text(size=7), 
-          legend.title = element_text(size=7)) +
-    scale_x_continuous(breaks = seq(2007, 2018, 1))
-  
-  ggsave(plot = line_plot_read,
-         filename = "line_ind_read.png",
-         path = out_dir)
-  
-  #Plot line chart for public vs independent in writing
-  pub_ind_write_year <- df %>%
-    filter(fsa_skill_code == "Writing") %>%
-    group_by(year_start, public_or_independent) %>%
-    summarise(avg = mean(score))
-  
-  line_plot_write <- pub_ind_write_year %>%
-    ggplot(aes(x = year_start, y = avg)) +
-    geom_line(aes(color = public_or_independent)) +
-    labs(x = "School Year Start", y = "Average Score", title = "FSA Writing Test Scores (2007/08 - 2018/19) by Subgroup") +
-    theme(plot.title = element_text(size=12), 
-          axis.text = element_text(size=6), 
-          axis.title = element_text(size=8), 
-          legend.text = element_text(size=7), 
-          legend.title = element_text(size=7)) +
-    scale_x_continuous(breaks = seq(2007, 2018, 1))
-  
-  ggsave(plot = line_plot_write,
-         filename = "line_ind_write.png",
-         path = out_dir)
-  
-  #Plot line chart for na vs ab in numeracy
-  ab_numeracy_year <- df %>%
-    filter(fsa_skill_code == "Numeracy" ) %>%
-    filter(sub_population == "ABORIGINAL" | sub_population == "NON ABORIGINAL") %>%
-    group_by(year_start, sub_population) %>%
-    summarise(avg = mean(score))
-  
-  line_plot_numeracy <- ab_numeracy_year %>%
-    ggplot(aes(x = year_start, y = avg)) +
-    geom_line(aes(color = sub_population)) +
-    labs(x = "School Year Start", 
-         y = "Average Score", 
-         title = "FSA Numeracy Test Scores (2007/08 - 2018/19) by Subgroup",
+         title = "FSA Test Scores (2007/08 - 2018/19) by Subgroup",
          color = "Subgroup") +
     theme(plot.title = element_text(size=12), 
           axis.text = element_text(size=6), 
           axis.title = element_text(size=8), 
           legend.text = element_text(size=7), 
           legend.title = element_text(size=7)) +
-    scale_x_continuous(breaks = seq(2007, 2018, 1))
+    scale_x_continuous(breaks = seq(2007, 2018, 1)) +
+    scale_color_manual(values=c("#f0970a", "#314782",
+                                "#f0e0ad", "#8ca2de")) +
+    scale_y_continuous(limits=c(450, 550))
   
-  ggsave(plot = line_plot_numeracy,
-         filename = "line_ab_numeracy.png",
+  ggsave(plot = p1,
+         filename = "line_pub_ind.png",
          path = out_dir)
+  
+  
   
   #Plot line chart for na vs ab in numeracy
-  ab_reading_year <- df %>%
-    filter(fsa_skill_code == "Reading") %>%
+  ab_numeracy_year <- df %>%
+    filter(fsa_skill_code != "Writing" ) %>%
     filter(sub_population == "ABORIGINAL" | sub_population == "NON ABORIGINAL") %>%
-    group_by(year_start, sub_population) %>%
-    summarise(avg = mean(score))
+    group_by(year_start, sub_population, fsa_skill_code) %>%
+    summarise(avg = mean(score))%>%
+    mutate(group = paste(sub_population, fsa_skill_code))
   
-  line_plot_reading <- ab_reading_year %>%
+  line_plot_numeracy <- ab_numeracy_year %>%
     ggplot(aes(x = year_start, y = avg)) +
-    geom_line(aes(color = sub_population)) +
+    geom_line(aes(color = group)) +
     labs(x = "School Year Start", 
          y = "Average Score", 
-         color = "Subgroup",
-         title = "FSA Reading Test Scores (2007/08 - 2018/19) by Subgroup") +
+         title = "FSA Test Scores (2007/08 - 2018/19) by Subgroup",
+         color = "Subgroup") +
     theme(plot.title = element_text(size=12), 
           axis.text = element_text(size=6), 
           axis.title = element_text(size=8), 
           legend.text = element_text(size=7), 
           legend.title = element_text(size=7)) +
-    scale_x_continuous(breaks = seq(2007, 2018, 1))
+    scale_x_continuous(breaks = seq(2007, 2018, 1)) +
+    scale_color_manual(values=c("#f0e0ad", "#8ca2de",
+                                "#f0970a", "#314782"
+                                ))+
+    scale_y_continuous(limits=c(400, 525))
   
-  ggsave(plot = line_plot_reading,
-         filename = "line_ab_reading.png",
-         path = out_dir)
-  
-  #Plot line chart for na vs ab in writing
-  ab_write_year <- df %>%
-    filter(fsa_skill_code == "Writing" ) %>%
-    filter(sub_population == "ABORIGINAL" | sub_population == "NON ABORIGINAL") %>%
-    group_by(year_start, sub_population) %>%
-    summarise(avg = mean(score))
-  
-  line_plot_write <- ab_write_year %>%
-    ggplot(aes(x = year_start, y = avg)) +
-    geom_line(aes(color = sub_population)) +
-    labs(x = "School Year Start", 
-         y = "Average Score", 
-         color = "Subgroup",
-         title = "FSA Writing Test Scores (2007/08 - 2018/19) by Subgroup") +
-    theme(plot.title = element_text(size=12), 
-          axis.text = element_text(size=6), 
-          axis.title = element_text(size=8), 
-          legend.text = element_text(size=7), 
-          legend.title = element_text(size=7)) +
-    scale_x_continuous(breaks = seq(2007, 2018, 1))
-  
-  ggsave(plot = line_plot_write,
-         filename = "line_ab_write.png",
+  ggsave(plot = line_plot_numeracy,
+         filename = "line_ab.png",
          path = out_dir)
 }  
 

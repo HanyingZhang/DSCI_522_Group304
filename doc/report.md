@@ -1,7 +1,18 @@
 Are There Differences in FSA Scores Between Subgroups?
 ================
 DSCI 522 Group 304: Anny Chih, Robert Pimentel, & Wenjiao Zou <br>
-2020-01-23 (updated: 2020-02-06)
+2020-01-23 (updated: 2020-02-05)
+
+  - [Summary](#summary)
+  - [Introduction](#introduction)
+  - [Methods](#methods)
+      - [Data](#data)
+      - [Analysis](#analysis)
+  - [Results](#results)
+      - [Conclusion](#conclusion)
+      - [Future Direction](#future-direction)
+      - [Notes on Limitations](#notes-on-limitations)
+      - [References](#references)
 
 # Summary
 
@@ -174,17 +185,34 @@ periods. To view larger versions of the graphs, please see the
 [img](https://github.com/UBC-MDS/DSCI_522_Group304/tree/master/img)
 folder of the project repository.
 
-![Mean aggregate scores for Numeracy and Reading sections of the FSA
-exam by school type and subgroup (Red: BC Independent Schools, Blue: BC
-Public Schools)](../img/bar_plot_numeracy.png)![Mean aggregate scores
-for Numeracy and Reading sections of the FSA exam by school type and
-subgroup (Red: BC Independent Schools, Blue: BC Public
-Schools)](../img/bar_plot_reading.png)
+<div class="figure">
 
-![Mean aggregate scores for Numeracy and Reading sections of the FSA
-exam by school type and subgroup (Yellow pairs: Numeracy test, Blue
-pairs: Reading test; Bright ones:BC Independent Schools, Dim ones: BC
-Public Schools)](../img/line_pub_ind.png)
+<img src="../img/bar_plots.png" alt="Mean aggregate scores for Numeracy and Reading sections of the FSA exam by school type and subgroup (Red: BC Independent Schools, Blue: BC Public Schools)" width="3600" />
+
+<p class="caption">
+
+Mean aggregate scores for Numeracy and Reading sections of the FSA exam
+by school type and subgroup (Red: BC Independent Schools, Blue: BC
+Public Schools)
+
+</p>
+
+</div>
+
+<div class="figure">
+
+<img src="../img/line_pub_ind.png" alt="Mean aggregate scores for Numeracy and Reading sections of the FSA exam by school type and subgroup (Yellow pairs: Numeracy test,  Blue pairs: Reading test; Bright ones:BC Independent Schools, Dim ones: BC Public Schools)" width="2100" height="60%" />
+
+<p class="caption">
+
+Mean aggregate scores for Numeracy and Reading sections of the FSA exam
+by school type and subgroup (Yellow pairs: Numeracy test, Blue pairs:
+Reading test; Bright ones:BC Independent Schools, Dim ones: BC Public
+Schools)
+
+</p>
+
+</div>
 
 **ANALYSIS**  
 To determine if the differences in mean aggregate FSA scores seen above
@@ -196,9 +224,18 @@ The boxplots for the mean aggregate scores between the subgroups do not
 overlap much for both Numeracy and Reading sections of the exam, which
 suggests that the differences in scores may be significant.
 
-![Boxplots of mean aggregate scores for Numeracy and Reading sections of
-the FSA exam by school type (BC Independent School / BC Public
-School)](../img/boxplot_pi.png)
+<div class="figure">
+
+<img src="../img/boxplot_pi.png" alt="Boxplots of mean aggregate scores for Numeracy and Reading sections of the FSA exam by school type (BC Independent School / BC Public School)" width="6000" />
+
+<p class="caption">
+
+Boxplots of mean aggregate scores for Numeracy and Reading sections of
+the FSA exam by school type (BC Independent School / BC Public School)
+
+</p>
+
+</div>
 
 Data from both groups was filtered accordingly to observe the
 distribution of aggregate scores using histograms (bin size = 50). In
@@ -212,13 +249,33 @@ same color) for both groups do not overlap in either histogram, we can
 expect a significant difference in mean aggregate scores for both skills
 between groups when we apply T-tests.
 
-![Histograms showing distributions of mean aggregate scores for Numeracy
+<div class="figure">
+
+<img src="../img/fig_pi_histogram_numeracy.png" alt="Histograms showing distributions of mean aggregate scores for Numeracy and Reading section of the FSA exam by school type (BC Independent School / BC Public School)" width="1800" />
+
+<p class="caption">
+
+Histograms showing distributions of mean aggregate scores for Numeracy
 and Reading section of the FSA exam by school type (BC Independent
-School / BC Public
-School)](../img/fig_pi_histogram_numeracy.png)![Histograms showing
-distributions of mean aggregate scores for Numeracy and Reading section
-of the FSA exam by school type (BC Independent School / BC Public
-School)](../img/fig_pi_histogram_reading.png)
+School / BC Public School)
+
+</p>
+
+</div>
+
+<div class="figure">
+
+<img src="../img/fig_pi_histogram_reading.png" alt="Histograms showing distributions of mean aggregate scores for Numeracy and Reading section of the FSA exam by school type (BC Independent School / BC Public School)" width="1800" />
+
+<p class="caption">
+
+Histograms showing distributions of mean aggregate scores for Numeracy
+and Reading section of the FSA exam by school type (BC Independent
+School / BC Public School)
+
+</p>
+
+</div>
 
 After visualizing the differences, we conducted t-tests at a 95%
 confidence interval to confirm that the differences are actually
@@ -378,15 +435,32 @@ exam. The bar plots below show this difference, and the line plots below
 show that the scores are consistently lower for Aboriginal students over
 time.
 
-![Mean aggregate scores for Numeracy and Reading sections of the FSA
-exam by subgroup (Aboriginal / Non
-Aboriginal)](../img/bar_plot_ab_numeracy.png)![Mean aggregate scores for
-Numeracy and Reading sections of the FSA exam by subgroup (Aboriginal /
-Non Aboriginal)](../img/bar_plot_ab_read.png)
+<div class="figure">
 
-![Mean aggregate scores for Numeracy and Reading sections of the FSA
-exam by subgroup (Yellow pairs: Numeracy test, Blue pairs: Reading test;
-Bright ones:Non aboriginal, Dim ones: Aboriginal)](../img/line_ab.png)
+<img src="../img/plots_ab.png" alt="Mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Aboriginal / Non Aboriginal)" width="3600" height="80%" />
+
+<p class="caption">
+
+Mean aggregate scores for Numeracy and Reading sections of the FSA exam
+by subgroup (Aboriginal / Non Aboriginal)
+
+</p>
+
+</div>
+
+<div class="figure">
+
+<img src="../img/line_ab.png" alt="Mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Yellow pairs: Numeracy test,  Blue pairs: Reading test; Bright ones:Non aboriginal, Dim ones: Aboriginal)" width="2100" height="60%" />
+
+<p class="caption">
+
+Mean aggregate scores for Numeracy and Reading sections of the FSA exam
+by subgroup (Yellow pairs: Numeracy test, Blue pairs: Reading test;
+Bright ones:Non aboriginal, Dim ones: Aboriginal)
+
+</p>
+
+</div>
 
 **ANALYSIS**  
 To determine if the differences in mean aggregate FSA scores seen above
@@ -398,9 +472,18 @@ Here we see that the boxplots for the different subgroups (Aboriginal /
 Non Aboriginal) do not overlap, which is a strong indicator that there
 is a significant difference in scores between the groups.
 
-![Boxplots of mean aggregate scores for Numeracy and Reading sections of
-the FSA exam by subgroup (Aboriginal / Non
-Aboriginal)](../img/boxplot_ana.png)
+<div class="figure">
+
+<img src="../img/boxplot_ana.png" alt="Boxplots of mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Aboriginal / Non Aboriginal)" width="6000" />
+
+<p class="caption">
+
+Boxplots of mean aggregate scores for Numeracy and Reading sections of
+the FSA exam by subgroup (Aboriginal / Non Aboriginal)
+
+</p>
+
+</div>
 
 For consistency, histograms and confidence intervals for both skills
 (Numeracy and Reading) and subgroups (aboriginal vs non-aboriginal) were
@@ -409,12 +492,33 @@ analysis. Results on these plots also indicate that there is a
 significant difference in scores between the two student subgroups for
 both numeracy and reading skills.
 
-![Histograms showing distributions of mean aggregate scores for Numeracy
+<div class="figure">
+
+<img src="../img/fig_ana_histogram_numeracy.png" alt="Histograms showing distributions of mean aggregate scores for Numeracy and Reading section of the FSA exam by subgroup (Aboriginal / Non Aboriginal)" width="1800" />
+
+<p class="caption">
+
+Histograms showing distributions of mean aggregate scores for Numeracy
 and Reading section of the FSA exam by subgroup (Aboriginal / Non
-Aboriginal)](../img/fig_ana_histogram_numeracy.png)![Histograms showing
-distributions of mean aggregate scores for Numeracy and Reading section
-of the FSA exam by subgroup (Aboriginal / Non
-Aboriginal)](../img/fig_ana_histogram_reading.png)
+Aboriginal)
+
+</p>
+
+</div>
+
+<div class="figure">
+
+<img src="../img/fig_ana_histogram_reading.png" alt="Histograms showing distributions of mean aggregate scores for Numeracy and Reading section of the FSA exam by subgroup (Aboriginal / Non Aboriginal)" width="1800" />
+
+<p class="caption">
+
+Histograms showing distributions of mean aggregate scores for Numeracy
+and Reading section of the FSA exam by subgroup (Aboriginal / Non
+Aboriginal)
+
+</p>
+
+</div>
 
 After visualizing the differences, we conducted t-tests at a 95%
 confidence interval to confirm that the differences are actually
@@ -749,7 +853,7 @@ Confidence Interval (High)
 
 ## References
 
-<div id="refs" class="references">
+<div id="refs" class="references hanging-indent">
 
 <div id="ref-repr">
 

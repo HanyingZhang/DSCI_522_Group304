@@ -1,18 +1,7 @@
 Are There Differences in FSA Scores Between Subgroups?
 ================
 DSCI 522 Group 304: Anny Chih, Robert Pimentel, & Wenjiao Zou <br>
-2020-01-23 (updated: 2020-02-04)
-
-  - [Summary](#summary)
-  - [Introduction](#introduction)
-  - [Methods](#methods)
-      - [Data](#data)
-      - [Analysis](#analysis)
-  - [Results](#results)
-      - [Conclusion](#conclusion)
-      - [Future Direction](#future-direction)
-      - [Notes on Limitations](#notes-on-limitations)
-      - [References](#references)
+2020-01-23 (updated: 2020-02-05)
 
 # Summary
 
@@ -181,15 +170,18 @@ Independent School students were generally higher than mean aggregate
 scores for BC Public School students across all subgroups and time
 periods. To view larger versions of the graphs, please see the
 [img](https://github.com/UBC-MDS/DSCI_522_Group304/tree/master/img)
-folder of the project repository.
+folder of the project
+repository.
 
 <img src="../img/bar_plot_numeracy.png" width="50%" /><img src="../img/bar_plot_reading.png" width="50%" />
 
 Fig: Mean aggregate scores for Numeracy and Reading sections of the FSA
-exam by school type and subgroup (Red: BC Independent Schools, Blue: BC
-Public Schools)
+exam by school type and subgroup (Yellow pairs: Numeracy test, Blue
+pairs: Reading test; Bright ones:BC Independent Schools, Dim ones: BC
+Public
+Schools)
 
-<img src="../img/line_ind_numeracy.png" width="50%" /><img src="../img/line_ind_read.png" width="50%" />
+<img src="../img/line_pub_ind.png" width="60%" height="60%" style="display: block; margin: auto;" />
 
 Fig: Mean aggregate scores for Numeracy and Reading sections of the FSA
 exam by school type over time (Red: BC Independent Schools, Blue: BC
@@ -203,7 +195,8 @@ histograms to plot the mean aggregate scores for each exam section.
 The following plots visualize the difference in scores using boxplots.
 The boxplots for the mean aggregate scores between the subgroups do not
 overlap much for both Numeracy and Reading sections of the exam, which
-suggests that the differences in scores may be significant.
+suggests that the differences in scores may be
+significant.
 
 <img src="../img/fig_pi_numeracy.png" width="50%" /><img src="../img/fig_pi_reading.png" width="50%" />
 
@@ -221,7 +214,8 @@ replacement 5000 times.
 Note that because the confidence intervals (areas between dash lines of
 same color) for both groups do not overlap in either histogram, we can
 expect a significant difference in mean aggregate scores for both skills
-between groups when we apply T-tests.
+between groups when we apply
+T-tests.
 
 <img src="../img/fig_pi_histogram_numeracy.png" width="50%" /><img src="../img/fig_pi_histogram_reading.png" width="50%" />
 
@@ -390,9 +384,11 @@ time.
 <img src="../img/bar_plot_ab_numeracy.png" width="50%" /><img src="../img/bar_plot_ab_read.png" width="50%" />
 
 Fig: Mean aggregate scores for Numeracy and Reading sections of the FSA
-exam by subgroup (Aboriginal / Non Aboriginal)
+exam by subgroup (Yellow pairs: Numeracy test, Blue pairs: Reading test;
+Bright ones:Non aboriginal, Dim ones:
+Aboriginal)
 
-<img src="../img/line_ab_numeracy.png" width="50%" /><img src="../img/line_ab_reading.png" width="50%" />
+<img src="../img/line_ab.png" width="60%" height="60%" style="display: block; margin: auto;" />
 
 Fig: Mean aggregate scores for Numeracy and Reading sections of the FSA
 exam by subgroup (Aboriginal / Non Aboriginal) over time
@@ -405,7 +401,8 @@ histograms to plot the mean aggregate scores for each exam section.
 The following plots visualize the difference in scores using boxplots.
 Here we see that the boxplots for the different subgroups (Aboriginal /
 Non Aboriginal) do not overlap, which is a strong indicator that there
-is a significant difference in scores between the groups.
+is a significant difference in scores between the
+groups.
 
 <img src="../img/fig_ana_numeracy.png" width="50%" /><img src="../img/fig_ana_reading.png" width="50%" />
 
@@ -417,7 +414,8 @@ For consistency, histograms and confidence intervals for both skills
 constructed in the same way here as with the independent vs public shool
 analysis. Results on these plots also indicate that there is a
 significant difference in scores between the two student subgroups for
-both numeracy and reading skills.
+both numeracy and reading
+skills.
 
 <img src="../img/fig_ana_histogram_numeracy.png" width="50%" /><img src="../img/fig_ana_histogram_reading.png" width="50%" />
 
@@ -758,7 +756,7 @@ Confidence Interval (High)
 
 ## References
 
-<div id="refs" class="references hanging-indent">
+<div id="refs" class="references">
 
 <div id="ref-repr">
 

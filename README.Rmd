@@ -54,10 +54,10 @@ python src/add_subgroup_info.py --clean_data="data/clean_data.csv" --new_data="d
 Rscript src/data_viz_tab.R --data='data/clean_data.csv' --out_dir='img'
 
 # Produces Boxplots for Inferential Question 1: Difference Between Public and Independent School Scores
-Rscript src/plot_publicindep_boxplots.R 'data/clean_data.csv' --arg2='img/fig_pi_numeracy.png' --arg3='img/fig_pi_reading.png' --arg4='img/fig_pi_writing.png'
+Rscript src/plot_publicindep_boxplots.R 'data/clean_data.csv' --arg2='img/boxplot_pi.png'
 
 # Produces Boxplots for Inferential Question 2: Difference Between Aboriginal and Non Aboriginal Scores
-Rscript src/plot_subgroup_boxplots.R 'data/clean_data.csv' --arg2='img/fig_ana_numeracy.png' --arg3='img/fig_ana_reading.png' --arg4='img/fig_ana_writing.png'
+Rscript src/plot_subgroup_boxplots.R 'data/clean_data.csv' --arg2='img/boxplot_ana.png'
 
 # Produces Histograms for Inferential Question 1: Difference Between Public and Independent School Scores
 Rscript src/plot_publicindep_histogram.R 'data/clean_data.csv' --arg2='img/' --arg3='fig_pi_histogram_numeracy.png' --arg4='fig_pi_histogram_reading.png' --arg5='fig_pi_histogram_writing.png'
@@ -90,6 +90,7 @@ Alternatively, you may run either (just choose one) of these sets of command lin
   - repr==1.0.1
   - kableExtra==1.1.0
   - testthat==2.3.1
+  - cowplot==1.0.0
 
 * GNU make 3.81
 

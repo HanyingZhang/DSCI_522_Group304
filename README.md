@@ -93,6 +93,18 @@ command lines which do the same thing:
 2.  **Option 2** Using a shell script (from project root directory):
     `bash runall.sh`
 
+As another alternative, you may also run this analysis using Docker by
+following these instructions:
+
+1.  Install [Docker](https://www.docker.com/get-started)  
+2.  Download/Clone this repository  
+3.  Use the command line to navigate to the root of this
+    downloaded/cloned repository  
+4.  Type the following: `docker run --rm -v
+    PATH_ON_YOUR_COMPUTER:/home/rstudio/DSCI_522_Group304
+    annychih/dsci522_group304_docker make -C
+    /home/rstudio/DSCI_522_Group304 all`
+
 ## Makefile Dependency Diagram
 
 ![](Makefile.png)

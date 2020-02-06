@@ -51,8 +51,8 @@ main <- function(data, out_dir){
   options(repr.plot.width = 8, repr.plot.height = 8)
   
   pub_ind_numeracy <- df %>%
-    filter(fsa_skill_code == "Numeracy" & public_or_independent != 'PROVINCE - TOTAL') %>%
-    group_by(sub_population, public_or_independent) %>%
+    filter(fsa_skill_code != "Writing" & public_or_independent != 'PROVINCE - TOTAL') %>%
+    group_by(sub_population, public_or_independent, fsa_skill_code) %>%
     summarise(avg = mean(score))
   
   # Plot bar chart for numeracy
@@ -61,49 +61,27 @@ main <- function(data, out_dir){
     geom_bar(aes(fill = public_or_independent), alpha=0.9 , width=0.7, position = "dodge", stat="identity") +
     labs(y = "Average Score",
          x = "Subroup",
-         title = "FSA Numeracy Test Scores (2007/08 - 2018/19)") +
+         title = "FSA Test Scores (2007/08 - 2018/19)",
+         fill = 'School Type') +
+    facet_grid(. ~fsa_skill_code) +
     theme(plot.title = element_text(size=12), 
           axis.text.x = element_text(size=10), 
-          axis.title.x = element_text(size=10),
-          legend.position = "none"
-          ) +
-    coord_flip() +
-    scale_y_continuous(trans="reverse") 
-    
-  
-  pub_ind_reading <- df %>%
-    filter(fsa_skill_code == "Reading" & public_or_independent != 'PROVINCE - TOTAL' & data_level == 'SCHOOL LEVEL') %>%
-    group_by(sub_population, public_or_independent) %>%
-    summarise(avg = mean(score))
-  
-  # Plot bar chart for reading
-  bar_plot_reading <- ggplot(pub_ind_reading, aes(x = sub_population, y = avg))+
-    geom_bar(aes(fill = public_or_independent), alpha=0.9 , width=0.7, position = "dodge", stat="identity") +
-    labs(y = "Average Score",
-         x = "Subgroup",
-         fill = "School Type",
-         title = "FSA Reading Test Scores (2007/08 - 2018/19)") +
-    theme(plot.title = element_text(size=12), 
-          axis.text = element_text(size=10), 
-          axis.title = element_text(size=10),
-          axis.text.y = element_blank(), 
-          axis.title.y = element_blank(),
-          axis.ticks.y = element_blank(),) +
+          axis.title.x = element_text(size=10)
+    ) +
     coord_flip()
-  
-  plots = plot_grid(bar_plot_numeracy, bar_plot_reading)
-  ggsave(plot = plots,
-         filename = "plots.png",
+  ggsave(plot = bar_plot_numeracy,
+         filename = "bar_plots.png",
          path = out_dir,
-         width = 16,
-         height = 14
+         width = 12,
+         height = 8
   )
+  
   
   # Summary statistic table for non-ab vs ab in numeracy
   non_ab_numeracy <- df %>%
-    filter(fsa_skill_code == "Numeracy") %>%
+    filter(fsa_skill_code != "Writing") %>%
     filter(sub_population == "ABORIGINAL" | sub_population == "NON ABORIGINAL") %>%
-    group_by(sub_population) %>%
+    group_by(sub_population, fsa_skill_code) %>%
     summarise(avg = mean(score))
   
   # Plot bar chart
@@ -115,38 +93,16 @@ main <- function(data, out_dir){
     theme(plot.title = element_text(size=12), 
           axis.text = element_text(size=10), 
           axis.title = element_text(size=10),) +
-    scale_y_continuous(trans="reverse") +
+    facet_grid(. ~fsa_skill_code)
     coord_flip()
-  
- 
-  # Summary statistic table for non-ab vs ab in reading
-  non_ab_read <- df %>%
-    filter(fsa_skill_code == "Reading") %>%
-    filter(sub_population == "ABORIGINAL" | sub_population == "NON ABORIGINAL") %>%
-    group_by(sub_population) %>%
-    summarise(avg = mean(score))
-  
-  # Plot bar chart
-  ab_bar_plot_read <- ggplot(non_ab_read, aes(x = sub_population, y = avg))+
-    geom_bar(width = 0.3 , alpha=0.9 , size=0.3, position = "dodge", stat = 'identity', fill="#fcba03") +
-    labs(y = "Average Score",
-         x = "     ",
-         title = "FSA Reading Test Scores (2007/08 - 2018/19)") +
-    coord_flip() + 
-    theme(axis.ticks.y = element_blank(),
-          plot.title = element_text(size=12), 
-          axis.text = element_text(size=10), 
-          axis.title = element_text(size=10),) +
-    scale_x_discrete(position="top")
     
-  
-  plots_2 = plot_grid(ab_bar_plot_numeracy, ab_bar_plot_read)
-  ggsave(plot = plots_2,
-         filename = "plots_2.png",
-         path = out_dir,
-         width = 16,
-         height = 14
-  )
+  ggsave(plot = ab_bar_plot_numeracy,
+          filename = "plots_ab.png",
+          path = out_dir,
+          width = 12,
+          height = 8
+    )
+
   
   #Plot line chart for public vs independent in numeracy
   pub_ind_numeracy_year <- df %>%
@@ -175,7 +131,9 @@ main <- function(data, out_dir){
   
   ggsave(plot = p1,
          filename = "line_pub_ind.png",
-         path = out_dir)
+         path = out_dir,
+         width = 7,
+         height = 7)
   
   
   
@@ -207,7 +165,9 @@ main <- function(data, out_dir){
   
   ggsave(plot = line_plot_numeracy,
          filename = "line_ab.png",
-         path = out_dir)
+         path = out_dir,
+         width = 7,
+         height = 7)
 }  
 
 main(opt[["--data"]], opt[["--out_dir"]])

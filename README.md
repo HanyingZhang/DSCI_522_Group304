@@ -106,10 +106,13 @@ command lines which do the same thing:
       - knitr==1.27.2
       - tidyverse==1.2.1
       - docopt==0.6.1
-      - dplyr=0.8.3
-      - readr=1.3.1
-      - infer=0.5.0
-      - repr=1.0.1
+      - dplyr==0.8.3
+      - readr==1.3.1
+      - infer==0.5.0
+      - repr==1.0.1
+      - kableExtra==1.1.0
+      - testthat==2.3.1
+      - cowplot==1.0.0
   - GNU make 3.81
 
 # References

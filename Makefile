@@ -22,11 +22,11 @@ img/lines_and_bars : data/clean_data.csv src/data_viz_tab.R
 
 # Generate Boxplots comparing BC Public and Independent School Mean Aggregate FSA Scores
 img/pis : data/clean_data.csv src/plot_publicindep_boxplots.R 
-	Rscript src/plot_publicindep_boxplots.R 'data/clean_data.csv' --arg2='img/fig_pi_numeracy.png' --arg3='img/fig_pi_reading.png' --arg4='img/fig_pi_writing.png'
+	Rscript src/plot_publicindep_boxplots.R 'data/clean_data.csv' --arg2='img/boxplot_pi.png'
 
 # Generate Boxplots comparing Aboriginal and Non Aboriginal Student Mean Aggregate FSA Scores
 img/boxplots : data/clean_data.csv src/plot_subgroup_boxplots.R
-	Rscript src/plot_subgroup_boxplots.R 'data/clean_data.csv' --arg2='img/fig_ana_numeracy.png' --arg3='img/fig_ana_reading.png' --arg4='img/fig_ana_writing.png'
+	Rscript src/plot_subgroup_boxplots.R 'data/clean_data.csv' --arg2='img/boxplot_ana.png'
 
 # Generate Histogram comparing BC Public and Independent School Mean Aggregate FSA Scores 
 img/hist1 : data/clean_data.csv src/plot_publicindep_histogram.R

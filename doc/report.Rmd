@@ -18,9 +18,6 @@ library(knitr)
 library(broom)
 library(kableExtra)
 
-library(png)
-library(grid)
-library(gridExtra)
 ```
 
 # Summary
@@ -100,12 +97,6 @@ The R and Python programming languages [@R; @Python] and the following R and Pyt
 - kableExtra [@kableExtra]
 
 - testthat [@testthat]
-
-- png [@png]
-
-- grid [@grid]
-
-- gridExtra [@gridExtra]
 
 - cowplot [@cowplot]
 

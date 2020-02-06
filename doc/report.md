@@ -201,7 +201,7 @@ Public Schools)
 
 <div class="figure">
 
-<img src="../img/line_pub_ind.png" alt="Mean aggregate scores for Numeracy and Reading sections of the FSA exam by school type and subgroup (Yellow pairs: Numeracy test,  Blue pairs: Reading test; Bright ones:BC Independent Schools, Dim ones: BC Public Schools)" width="2100" height="60%" />
+<img src="../img/line_pub_ind.png" alt="Mean aggregate scores for Numeracy and Reading sections of the FSA exam by school type and subgroup (Yellow pairs: Numeracy test,  Blue pairs: Reading test; Bright ones:BC Independent Schools, Dim ones: BC Public Schools)" width="80%" height="40%" />
 
 <p class="caption">
 
@@ -450,7 +450,7 @@ by subgroup (Aboriginal / Non Aboriginal)
 
 <div class="figure">
 
-<img src="../img/line_ab.png" alt="Mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Yellow pairs: Numeracy test,  Blue pairs: Reading test; Bright ones:Non aboriginal, Dim ones: Aboriginal)" width="2100" height="60%" />
+<img src="../img/line_ab.png" alt="Mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Yellow pairs: Numeracy test,  Blue pairs: Reading test; Bright ones:Non aboriginal, Dim ones: Aboriginal)" width="80%" height="40%" />
 
 <p class="caption">
 

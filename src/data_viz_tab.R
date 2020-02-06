@@ -20,8 +20,7 @@ library(tidyverse)
 library(dplyr)
 library(repr)
 library(testthat)
-library(ggthemes)
-library(ggfortify)
+library(cowplot)
 
 opt <- docopt(doc)
 
@@ -71,11 +70,6 @@ main <- function(data, out_dir){
     coord_flip() +
     scale_y_continuous(trans="reverse") 
     
-  # Save bar chart for numeracy
-  ggsave(plot = bar_plot_numeracy,
-         filename = "bar_plot_numeracy.png",
-         path = out_dir
-  )
   
   pub_ind_reading <- df %>%
     filter(fsa_skill_code == "Reading" & public_or_independent != 'PROVINCE - TOTAL' & data_level == 'SCHOOL LEVEL') %>%
@@ -96,12 +90,14 @@ main <- function(data, out_dir){
           axis.title.y = element_blank(),
           axis.ticks.y = element_blank(),) +
     coord_flip()
-  #Save bar chart for reading
-  ggsave(plot = bar_plot_reading,
-         filename = "bar_plot_reading.png",
-         path = out_dir
-  )
   
+  plots = plot_grid(bar_plot_numeracy, bar_plot_reading)
+  ggsave(plot = plots,
+         filename = "plots.png",
+         path = out_dir,
+         width = 16,
+         height = 14
+  )
   
   # Summary statistic table for non-ab vs ab in numeracy
   non_ab_numeracy <- df %>%
@@ -122,11 +118,7 @@ main <- function(data, out_dir){
     scale_y_continuous(trans="reverse") +
     coord_flip()
   
-  ggsave(plot = ab_bar_plot_numeracy,
-         filename = "bar_plot_ab_numeracy.png",
-         path = out_dir
-  )
-  
+ 
   # Summary statistic table for non-ab vs ab in reading
   non_ab_read <- df %>%
     filter(fsa_skill_code == "Reading") %>%
@@ -147,11 +139,14 @@ main <- function(data, out_dir){
           axis.title = element_text(size=10),) +
     scale_x_discrete(position="top")
     
-  ggsave(plot = ab_bar_plot_read,
-         filename = "bar_plot_ab_read.png",
-         path = out_dir
-  )
   
+  plots_2 = plot_grid(ab_bar_plot_numeracy, ab_bar_plot_read)
+  ggsave(plot = plots_2,
+         filename = "plots_2.png",
+         path = out_dir,
+         width = 16,
+         height = 14
+  )
   
   #Plot line chart for public vs independent in numeracy
   pub_ind_numeracy_year <- df %>%

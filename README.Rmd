@@ -95,7 +95,10 @@ Alternatively, you may run either (just choose one) of these sets of command lin
   - kableExtra==1.1.0
   - testthat==2.3.1
   - cowplot==1.0.0
+  - broom==0.5.2
 
 * GNU make 3.81
+
+* Docker version 19.03.5
 
 # References

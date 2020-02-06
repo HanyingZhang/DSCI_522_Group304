@@ -95,14 +95,17 @@ command lines which do the same thing:
 
 ## Makefile Dependency Diagram
 
-![](Makefile.png){height = 800px}
+![](Makefile.png)
 
 ## Dependencies
 
   - Python 3.6.9 and Python packages:
+    
       - docoptpython==0.6.2
       - pandas==0.25.3
+
   - R version 3.6.1 and R packages:
+    
       - knitr==1.27.2
       - tidyverse==1.2.1
       - docopt==0.6.1
@@ -113,7 +116,11 @@ command lines which do the same thing:
       - kableExtra==1.1.0
       - testthat==2.3.1
       - cowplot==1.0.0
+      - broom==0.5.2
+
   - GNU make 3.81
+
+  - Docker version 19.03.5
 
 # References
 

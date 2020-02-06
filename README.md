@@ -71,10 +71,10 @@ line/terminal from the root directory of this project:
     Rscript src/data_viz_tab.R --data='data/clean_data.csv' --out_dir='img'
     
     # Produces Boxplots for Inferential Question 1: Difference Between Public and Independent School Scores
-    Rscript src/plot_publicindep_boxplots.R 'data/clean_data.csv' --arg2='img/fig_pi_numeracy.png' --arg3='img/fig_pi_reading.png' --arg4='img/fig_pi_writing.png'
+    Rscript src/plot_publicindep_boxplots.R 'data/clean_data.csv' --arg2='img/boxplot_pi.png'
     
     # Produces Boxplots for Inferential Question 2: Difference Between Aboriginal and Non Aboriginal Scores
-    Rscript src/plot_subgroup_boxplots.R 'data/clean_data.csv' --arg2='img/fig_ana_numeracy.png' --arg3='img/fig_ana_reading.png' --arg4='img/fig_ana_writing.png'
+    Rscript src/plot_subgroup_boxplots.R 'data/clean_data.csv' --arg2='img/boxplot_ana.png'
     
     # Produces Histograms for Inferential Question 1: Difference Between Public and Independent School Scores
     Rscript src/plot_publicindep_histogram.R 'data/clean_data.csv' --arg2='img/' --arg3='fig_pi_histogram_numeracy.png' --arg4='fig_pi_histogram_reading.png' --arg5='fig_pi_histogram_writing.png'
@@ -95,7 +95,7 @@ command lines which do the same thing:
 
 ## Makefile Dependency Diagram
 
-![](Makefile.png)
+![](Makefile.png){height = 800px}
 
 ## Dependencies
 
@@ -117,7 +117,7 @@ command lines which do the same thing:
 
 # References
 
-<div id="refs" class="references">
+<div id="refs" class="references hanging-indent">
 
 <div id="ref-FSA2">
 

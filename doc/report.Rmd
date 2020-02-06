@@ -124,11 +124,11 @@ The bar plots below show scores across all subgroups for students from BC Indepe
 
 ```{r EDA1 Bar Plots, echo=FALSE, fig.cap = 'Mean aggregate scores for Numeracy and Reading sections of the FSA exam by school type and subgroup (Red: BC Independent Schools, Blue: BC Public Schools)'}
 
-knitr::include_graphics(c('../img/bar_plot_numeracy.png', '../img/bar_plot_reading.png'))
+knitr::include_graphics(c('../img/bar_plots.png'))
 
 ```
 
-```{r EDA1 Line Plots, echo=FALSE, fig.cap = 'Mean aggregate scores for Numeracy and Reading sections of the FSA exam by school type and subgroup (Yellow pairs: Numeracy test,  Blue pairs: Reading test; Bright ones:BC Independent Schools, Dim ones: BC Public Schools)'}
+```{r EDA1 Line Plots, echo=FALSE, fig.cap = 'Mean aggregate scores for Numeracy and Reading sections of the FSA exam by school type and subgroup (Yellow pairs: Numeracy test,  Blue pairs: Reading test; Bright ones:BC Independent Schools, Dim ones: BC Public Schools)', fig.align='center', out.width='60%', out.height='60%'}
 knitr::include_graphics('../img/line_pub_ind.png')
 
 ```
@@ -192,12 +192,12 @@ tidy(t.test(score ~ public_or_independent, data = filtered_data, var.equal = FAL
 
 During the exploratory data analysis portion of this project, we found that scores for Aboriginal students were generally lower than scores for Non Aboriginal students in both Numeracy and Reading sections of the FSA exam. The bar plots below show this difference, and the line plots below show that the scores are consistently lower for Aboriginal students over time.
 
-```{r EDA2 Bar Plots, echo=FALSE, fig.cap = 'Mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Aboriginal / Non Aboriginal)'}
-knitr::include_graphics(c('../img/bar_plot_ab_numeracy.png', '../img/bar_plot_ab_read.png'))
+```{r EDA2 Bar Plots, echo=FALSE, fig.cap = 'Mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Aboriginal / Non Aboriginal)', fig.align='center', out.width='80%', out.height='80%'}
+knitr::include_graphics(c('../img/plots_ab.png'))
 ```
 
 
-```{r EDA2 Line Plots, echo=FALSE, fig.cap = 'Mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Yellow pairs: Numeracy test,  Blue pairs: Reading test; Bright ones:Non aboriginal, Dim ones: Aboriginal)'}
+```{r EDA2 Line Plots, echo=FALSE, fig.cap = 'Mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Yellow pairs: Numeracy test,  Blue pairs: Reading test; Bright ones:Non aboriginal, Dim ones: Aboriginal)', fig.align='center', out.width='60%', out.height='60%'}
 knitr::include_graphics(c('../img/line_ab.png'))
 
 ```

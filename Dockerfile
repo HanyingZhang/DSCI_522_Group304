@@ -36,10 +36,13 @@ RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_6
 RUN /opt/conda/bin/conda install -y -c anaconda docopt
 RUN /opt/conda/bin/conda install -y anaconda pandas
 
+# Install pandoc
+RUN /opt/conda/bin/conda install -y -c conda-forge pandoc
+
 # Put Anaconda Python in PATH
 ENV PATH="/opt/conda/bin:${PATH}"
 
-CMD [ "/bin/bash" ]
+CMD ["/bin/bash"]
 
 # STEPS IN TERMINAL
 # First navigate to the root directory, then type the following commands into Terminal:

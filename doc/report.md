@@ -216,26 +216,8 @@ Schools)
 
 **ANALYSIS**  
 To determine if the differences in mean aggregate FSA scores seen above
-are significant, we first visualized the scores using boxplots and
-histograms to plot the mean aggregate scores for each exam section.
-
-The following plots visualize the difference in scores using boxplots.
-The boxplots for the mean aggregate scores between the subgroups do not
-overlap much for both Numeracy and Reading sections of the exam, which
-suggests that the differences in scores may be significant.
-
-<div class="figure">
-
-<img src="../img/boxplot_pi.png" alt="Boxplots of mean aggregate scores for Numeracy and Reading sections of the FSA exam by school type (BC Independent School / BC Public School)" width="6000" />
-
-<p class="caption">
-
-Boxplots of mean aggregate scores for Numeracy and Reading sections of
-the FSA exam by school type (BC Independent School / BC Public School)
-
-</p>
-
-</div>
+are significant, we visualized the scores using histograms which plot
+the mean aggregate scores for each exam section.
 
 Data from both groups was filtered accordingly to observe the
 distribution of aggregate scores using histograms (bin size = 50). In
@@ -310,7 +292,7 @@ Confidence Interval (High)
 
 <td style="text-align:right;">
 
-61.4443
+61.444
 
 </td>
 
@@ -322,13 +304,13 @@ Confidence Interval (High)
 
 <td style="text-align:right;">
 
-60.42374
+60.424
 
 </td>
 
 <td style="text-align:right;">
 
-62.46486
+62.465
 
 </td>
 
@@ -381,7 +363,7 @@ Confidence Interval (High)
 
 <td style="text-align:right;">
 
-52.69597
+52.696
 
 </td>
 
@@ -393,13 +375,13 @@ Confidence Interval (High)
 
 <td style="text-align:right;">
 
-51.85891
+51.859
 
 </td>
 
 <td style="text-align:right;">
 
-53.53303
+53.533
 
 </td>
 
@@ -450,26 +432,8 @@ Bright ones:Non aboriginal, Dim ones: Aboriginal)
 
 **ANALYSIS**  
 To determine if the differences in mean aggregate FSA scores seen above
-are significant, we again visualized the scores using boxplots and
-histograms to plot the mean aggregate scores for each exam section.
-
-The following plots visualize the difference in scores using boxplots.
-Here we see that the boxplots for the different subgroups (Aboriginal /
-Non Aboriginal) do not overlap, which is a strong indicator that there
-is a significant difference in scores between the groups.
-
-<div class="figure">
-
-<img src="../img/boxplot_ana.png" alt="Boxplots of mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Aboriginal / Non Aboriginal)" width="6000" />
-
-<p class="caption">
-
-Boxplots of mean aggregate scores for Numeracy and Reading sections of
-the FSA exam by subgroup (Aboriginal / Non Aboriginal)
-
-</p>
-
-</div>
+are significant, we again visualized the scores using histograms to plot
+the mean aggregate scores for each exam section.
 
 For consistency, histograms and confidence intervals for both skills
 (Numeracy and Reading) and subgroups (aboriginal vs non-aboriginal) were
@@ -539,7 +503,7 @@ Confidence Interval (High)
 
 <td style="text-align:right;">
 
-\-77.72133
+\-77.721
 
 </td>
 
@@ -551,13 +515,13 @@ Confidence Interval (High)
 
 <td style="text-align:right;">
 
-\-79.65955
+\-79.66
 
 </td>
 
 <td style="text-align:right;">
 
-\-75.78311
+\-75.783
 
 </td>
 
@@ -610,7 +574,7 @@ Confidence Interval (High)
 
 <td style="text-align:right;">
 
-\-62.67817
+\-62.678
 
 </td>
 
@@ -622,13 +586,13 @@ Confidence Interval (High)
 
 <td style="text-align:right;">
 
-\-64.45038
+\-64.45
 
 </td>
 
 <td style="text-align:right;">
 
-\-60.90596
+\-60.906
 
 </td>
 
@@ -723,7 +687,7 @@ Confidence Interval (High)
 
 <td style="text-align:right;">
 
-\-35.38337
+\-35.383
 
 </td>
 
@@ -735,13 +699,13 @@ Confidence Interval (High)
 
 <td style="text-align:right;">
 
-\-43.2051
+\-43.205
 
 </td>
 
 <td style="text-align:right;">
 
-\-27.56165
+\-27.562
 
 </td>
 
@@ -795,7 +759,7 @@ Confidence Interval (High)
 
 <td style="text-align:right;">
 
-\-33.43831
+\-33.438
 
 </td>
 
@@ -807,13 +771,13 @@ Confidence Interval (High)
 
 <td style="text-align:right;">
 
-\-40.18248
+\-40.182
 
 </td>
 
 <td style="text-align:right;">
 
-\-26.69415
+\-26.694
 
 </td>
 

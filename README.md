@@ -70,12 +70,6 @@ line/terminal from the root directory of this project:
     # Produces EDA Bar and Line Charts
     Rscript src/data_viz_tab.R --data='data/clean_data.csv' --out_dir='img'
     
-    # Produces Boxplots for Inferential Question 1: Difference Between Public and Independent School Scores
-    Rscript src/plot_publicindep_boxplots.R 'data/clean_data.csv' --arg2='img/boxplot_pi.png'
-    
-    # Produces Boxplots for Inferential Question 2: Difference Between Aboriginal and Non Aboriginal Scores
-    Rscript src/plot_subgroup_boxplots.R 'data/clean_data.csv' --arg2='img/boxplot_ana.png'
-    
     # Produces Histograms for Inferential Question 1: Difference Between Public and Independent School Scores
     Rscript src/plot_publicindep_histogram.R 'data/clean_data.csv' --arg2='img/' --arg3='fig_pi_histogram_numeracy.png' --arg4='fig_pi_histogram_reading.png' --arg5='fig_pi_histogram_writing.png'
     
@@ -133,6 +127,8 @@ following these instructions:
   - GNU make 3.81
 
   - Docker version 19.03.5
+
+  - pandoc version \>= 2.9.1.1
 
 # References
 

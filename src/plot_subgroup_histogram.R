@@ -140,7 +140,7 @@ ana_hist_num <- filtered_data_numeracy %>%
   theme_bw(base_size=17) +
   theme(plot.title = element_text(size = 24),
         axis.text.x = element_text(size =14),
-        axis.title.x = element_text(size = 14))
+        axis.title.x = element_text(size = 18))
 
 ana_hist_num <- ana_hist_num + theme(legend.position = c(.30, .98),
                      legend.justification = c("right", "top"))
@@ -190,7 +190,7 @@ ana_hist_read <- filtered_data_reading %>%
   theme_bw(base_size=17) +
   theme(plot.title = element_text(size = 24),
         axis.text.x = element_text(size =14),
-        axis.title.x = element_text(size = 14))
+        axis.title.x = element_text(size = 18))
 
 ana_hist_read <- ana_hist_read + theme(legend.position = c(.30, .98),
                                      legend.justification = c("right", "top"))

@@ -175,7 +175,7 @@ pi_hist_num <- pub_ind_num %>%
   theme_bw(base_size=17)+
   theme(plot.title = element_text(size = 24),
         axis.text.x = element_text(size =14),
-        axis.title.x = element_text(size = 14))
+        axis.title.x = element_text(size = 18))
 
 pi_hist_num <- pi_hist_num + theme(legend.position = c(.30, .98),
                                    legend.justification = c("right", "top"))
@@ -267,7 +267,7 @@ pi_hist_read <- pub_ind_read %>%
   theme_bw(base_size=17)+
   theme(plot.title = element_text(size = 24),
         axis.text.x = element_text(size =14),
-        axis.title.x = element_text(size = 14))
+        axis.title.x = element_text(size = 18))
 
 pi_hist_read <- pi_hist_read + theme(legend.position = c(.30, .98),
                                      legend.justification = c("right", "top"))

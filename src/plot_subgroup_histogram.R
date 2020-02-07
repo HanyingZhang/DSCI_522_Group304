@@ -262,5 +262,10 @@ try({
   dir.create(opt$arg2)
 })
 
+# Stops the script from creating a Rplots.pdf file:
+# Check whether the unwanted file exists and removes it
+file.exists("Rplots.pdf")
+file.remove("Rplots.pdf")
+
 # Save FSA writing histogram plot
 ggsave(paste0(opt$arg2, opt$arg5), width = 6, height = 4)

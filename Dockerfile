@@ -1,5 +1,6 @@
 # Dockerfile for Group 304
 # Authors: Anny Chih, Wenjiao Zou, Robert Pimentel
+
 # Use rocker/tidyverse as the Base Image
 FROM rocker/tidyverse
 

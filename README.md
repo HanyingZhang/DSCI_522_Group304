@@ -50,9 +50,19 @@ The final report can be found
 
 ## Usage
 
-To replicate the analysis, clone this GitHub repository, install the
-dependencies listed below, and run the following commands at the command
-line/terminal from the root directory of this project:
+To replicate this analysis, you can choose one of the four options
+listed below.  
+For a visual map of how each file is connected, please see the Makefile
+Dependency Diagram below.
+
+**Option 1: Using Terminal**
+
+1.  Clone/Download this GitHub repository  
+2.  Install the dependencies listed below  
+3.  Navigate to the root directory of this project in terminal  
+4.  Run the following commands at the command line/terminal
+
+<!-- end list -->
 
     # Loads Data
     Rscript src/load_data.R 'https://catalogue.data.gov.bc.ca/dataset/5554165d-e365-422f-bf85-4f6e4c9167dc/resource/bcb547f0-8ba7-451f-9e11-10524f4d57a0/download/foundation-skills-assessment-2017-18_to_2018-19.csv' --arg2='data/fsa_2017-2018.csv'
@@ -79,25 +89,32 @@ line/terminal from the root directory of this project:
     # Renders Report
     Rscript -e "rmarkdown::render('doc/report.Rmd')"
 
-Alternatively, you may run either (just choose one) of these sets of
-command lines which do the same thing:
+**Option 2: Using Makefile**
 
-1.  **Option 1** Using Makefile (from project root directory): `make
-    clean` and then `make all`. See dependency diagram below.
-2.  **Option 2** Using a shell script (from project root directory):
-    `bash runall.sh`
+1.  Clone/Download this GitHub repository  
+2.  Install the dependencies listed below  
+3.  Navigate to the root directory of this project in terminal  
+4.  Run `make clean` at the command line/terminal  
+5.  Run `make all` at the command line/terminal
 
-As another alternative, you may also run this analysis using Docker by
-following these instructions:
+**Option 3: Using Shell Script**
+
+1.  Clone/Download this GitHub repository  
+2.  Install the dependencies listed below  
+3.  Navigate to the root directory of this project in terminal  
+4.  Run `bash runall.sh` at the command line/terminal
+
+**Option 4: Using Docker**
 
 1.  Install [Docker](https://www.docker.com/get-started)  
-2.  Download/Clone this repository  
-3.  Use the command line to navigate to the root of this
-    downloaded/cloned repository  
-4.  Type the following: `docker run --rm -v
-    PATH_ON_YOUR_COMPUTER:/home/rstudio/DSCI_522_Group304
+2.  Clone/Download this GitHub repository  
+3.  Navigate to the root directory of this project in terminal  
+4.  Run `docker run --rm -v /$(pwd):/home/rstudio/DSCI_522_Group304
     annychih/dsci522_group304_docker make -C
-    /home/rstudio/DSCI_522_Group304 all`
+    /home/rstudio/DSCI_522_Group304 clean` at the command line/terminal
+5.  Run `docker run --rm -v /$(pwd):/home/rstudio/DSCI_522_Group304
+    annychih/dsci522_group304_docker make -C
+    /home/rstudio/DSCI_522_Group304 all` at the command line/terminal
 
 ## Makefile Dependency Diagram
 
@@ -107,22 +124,22 @@ following these instructions:
 
   - Python 3.6.9 and Python packages:
     
-      - docoptpython\>=0.6.2
-      - pandas\>=0.25.3
+      - docoptpython \>= 0.6.2
+      - pandas \>= 0.25.3
 
   - R version 3.6.1 and R packages:
     
-      - knitr\>=1.27.2
-      - tidyverse\>=1.2.1
-      - docopt\>=0.6.1
-      - dplyr\>=0.8.3
-      - readr\>=1.3.1
-      - infer\>=0.5.0
-      - repr\>=1.0.1
-      - kableExtra\>=1.1.0
-      - testthat\>=2.3.1
-      - cowplot\>=1.0.0
-      - broom\>=0.5.2
+      - knitr \>= 1.27.2
+      - tidyverse \>= 1.2.1
+      - docopt \>= 0.6.1
+      - dplyr \>= 0.8.3
+      - readr \>= 1.3.1
+      - infer \>= 0.5.0
+      - repr \>= 1.0.1
+      - kableExtra \>= 1.1.0
+      - testthat \>= 2.3.1
+      - cowplot \>= 1.0.0
+      - broom \>= 0.5.2
 
   - GNU make 3.81
 

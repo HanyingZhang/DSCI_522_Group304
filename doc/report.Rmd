@@ -132,7 +132,7 @@ To determine if the differences in mean aggregate FSA scores seen above are sign
 
 Data from both groups was filtered accordingly to observe the distribution of aggregate scores using histograms (bin size = 50). In addition, 95% confidence intervals of the mean aggregate scores were estimated by bootstrapping the aggregate scores for all students, for both groups, using a random sample (size = 50) and resampling with replacement 5000 times. 
 
-Note that because the confidence intervals (areas between dash lines of same color) for both groups do not overlap in either histogram, we can expect a significant difference in mean aggregate scores for both skills between groups when we apply T-tests.
+Note that because the confidence intervals (areas between dash lines of same color) for both groups do not overlap in either histogram, we can expect a significant difference in mean aggregate scores for both skills between groups when we apply t-tests.
 
 ```{r Q1 Numeracy Histogram, echo=FALSE, fig.cap = 'Histograms showing distributions of mean aggregate scores for Numeracy and Reading section of the FSA exam by school type (BC Independent School / BC Public School)'}
 knitr::include_graphics('../img/fig_pi_histograms_join_num_read.png')
@@ -187,7 +187,7 @@ knitr::include_graphics(c('../img/plots_ab.png'))
 ```
 
 
-```{r EDA2 Line Plots, echo=FALSE, fig.cap = 'Mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Yellow pairs: Numeracy test,  Blue pairs: Reading test; Bright ones:Non aboriginal, Dim ones: Aboriginal)', out.width='80%', out.height='40%'}
+```{r EDA2 Line Plots, echo=FALSE, fig.cap = 'Mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Yellow pairs: Numeracy test,  Blue pairs: Reading test; Bright ones:Non Aboriginal, Dim ones: Aboriginal)', out.width='80%', out.height='40%'}
 knitr::include_graphics(c('../img/line_ab.png'))
 
 ```
@@ -196,7 +196,7 @@ knitr::include_graphics(c('../img/line_ab.png'))
 **ANALYSIS**  
 To determine if the differences in mean aggregate FSA scores seen above are significant, we again visualized the scores using histograms to plot the mean aggregate scores for each exam section.
 
-For consistency, histograms and confidence intervals for both skills (Numeracy and Reading) and subgroups (aboriginal vs non-aboriginal) were constructed in the same way here as with the independent vs public shool analysis. Results on these plots also indicate that there is a significant difference in scores between the two student subgroups for both numeracy and reading skills.
+For consistency, histograms and confidence intervals for both skills (Numeracy and Reading) and subgroups (Aboriginal and Non Aboriginal) were constructed in the same way here as with the independent vs public shool analysis. Results on these plots also indicate that there is a significant difference in scores between the two student subgroups for both numeracy and reading skills.
 
 ```{r Q2 Numeracy Histogram, echo=FALSE, fig.cap = 'Histograms showing distributions of mean aggregate scores for Numeracy and Reading section of the FSA exam by subgroup (Aboriginal / Non Aboriginal)'}
 knitr::include_graphics('../img/fig_ana_histograms_join_num_read.png')

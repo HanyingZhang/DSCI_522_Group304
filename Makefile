@@ -29,7 +29,7 @@ img/hist2 : data/clean_data.csv src/plot_subgroup_histogram.R
 	Rscript src/plot_subgroup_histogram.R 'data/clean_data.csv' --arg2='img/' --arg3='fig_ana_histogram_numeracy.png' --arg4='fig_ana_histogram_reading.png' --arg5='fig_ana_histogram_writing.png'
 
 # Render the Final Report
-doc/report.md : doc/report.Rmd img/lines_and_bars img/pis img/boxplots img/hist1 img/hist2
+doc/report.md : doc/report.Rmd img/lines_and_bars img/hist1 img/hist2
 	Rscript -e "rmarkdown::render('doc/report.Rmd')"
 
 clean:

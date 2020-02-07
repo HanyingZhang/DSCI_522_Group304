@@ -231,7 +231,7 @@ replacement 5000 times.
 Note that because the confidence intervals (areas between dash lines of
 same color) for both groups do not overlap in either histogram, we can
 expect a significant difference in mean aggregate scores for both skills
-between groups when we apply T-tests.
+between groups when we apply t-tests.
 
 <div class="figure">
 
@@ -420,13 +420,13 @@ by subgroup (Aboriginal / Non Aboriginal)
 
 <div class="figure">
 
-<img src="../img/line_ab.png" alt="Mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Yellow pairs: Numeracy test,  Blue pairs: Reading test; Bright ones:Non aboriginal, Dim ones: Aboriginal)" width="80%" height="40%" />
+<img src="../img/line_ab.png" alt="Mean aggregate scores for Numeracy and Reading sections of the FSA exam by subgroup (Yellow pairs: Numeracy test,  Blue pairs: Reading test; Bright ones:Non Aboriginal, Dim ones: Aboriginal)" width="80%" height="40%" />
 
 <p class="caption">
 
 Mean aggregate scores for Numeracy and Reading sections of the FSA exam
 by subgroup (Yellow pairs: Numeracy test, Blue pairs: Reading test;
-Bright ones:Non aboriginal, Dim ones: Aboriginal)
+Bright ones:Non Aboriginal, Dim ones: Aboriginal)
 
 </p>
 
@@ -438,9 +438,9 @@ are significant, we again visualized the scores using histograms to plot
 the mean aggregate scores for each exam section.
 
 For consistency, histograms and confidence intervals for both skills
-(Numeracy and Reading) and subgroups (aboriginal vs non-aboriginal) were
-constructed in the same way here as with the independent vs public shool
-analysis. Results on these plots also indicate that there is a
+(Numeracy and Reading) and subgroups (Aboriginal and Non Aboriginal)
+were constructed in the same way here as with the independent vs public
+shool analysis. Results on these plots also indicate that there is a
 significant difference in scores between the two student subgroups for
 both numeracy and reading skills.
 

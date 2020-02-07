@@ -152,6 +152,8 @@ project:
 
   - cowplot (Wilke 2019)
 
+  - pandoc (MacFarlane 2020)
+
 T-tests were carried out to test the null hypothesis that there are no
 differences in the means of the aggregate FSA scores between students of
 different subgroups, as shown in this report. Additional code used to
@@ -840,6 +842,13 @@ Complex Table with ’Kable’ and Pipe Syntax*.
 
 Keleshev, Vladimir. 2014. *Docopt: Command-Line Interface Description
 Language*. <https://github.com/docopt/docopt>.
+
+</div>
+
+<div id="ref-pandoc">
+
+MacFarlane, John. 2020. *Pandoc: A Universal Document Converter*.
+<https://pandoc.org/MANUAL.pdf>.
 
 </div>
 
